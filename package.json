@@ -1,7 +1,8 @@
 {
-  "name": "penwwws-frontend",
-  "version": "0.1.0",
+  "name": "penwwws",
+  "version": "1.0.0",
   "private": true,
+  "license": "MIT",
   "scripts": {
     "dev": "next dev --turbopack",
     "build": "next build",
@@ -9,19 +10,38 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@radix-ui/react-slot": "^1.1.1",
+    "@tanstack/react-query": "^5.64.2",
+    "axios": "^1.7.9",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "lucide-react": "^0.473.0",
+    "next": "15.1.5",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "next": "15.1.5"
+    "react-hook-form": "^7.54.2",
+    "tailwind-merge": "^2.6.0",
+    "tailwindcss-animate": "^1.0.7",
+    "zod": "^3.24.1"
   },
   "devDependencies": {
-    "typescript": "^5",
+    "@eslint/eslintrc": "^3",
+    "@eslint/js": "^9.18.0",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
-    "postcss": "^8",
-    "tailwindcss": "^3.4.1",
-    "eslint": "^9",
+    "eslint": "^9.18.0",
     "eslint-config-next": "15.1.5",
-    "@eslint/eslintrc": "^3"
+    "eslint-config-prettier": "^10.0.1",
+    "eslint-plugin-prettier": "^5.2.3",
+    "eslint-plugin-react": "^7.37.4",
+    "eslint-plugin-unused-imports": "^4.1.4",
+    "globals": "^15.14.0",
+    "postcss": "^8",
+    "prettier": "^3.4.2",
+    "prettier-plugin-tailwindcss": "^0.6.10",
+    "tailwindcss": "^3.4.1",
+    "typescript": "^5",
+    "typescript-eslint": "^8.21.0"
   }
 }
