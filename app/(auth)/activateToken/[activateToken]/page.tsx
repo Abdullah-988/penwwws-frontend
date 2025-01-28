@@ -6,9 +6,9 @@ import { AxiosError } from "axios";
 export default async function activateTokenPage({
   params,
 }: {
-  params: { accessToken: string };
+  params: { activateToken: string };
 }) {
-  if (!params.accessToken) {
+  if (!params.activateToken) {
     return (
       <div>
         <h1>Invalid Token</h1>
@@ -19,7 +19,7 @@ export default async function activateTokenPage({
 
   await axiosInstance
     .post(
-      `/api/activateToken/${params.accessToken}`,
+      `/api/activateToken/${params.activateToken}`,
       {},
       { headers: { Authorization: getCookie("token") } },
     )

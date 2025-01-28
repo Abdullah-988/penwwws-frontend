@@ -1,0 +1,26 @@
+import { MailCheck as ConfirmEmailIcon } from "lucide-react";
+
+export default function ConfirmEmailPage({
+  searchParams,
+}: {
+  searchParams?: { [key: string]: string | string[] | undefined };
+}) {
+  const email = searchParams?.email;
+
+  return (
+    <div className="flex h-screen w-screen items-center justify-center bg-green-50 p-8">
+      <div className="center flex w-[35rem] flex-col items-center justify-center gap-6 text-center text-primary">
+        <ConfirmEmailIcon size={80} />
+        <h1 className="text-3xl font-bold">
+          Great! Now confirm your email address.
+        </h1>
+        {email && (
+          <p>
+            We've sent an email to <strong>{email}</strong>. Click the button
+            inside to confirm your email.
+          </p>
+        )}
+      </div>
+    </div>
+  );
+}
