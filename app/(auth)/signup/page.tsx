@@ -62,8 +62,8 @@ export default function SignupPage() {
   }
   return (
     <div className="flex">
-      <aside className="flex h-screen w-full items-center justify-center p-4 md:w-3/5 lg:w-1/2">
-        <div className="relative flex h-screen w-full flex-col items-start justify-center gap-6 md:w-[30rem]">
+      <aside className="flex min-h-screen w-full items-center justify-center p-4 md:h-screen md:w-3/5 lg:w-1/2">
+        <div className="relative flex h-full w-full flex-col items-start justify-center gap-6 md:w-[30rem]">
           <Link
             href="/"
             className="left-0 top-8 flex items-center gap-1 text-lg font-semibold text-primary md:absolute"

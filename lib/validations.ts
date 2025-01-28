@@ -1,5 +1,10 @@
 import { z } from "zod";
 
+export const emailValidation = z
+  .string()
+  .email("Invalid email address")
+  .nonempty("Email is required");
+
 export const signupFormSchema = z
   .object({
     fullName: z
@@ -7,10 +12,7 @@ export const signupFormSchema = z
       .nonempty("Full name is required")
       .min(2, "Full name may not be less than 2 characters")
       .max(30, "Full name can't be more than 30 characters"),
-    email: z
-      .string()
-      .email("Invalid email address")
-      .nonempty("Email is required"),
+    email: emailValidation,
     password: z
       .string()
       .min(8, "Password must be at least 8 characters long")
@@ -27,3 +29,8 @@ export const signupFormSchema = z
     path: ["confirmPassword"],
     message: "Confirm password does not match",
   });
+
+export const signinFormSchema = z.object({
+  email: emailValidation,
+  password: z.string().min(8, "Password must be at least 8 characters long"),
+});
