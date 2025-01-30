@@ -1,14 +1,13 @@
-import axiosInstance from "@/lib/axiosInstance";
+import axios from "@/lib/axiosInstance";
 import { redirect } from "next/navigation";
 import { getCookie } from "cookies-next/client";
-import { AxiosError } from "axios";
 
 export default async function activateTokenPage({
   params,
 }: {
-  params: { activateToken: string };
+  params: Promise<{ activateToken: string }>;
 }) {
-  if (!params.activateToken) {
+  if (!(await params).activateToken) {
     return (
       <div>
         <h1>Invalid Token</h1>
@@ -17,16 +16,16 @@ export default async function activateTokenPage({
     );
   }
 
-  await axiosInstance
+  await axios
     .post(
-      `/api/activateToken/${params.activateToken}`,
+      `/api/activateToken/${(await params).activateToken}`,
       {},
       { headers: { Authorization: getCookie("token") } },
     )
     .then(() => {
       return redirect("/console");
     })
-    .catch((err: AxiosError) => {
+    .catch((err) => {
       console.error("Error activating token:");
 
       return (

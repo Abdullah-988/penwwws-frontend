@@ -1,16 +1,13 @@
-type PenwwwsIconProps = {
-  size?: number;
-  className?: string;
-};
+import { SVGProps } from "react";
 
-function PenwwwsIcon({ size = 25, className = "" }: PenwwwsIconProps) {
+export default function PenwwwsIcon(props: SVGProps<SVGSVGElement>) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 299 278"
-      width={size}
-      height={size}
-      className={className}
+      width={299}
+      height={278}
+      {...props}
       fill="none"
     >
       <path
@@ -21,5 +18,3 @@ function PenwwwsIcon({ size = 25, className = "" }: PenwwwsIconProps) {
     </svg>
   );
 }
-
-export default PenwwwsIcon;

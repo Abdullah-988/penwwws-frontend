@@ -1,10 +1,12 @@
+"use client";
+
 import { useToast } from "@/hooks/use-toast";
 import z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { emailValidation } from "@/lib/validations";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import axiosInstance from "@/lib/axiosInstance";
+import axios from "@/lib/axiosInstance";
 import { AxiosError } from "axios";
 import { getCookie } from "cookies-next";
 import { Button } from "@/components/ui/button";
@@ -54,7 +56,7 @@ export function ResetPassword() {
     }
 
     try {
-      await axiosInstance.post(
+      await axios.post(
         `/api/user/reset-password`,
         { email: data.email },
         { headers: { Authorization: token } },
@@ -85,7 +87,7 @@ export function ResetPassword() {
             className="p-1 text-sm font-semibold text-primary"
             aria-label="Open reset password dialog"
           >
-            Forgot your password
+            Forgot your password?
           </button>
         </DialogTrigger>
 
@@ -124,7 +126,11 @@ export function ResetPassword() {
                   </FormItem>
                 )}
               />
-              <Button className="w-full rounded-full">
+              <Button
+                type="button"
+                onClick={form.handleSubmit(handleSendResetLinkRequest)}
+                className="w-full rounded-full"
+              >
                 {form.formState.isSubmitting ? (
                   <SpinnerIcon size={25} className="animate-spin" />
                 ) : (

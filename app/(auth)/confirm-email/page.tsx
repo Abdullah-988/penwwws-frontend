@@ -1,11 +1,11 @@
 import { MailCheck as ConfirmEmailIcon } from "lucide-react";
 
-export default function ConfirmEmailPage({
+export default async function ConfirmEmailPage({
   searchParams,
 }: {
-  searchParams?: { [key: string]: string | string[] | undefined };
+  searchParams?: Promise<{ email: string }>;
 }) {
-  const email = searchParams?.email;
+  const email = (await searchParams)?.email ?? "";
 
   return (
     <div className="flex h-screen w-screen items-center justify-center bg-green-50 p-8">

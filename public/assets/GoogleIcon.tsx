@@ -1,18 +1,13 @@
-import React from "react";
+import { SVGProps } from "react";
 
-interface GoogleIconProps {
-  size?: number;
-  className?: string;
-}
-
-function GoogleIcon({ size = 25, className = "" }: GoogleIconProps) {
+export default function GoogleIcon(props: SVGProps<SVGSVGElement>) {
   return (
     <svg
-      className={className}
-      width={size}
-      height={size}
+      width={150}
+      height={150}
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 150 150"
+      {...props}
     >
       <g>
         <path
@@ -35,5 +30,3 @@ function GoogleIcon({ size = 25, className = "" }: GoogleIconProps) {
     </svg>
   );
 }
-
-export default GoogleIcon;
