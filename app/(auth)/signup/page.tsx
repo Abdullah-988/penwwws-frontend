@@ -1,5 +1,3 @@
-"use client";
-
 import Link from "next/link";
 import GoogleIcon from "@/public/assets/GoogleIcon";
 import PenwwwsIcon from "@/public/assets/PenwwwsIcon";
@@ -14,7 +12,7 @@ export default function SignupPage() {
             href="/"
             className="left-0 top-8 flex items-center gap-1 text-lg font-semibold text-primary md:absolute"
           >
-            <PenwwwsIcon width={20} height={20} />
+            <PenwwwsIcon className="h-5 w-5" />
             <span>Penwwws</span>
           </Link>
           <div className="flex flex-col gap-2">
@@ -40,7 +38,7 @@ export default function SignupPage() {
           </div>
 
           <button className="flex w-full items-center justify-center gap-1 rounded-full border p-2 font-semibold text-primary duration-100 hover:bg-muted">
-            <GoogleIcon width={25} height={25} />
+            <GoogleIcon className="h-8 w-8" />
             <span>Google</span>
           </button>
         </div>

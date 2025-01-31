@@ -38,7 +38,7 @@ export default function SigninPage() {
           </div>
 
           <button className="flex w-full items-center justify-center gap-1 rounded-full border p-2 font-semibold text-primary duration-100 hover:bg-muted">
-            <GoogleIcon width={25} height={25} />
+            <GoogleIcon className="h-8 w-8" />
             <span>Google</span>
           </button>
         </div>

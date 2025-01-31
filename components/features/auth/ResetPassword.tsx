@@ -67,14 +67,13 @@ export function ResetPassword() {
         title: "Reset Link Sent",
         description: `A password reset link has been sent to ${data.email}. Please check your inbox.`,
       });
-    } catch (err: unknown) {
-      const error = err as AxiosError;
-
+    } catch (err) {
       toast({
         variant: "destructive",
         title: "Reset Link Failed",
         description:
-          (error.response?.data as string) || "An unexpected error occurred.",
+          ((err as AxiosError).response?.data as string) ||
+          "An unexpected error occurred.",
       });
     }
   }

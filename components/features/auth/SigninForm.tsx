@@ -37,8 +37,8 @@ export default function SigninForm() {
 
   async function onSubmit(formData: formDataType) {
     try {
-      const res = await axios.post("/api/sign-in", formData);
-      setCookie("token", res.data.token);
+      const res = await axios.post("/login", formData);
+      setCookie("token", res.headers.authorization);
       router.push("/console");
     } catch (err) {
       const error = err as AxiosError;
@@ -49,8 +49,10 @@ export default function SigninForm() {
   return (
     <Form {...form}>
       <form className="w-full space-y-4" onSubmit={form.handleSubmit(onSubmit)}>
-        {!!form.formState.errors && (
-          <FormMessage>{form.formState.errors.root?.message}</FormMessage>
+        {!!form.formState.errors.root && (
+          <FormMessage className="rounded-md border border-red-500 bg-red-500/15 p-2">
+            {form.formState.errors.root?.message}
+          </FormMessage>
         )}
 
         <FormField

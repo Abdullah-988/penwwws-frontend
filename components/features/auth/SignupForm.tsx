@@ -29,7 +29,6 @@ type formDataType = z.infer<typeof signupFormSchema>;
 
 export default function SignupForm() {
   const router = useRouter();
-
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
 
   const form = useForm<formDataType>({
@@ -44,11 +43,12 @@ export default function SignupForm() {
 
   async function onSubmit(formData: formDataType) {
     const { fullName, email, password } = formData;
-    const signupData = { fullName, email, password };
+    // TODO:Make it  fullname and remove fullname: after updating backend to use "fullName" instead of "fullname".
+    const signupData = { fullname: fullName, email, password };
 
     try {
-      const res = await axios.post("/api/signup", signupData);
-      setCookie("token", res.data.token);
+      const res = await axios.post("/register", signupData);
+      setCookie("token", res.headers.authorization);
       router.push(`/confirm-email?email=${formData.email}`);
     } catch (err) {
       const error = err as AxiosError;
@@ -61,7 +61,9 @@ export default function SignupForm() {
     <Form {...form}>
       <form className="w-full space-y-4" onSubmit={form.handleSubmit(onSubmit)}>
         {!!form.formState.errors.root && (
-          <FormMessage>{form.formState.errors.root?.message}</FormMessage>
+          <FormMessage className="rounded-md border border-red-500 bg-red-500/15 p-2">
+            {form.formState.errors.root?.message}
+          </FormMessage>
         )}
         <FormField
           name="fullName"
