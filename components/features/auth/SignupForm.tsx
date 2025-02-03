@@ -111,7 +111,7 @@ export default function SignupForm() {
                   />
 
                   <button
-                    className="absolute right-1 top-0 p-2 text-muted-foreground"
+                    className="text-muted-foreground absolute top-0 right-1 p-2"
                     onClick={() => setIsPasswordVisible((prev) => !prev)}
                     type="button"
                   >
@@ -144,7 +144,7 @@ export default function SignupForm() {
                   />
 
                   <button
-                    className="absolute right-1 top-0 p-2 text-muted-foreground"
+                    className="text-muted-foreground absolute top-0 right-1 p-2"
                     onClick={() => setIsPasswordVisible((prev) => !prev)}
                     type="button"
                   >

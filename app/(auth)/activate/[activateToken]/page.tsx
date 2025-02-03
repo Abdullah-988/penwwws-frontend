@@ -28,7 +28,7 @@ export default async function activateTokenPage({
   }
 
   return (
-    <div className="flex h-screen w-full items-center justify-center text-3xl text-destructive">
+    <div className="text-destructive flex h-screen w-full items-center justify-center text-3xl">
       <h1>{errorMessage}</h1>
     </div>
   );

@@ -8,7 +8,6 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import axios from "@/lib/axiosInstance";
 import { AxiosError } from "axios";
-import { getCookie } from "cookies-next";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -44,23 +43,9 @@ export function ResetPassword() {
   });
 
   async function handleSendResetLinkRequest(data: FormDataType) {
-    const token = await getCookie("token");
-    if (!token) {
-      toast({
-        variant: "destructive",
-        title: "Authentication Error",
-        description:
-          "No authentication token found. Please log in and try again.",
-      });
-      return;
-    }
-
     try {
-      await axios.post(
-        `/api/user/reset-password`,
-        { email: data.email },
-        { headers: { Authorization: token } },
-      );
+      console.log(data);
+      await axios.post(`/user/reset-password`, data);
       setIsResetModalOpen(false);
       form.reset();
       toast({
@@ -82,17 +67,18 @@ export function ResetPassword() {
     <>
       <Dialog open={isResetModalOpen} onOpenChange={setIsResetModalOpen}>
         <DialogTrigger asChild>
-          <button
-            className="p-1 text-sm font-semibold text-primary"
+          <Button
+            variant="link"
+            className="text-primary p-1 text-sm font-semibold"
             aria-label="Open reset password dialog"
           >
             Forgot your password?
-          </button>
+          </Button>
         </DialogTrigger>
 
         <DialogContent className="flex w-full flex-col justify-between">
           <DialogHeader>
-            <DialogTitle className="text-xl text-primary">
+            <DialogTitle className="text-primary text-xl">
               Reset Your Password
             </DialogTitle>
             <DialogDescription className="mt-4">
@@ -126,7 +112,7 @@ export function ResetPassword() {
                 )}
               />
               <Button
-                type="button"
+                type="submit"
                 onClick={form.handleSubmit(handleSendResetLinkRequest)}
                 className="w-full rounded-full"
               >

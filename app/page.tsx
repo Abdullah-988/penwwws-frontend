@@ -1,6 +1,6 @@
 export default function Home() {
   return (
-    <div className="w-min bg-black text-red-500 md:h-full md:w-full">
+    <div className="text-primary-foreground w-min md:h-full md:w-full">
       Penwwws!
     </div>
   );

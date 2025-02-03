@@ -3,11 +3,11 @@
 import axios from "@/lib/axiosInstance";
 import { useRouter } from "next/navigation";
 import { setCookie } from "cookies-next";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 const AuthCallback = () => {
   const router = useRouter();
-
+  const [error, setError] = useState("");
   useEffect(() => {
     if (typeof window !== "undefined") {
       const hash = window.location.hash;
@@ -17,18 +17,26 @@ const AuthCallback = () => {
 
         if (token) {
           axios
-            .post("api/oauth", { token, provider: "google" })
+            .post("/oauth", { token })
             .then((res) => {
               setCookie("token", res.headers.authorization);
               router.push("/console");
             })
             .catch((err) => {
               console.error("Error during authentication:", err);
+              setError(err.response.data);
             });
         }
       }
     }
   }, [router]);
+
+  return (
+    <div className="text-destructive flex h-screen w-full items-center justify-center text-xl font-semibold">
+      {" "}
+      <h1>{error}</h1>
+    </div>
+  );
 };
 
 export default AuthCallback;

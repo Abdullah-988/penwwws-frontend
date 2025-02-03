@@ -9,7 +9,7 @@ export default async function ConfirmEmailPage({
 
   return (
     <div className="flex h-screen w-screen items-center justify-center bg-green-50 p-8">
-      <div className="center flex w-[35rem] flex-col items-center justify-center gap-6 text-center text-primary">
+      <div className="center text-primary flex w-[35rem] flex-col items-center justify-center gap-6 text-center">
         <ConfirmEmailIcon size={80} />
         <h1 className="text-3xl font-bold">
           Great! Now confirm your email address.
