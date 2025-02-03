@@ -32,6 +32,7 @@
   "devDependencies": {
     "@eslint/eslintrc": "^3",
     "@eslint/js": "^9.18.0",
+    "@tailwindcss/postcss": "next",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
@@ -44,8 +45,8 @@
     "globals": "^15.14.0",
     "postcss": "^8",
     "prettier": "^3.4.2",
-    "prettier-plugin-tailwindcss": "^0.6.10",
-    "tailwindcss": "^3.4.1",
+    "prettier-plugin-tailwindcss": "latest",
+    "tailwindcss": "next",
     "typescript": "^5",
     "typescript-eslint": "^8.21.0"
   }
