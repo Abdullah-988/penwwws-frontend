@@ -34,12 +34,11 @@ jobs:
       - name: Create Neon Database Branch
         id: neon-branch
         # if: github.event.action == 'opened' || github.event.pull_request.additions <= 1
-        env:
-          NEON_TOKEN: ${{ secrets.NEON_TOKEN }}
         run: |
           # Create a new branch for the PR
           BRANCH_NAME="pr-${{ github.event.pull_request.number }}"
           neonctl branches create \
+            --api-key ${{ secrets.NEON_TOKEN }} \
             --project-id ${{ secrets.NEON_PROJECT_ID }} \
             --name $BRANCH_NAME
 
