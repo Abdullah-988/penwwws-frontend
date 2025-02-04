@@ -55,7 +55,7 @@ export default function ResetPasswordPage() {
 
   useEffect(() => {
     form.setFocus("password");
-  }, []);
+  }, [form]);
 
   if (isSuccess) {
     return (
