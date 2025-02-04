@@ -47,8 +47,8 @@ jobs:
             --project-id ${{ secrets.NEON_PROJECT_ID }} \
             --branch $BRANCH_NAME)
 
-          echo "DATABASE_URL=${DB_URL}" >> $GITHUB_ENV  # Set the DATABASE_URL as an environment variable for backend
-          echo "::set-output name=DB_URL::${DB_URL}"  # Output the DB URL for later steps
+          echo "DATABASE_URL=${DB_URL}" >> $GITHUB_ENV
+          echo "::set-output name=DB_URL::${DB_URL}"
 
       - name: Generate JWT_SECRET
         id: jwt-secret
