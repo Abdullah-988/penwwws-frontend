@@ -42,11 +42,9 @@ export default function SignupForm() {
   });
 
   async function onSubmit(formData: formDataType) {
-    const { fullName, email, password } = formData;
-    // TODO:Make it  fullname and remove fullname: after updating backend to use "fullName" instead of "fullname".
-    const signupData = { fullname: fullName, email, password };
-
     try {
+      const { fullName, email, password } = formData;
+      const signupData = { fullName, email, password };
       const res = await axios.post("/register", signupData);
       setCookie("token", res.headers.authorization);
       router.push(`/confirm-email?email=${formData.email}`);
@@ -72,7 +70,7 @@ export default function SignupForm() {
             <FormItem>
               <FormLabel className="text-muted-foreground">Full name</FormLabel>
               <FormControl>
-                <Input type="text" placeholder="Ahmad Muhsin" {...field} />
+                <Input type="text" placeholder="Abdullah Ahmad" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -87,7 +85,7 @@ export default function SignupForm() {
               <FormControl>
                 <Input
                   type="email"
-                  placeholder="example@email.com"
+                  placeholder="abullah@email.com"
                   {...field}
                 />
               </FormControl>

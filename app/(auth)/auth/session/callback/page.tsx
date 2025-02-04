@@ -8,16 +8,18 @@ import { useEffect, useState } from "react";
 const AuthCallback = () => {
   const router = useRouter();
   const [error, setError] = useState("");
+
   useEffect(() => {
     if (typeof window !== "undefined") {
       const hash = window.location.hash;
+
       if (hash) {
         const params = new URLSearchParams(hash.substring(1));
         const token = params.get("access_token");
 
         if (token) {
           axios
-            .post("/oauth", { token })
+            .post("/oauth", { token, provider: "google" })
             .then((res) => {
               setCookie("token", res.headers.authorization);
               router.push("/console");
@@ -33,7 +35,6 @@ const AuthCallback = () => {
 
   return (
     <div className="text-destructive flex h-screen w-full items-center justify-center text-xl font-semibold">
-      {" "}
       <h1>{error}</h1>
     </div>
   );

@@ -1,11 +1,12 @@
 "use client";
 
 import { useToast } from "@/hooks/use-toast";
+import { useForm } from "react-hook-form";
+
 import z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { emailValidation } from "@/lib/validations";
 import { useState } from "react";
-import { useForm } from "react-hook-form";
 import axios from "@/lib/axiosInstance";
 import { AxiosError } from "axios";
 import { Button } from "@/components/ui/button";
@@ -44,7 +45,6 @@ export function ResetPassword() {
 
   async function handleSendResetLinkRequest(data: FormDataType) {
     try {
-      console.log(data);
       await axios.post(`/user/reset-password`, data);
       setIsResetModalOpen(false);
       form.reset();
@@ -103,7 +103,7 @@ export function ResetPassword() {
                       <Input
                         id="email"
                         type="email"
-                        placeholder="example@example.com"
+                        placeholder="abdullah@email.com"
                         {...field}
                       />
                     </FormControl>
