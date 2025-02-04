@@ -33,7 +33,7 @@ jobs:
 
       - name: Create Neon Database Branch
         id: neon-branch
-        if: github.event.action == 'opened' || github.event.pull_request.additions <= 1
+        # if: github.event.action == 'opened' || github.event.pull_request.additions <= 1
         env:
           NEON_TOKEN: ${{ secrets.NEON_TOKEN }}
         run: |
