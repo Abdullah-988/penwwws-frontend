@@ -1,0 +1,26 @@
+name: Cleanup Neon Database
+
+on:
+  pull_request:
+    types: [closed]
+
+jobs:
+  cleanup-database:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: "npm"
+
+      - name: Install Neon CLI
+        run: npm install -g neonctl
+
+      - name: Delete Neon Branch
+        env:
+          NEON_TOKEN: ${{ secrets.NEON_TOKEN }}
+        run: |
+          BRANCH_NAME="pr-${{ github.event.pull_request.number }}"
+          neonctl branches delete $BRANCH_NAME \
+            --project-id ${{ secrets.NEON_PROJECT_ID }}
