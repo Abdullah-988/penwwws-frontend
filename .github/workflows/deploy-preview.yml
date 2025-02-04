@@ -30,7 +30,7 @@ jobs:
       - name: Install Neon CLI
         run: npm install -g neonctl
 
-      - name: Create Neon Database Branch and Compute Endpoint
+      - name: Create Neon Database Branch
         id: neon-branch
         if: github.event.action == 'opened' || github.event.pull_request.additions <= 1
         env:
