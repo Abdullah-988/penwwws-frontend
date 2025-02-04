@@ -44,6 +44,7 @@ jobs:
 
           # Get the connection string for the new branch
           DB_URL=$(neonctl connection-string \
+            --api-key ${{ secrets.NEON_TOKEN }} \
             --project-id ${{ secrets.NEON_PROJECT_ID }} \
             --branch $BRANCH_NAME)
 
