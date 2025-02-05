@@ -27,6 +27,7 @@ const eslintConfig = [
     rules: {
       "react/jsx-uses-react": "off",
       "react/prop-types": "off",
+      quotes: [2, "double", "avoid-escape"],
       "react/no-unescaped-entities": "off",
       "react/react-in-jsx-scope": "off",
       "unused-imports/no-unused-imports": "warn",

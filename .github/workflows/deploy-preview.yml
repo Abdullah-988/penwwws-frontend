@@ -1,0 +1,168 @@
+name: Deploy Preview (Backend + Frontend)
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  deploy-backend:
+    runs-on: ubuntu-latest
+    outputs:
+      backend-url: ${{ steps.vercel-url.outputs.VERCEL_URL }}
+    steps:
+      - name: Checkout Backend Repository
+        uses: actions/checkout@v4
+        with:
+          repository: Abdullah-988/penwwws-backend
+          token: ${{ secrets.GITHUB_TOKEN }}
+          path: backend
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache-dependency-path: ./backend/package-lock.json
+          cache: "npm"
+
+      - name: Install Backend Dependencies
+        working-directory: ./backend
+        run: npm install
+
+      - name: Install Vercel CLI
+        run: npm install -g vercel@latest
+
+      - name: Install Neon CLI
+        run: npm install -g neonctl
+
+      - name: Create or Retrieve Neon Database Branch
+        id: neon-branch
+        run: |
+          BRANCH_NAME="pr-${{ github.event.pull_request.number }}"
+
+          # Check if the branch already exists
+          BRANCH_EXISTS=$(neonctl branches list \
+            --api-key ${{ secrets.NEON_TOKEN }} \
+            --project-id ${{ secrets.NEON_PROJECT_ID }} \
+            | grep -c "$BRANCH_NAME")
+
+          if [ "$BRANCH_EXISTS" -eq 0 ]; then
+            echo "Creating new Neon database branch: $BRANCH_NAME"
+            neonctl branches create \
+              --api-key ${{ secrets.NEON_TOKEN }} \
+              --project-id ${{ secrets.NEON_PROJECT_ID }} \
+              --name $BRANCH_NAME
+          else
+            echo "Neon database branch already exists: $BRANCH_NAME"
+          fi
+
+          # Retrieve the connection string
+          DB_URL=$(neonctl connection-string \
+            --api-key ${{ secrets.NEON_TOKEN }} \
+            --project-id ${{ secrets.NEON_PROJECT_ID }} \
+            --branch $BRANCH_NAME)
+
+          echo "DATABASE_URL=${DB_URL}" >> $GITHUB_ENV
+          echo "DB_URL=$DB_URL" >> $GITHUB_OUTPUT
+
+      - name: Generate JWT_SECRET
+        id: jwt-secret
+        run: |
+          JWT_SECRET=$(openssl rand -base64 32)
+          echo "JWT_SECRET=${JWT_SECRET}" >> $GITHUB_ENV
+          echo "JWT_SECRET=$JWT_SECRET" >> $GITHUB_OUTPUT
+
+      - name: Run Prisma Migrations and Seed
+        working-directory: ./backend
+        run: |
+          npx prisma db push --force-reset
+          npx prisma db seed
+          npx prisma generate
+
+      - name: Pull Vercel Environment Information
+        working-directory: ./backend
+        run: vercel pull --yes --environment=preview --token=${{ secrets.VERCEL_TOKEN }}
+
+      - name: Build Project Artifacts
+        working-directory: ./backend
+        run: vercel build --token=${{ secrets.VERCEL_TOKEN }}
+
+      - name: Deploy Backend to Vercel (Preview)
+        working-directory: ./backend
+        id: vercel-url
+        run: |
+          vercel deploy --prebuilt \
+            --token=${{ secrets.VERCEL_TOKEN }} \
+            --scope abdullah-abdulkareems-projects-0896f126 \
+            --env DATABASE_URL=${{ env.DATABASE_URL }} \
+            --env JWT_SECRET="${{ env.JWT_SECRET }}" \
+            --env NODEMAILER_SERVICE=${{ secrets.NODEMAILER_SERVICE }} \
+            --env NODEMAILER_EMAIL=${{ secrets.NODEMAILER_EMAIL }} \
+            --env NODEMAILER_PASSWORD="${{ secrets.NODEMAILER_PASSWORD }}" \
+            --yes &> vercel-output-backend
+          BACKEND_URL=$(cat vercel-output-backend | grep 'Preview:' | awk '{print $2}')
+          echo "Backend deployed with URL: $BACKEND_URL"
+          echo "VERCEL_URL=${BACKEND_URL}" >> $GITHUB_ENV
+          echo "VERCEL_URL=$BACKEND_URL" >> $GITHUB_OUTPUT
+
+  deploy-frontend:
+    runs-on: ubuntu-latest
+    needs: deploy-backend
+    permissions:
+      pull-requests: write
+    steps:
+      - name: Checkout Frontend Repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: "npm"
+
+      - name: Install Frontend Dependencies
+        run: npm install
+
+      - name: Install TailwindCSS Dependencies
+        run: npm install lightningcss-linux-x64-gnu @tailwindcss/oxide-linux-x64-gnu sass-embedded-linux-x64
+
+      - name: Install Vercel CLI
+        run: npm install -g vercel@latest
+
+      - name: Pull Vercel Environment Information
+        run: vercel pull --yes --environment=preview --token=${{ secrets.VERCEL_TOKEN }}
+
+      - name: Build Project Artifacts
+        run: vercel build --token=${{ secrets.VERCEL_TOKEN }}
+
+      - name: Deploy Frontend to Vercel (Preview)
+        id: frontend-deploy
+        run: |
+          vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }} \
+            --scope abdullah-abdulkareems-projects-0896f126 \
+            --env NEXT_PUBLIC_BACKEND_URL=${{ needs.deploy-backend.outputs.backend-url }} \
+            --yes &> vercel-output-frontend
+          FRONTEND_URL=$(cat vercel-output-frontend | grep 'Preview:' | awk '{print $2}')
+          echo "Frontend deployed with URL: $FRONTEND_URL"
+          echo "FRONTEND_URL=$FRONTEND_URL" >> $GITHUB_OUTPUT
+
+      - name: Update Pull Request with Frontend Preview URL
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          PR_NUMBER=${{ github.event.pull_request.number }}
+          FRONTEND_URL="${{ steps.frontend-deploy.outputs.FRONTEND_URL }}"
+
+          # Get the current PR body
+          PR_BODY=$(gh pr view $PR_NUMBER --json body -q '.body')
+
+          # Check if the placeholder exists
+          if [[ "$PR_BODY" == *"<!--- live-Preview -->"* ]]; then
+            # Use awk to replace the line after the placeholder
+            UPDATED_BODY=$(echo "$PR_BODY" | awk -v url="$FRONTEND_URL" '/<!--- live-Preview -->/ { print; getline; print url; next } { print }')
+          else
+            # If placeholder is missing, append it at the bottom
+            UPDATED_BODY="$PR_BODY\n\n<!--- live-Preview -->\n$FRONTEND_URL"
+          fi
+
+          # Update the PR body
+          gh pr edit $PR_NUMBER --body "$UPDATED_BODY"
