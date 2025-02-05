@@ -36,7 +36,7 @@ jobs:
 
       - name: Create Neon Database Branch
         id: neon-branch
-        # if: github.event.action == 'opened' || github.event.pull_request.additions <= 1
+        if: github.event.action == 'opened' || github.event.pull_request.additions <= 1
         run: |
           # Create a new branch for the PR
           BRANCH_NAME="pr-${{ github.event.pull_request.number }}"
@@ -95,6 +95,8 @@ jobs:
 
   deploy-frontend:
     runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
     needs: deploy-backend
     steps:
       - name: Checkout Frontend Repository
