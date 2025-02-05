@@ -76,6 +76,7 @@ jobs:
         run: |
           npx prisma db push --force-reset
           npx prisma db seed
+          npx prisma generate
 
       - name: Pull Vercel Environment Information
         working-directory: ./backend
