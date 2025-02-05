@@ -62,14 +62,14 @@ jobs:
             --branch $BRANCH_NAME)
 
           echo "DATABASE_URL=${DB_URL}" >> $GITHUB_ENV
-          echo "::set-output name=DB_URL::${DB_URL}"
+          echo "name=DB_URL::${DB_URL}" >> $GITHUB_OUTPUT
 
       - name: Generate JWT_SECRET
         id: jwt-secret
         run: |
           JWT_SECRET=$(openssl rand -base64 32)
           echo "JWT_SECRET=${JWT_SECRET}" >> $GITHUB_ENV
-          echo "::set-output name=JWT_SECRET::${JWT_SECRET}"
+          echo "name=JWT_SECRET::${JWT_SECRET}" >> $GITHUB_OUTPUT
 
       - name: Run Prisma Migrations and Seed
         working-directory: ./backend
@@ -102,7 +102,7 @@ jobs:
             --yes &> vercel-output-backend
           BACKEND_URL=$(cat vercel-output-backend | grep 'Preview:' | awk '{print $2}')
           echo "VERCEL_URL=${BACKEND_URL}" >> $GITHUB_ENV
-          echo "::set-output name=VERCEL_URL::${BACKEND_URL}"
+          echo "name=VERCEL_URL::${BACKEND_URL}" >> $GITHUB_OUTPUT
 
   deploy-frontend:
     runs-on: ubuntu-latest
@@ -142,19 +142,27 @@ jobs:
             --env NEXT_PUBLIC_BACKEND_URL=${{ needs.deploy-backend.outputs.VERCEL_URL }} \
             --yes &> vercel-output-frontend
           FRONTEND_URL=$(cat vercel-output-frontend | grep 'Preview:' | awk '{print $2}')
-          echo "Frontend deployed with backend URL: $FRONTEND_URL"
-          echo "::set-output name=FRONTEND_URL::${FRONTEND_URL}"
+          echo "Frontend deployed with URL: $FRONTEND_URL"
+          echo "name=FRONTEND_URL::${FRONTEND_URL}" >> $GITHUB_OUTPUT
 
       - name: Update Pull Request with Frontend Preview URL
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          # Get the current PR body
-          PR_BODY=$(gh pr view ${{ github.event.pull_request.number }} --json body -q '.body')
-
-          # Replace the live preview placeholder with the actual frontend preview URL
+          PR_NUMBER=${{ github.event.pull_request.number }}
           FRONTEND_URL="${{ steps.frontend-deploy.outputs.FRONTEND_URL }}"
-          UPDATED_BODY="${PR_BODY//<!--- live-Preview -->/${FRONTEND_URL}}"
 
-          # Update the PR body with the new preview URL
-          gh pr edit ${{ github.event.pull_request.number }} --body "$UPDATED_BODY"
+          # Get the current PR body
+          PR_BODY=$(gh pr view $PR_NUMBER --json body -q '.body')
+
+          # Check if the placeholder exists
+          if [[ "$PR_BODY" == *"<!--- live-Preview -->"* ]]; then
+            # Replace the existing preview URL while keeping the placeholder
+            UPDATED_BODY=$(echo "$PR_BODY" | sed -E "s|(<!--- live-Preview -->).*|\1\nFrontend Preview: $FRONTEND_URL|")
+          else
+            # If placeholder is missing, append it at the bottom
+            UPDATED_BODY="$PR_BODY\n\n<!--- live-Preview -->\nFrontend Preview: $FRONTEND_URL"
+          fi
+
+          # Update the PR body
+          gh pr edit $PR_NUMBER --body "$UPDATED_BODY"
