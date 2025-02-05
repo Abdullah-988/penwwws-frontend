@@ -6,7 +6,7 @@ on:
 
 jobs:
   deploy-backend:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     outputs:
       backend-url: ${{ steps.vercel-url.outputs.VERCEL_URL }}
     steps:
@@ -20,7 +20,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 22
+          node-version: 18
           cache-dependency-path: ./backend/package-lock.json
           cache: "npm"
 
@@ -158,8 +158,8 @@ jobs:
 
           # Check if the placeholder exists
           if [[ "$PR_BODY" == *"<!--- live-Preview -->"* ]]; then
-            # Replace the existing preview URL and any content after the placeholder
-            UPDATED_BODY=$(echo "$PR_BODY" | sed -E "s|(<!--- live-Preview -->).*|\1\n$FRONTEND_URL|")
+            # Replace the entire block after the placeholder with the new URL
+            UPDATED_BODY=$(echo "$PR_BODY" | sed -E "/<!--- live-Preview -->/,// { /<!--- live-Preview -->/ { p; d; }; s|.*|$FRONTEND_URL|; }")
           else
             # If placeholder is missing, append it at the bottom
             UPDATED_BODY="$PR_BODY\n\n<!--- live-Preview -->\n$FRONTEND_URL"
