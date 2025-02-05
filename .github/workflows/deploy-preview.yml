@@ -80,7 +80,8 @@ jobs:
         id: vercel-url
         run: |
           # Deploy the backend to Vercel and capture the URL
-          vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }} \
+          vercel deploy --prebuilt \
+            --token=${{ secrets.VERCEL_TOKEN }} \
             --scope abdullah-abdulkareems-projects-0896f126 \
             --env DATABASE_URL=${{ env.DATABASE_URL }} \
             --env JWT_SECRET="${{ env.JWT_SECRET }}" \
