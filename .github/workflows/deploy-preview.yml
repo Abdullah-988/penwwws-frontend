@@ -80,7 +80,7 @@ jobs:
         working-directory: ./backend
         run: |
           # Deploy the backend to Vercel and capture the URL
-          vercel --token ${{ secrets.VERCEL_TOKEN }} --scope abdullah-abdulkareems-projects-0896f126 --env DATABASE_URL=${{ env.DATABASE_URL }} --env JWT_SECRET=${{ env.JWT_SECRET }} --env NODEMAILER_SERVICE=${{ env.NODEMAILER_SERVICE }} --env NODEMAILER_EMAIL=${{ secrets.NODEMAILER_EMAIL }} --env NODEMAILER_PASSWORD=${{ secrets.NODEMAILER_PASSWORD }} --yes &> vercel-output-backend
+          vercel --token ${{ secrets.VERCEL_TOKEN }} --scope abdullah-abdulkareems-projects-0896f126 --env DATABASE_URL=${{ env.DATABASE_URL }} --env JWT_SECRET=${{ env.JWT_SECRET }} --env NODEMAILER_SERVICE=${{ secrets.NODEMAILER_SERVICE }} --env NODEMAILER_EMAIL=${{ secrets.NODEMAILER_EMAIL }} --env NODEMAILER_PASSWORD=${{ secrets.NODEMAILER_PASSWORD }} --yes &> vercel-output-backend
           BACKEND_URL=$(cat vercel-output-backend | grep 'Preview:' | awk '{print $2}')
           echo "VERCEL_URL=${BACKEND_URL}" >> $GITHUB_ENV
           echo "::set-output name=VERCEL_URL::${BACKEND_URL}"
