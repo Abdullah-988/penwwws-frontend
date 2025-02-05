@@ -20,7 +20,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 18
+          node-version: 22
           cache-dependency-path: ./backend/package-lock.json
           cache: "npm"
 
@@ -158,8 +158,8 @@ jobs:
 
           # Check if the placeholder exists
           if [[ "$PR_BODY" == *"<!--- live-Preview -->"* ]]; then
-            # Replace the entire block after the placeholder with the new URL
-            UPDATED_BODY=$(echo "$PR_BODY" | sed -E "/<!--- live-Preview -->/,// { /<!--- live-Preview -->/ { p; d; }; s|.*|$FRONTEND_URL|; }")
+            # Use awk to replace the line after the placeholder
+            UPDATED_BODY=$(echo "$PR_BODY" | awk -v url="$FRONTEND_URL" '/<!--- live-Preview -->/ { print; getline; print url; next } { print }')
           else
             # If placeholder is missing, append it at the bottom
             UPDATED_BODY="$PR_BODY\n\n<!--- live-Preview -->\n$FRONTEND_URL"
