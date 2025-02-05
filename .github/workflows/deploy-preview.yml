@@ -106,7 +106,7 @@ jobs:
           echo "VERCEL_URL=$BACKEND_URL" >> $GITHUB_OUTPUT
 
   deploy-frontend:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     needs: deploy-backend
     permissions:
       pull-requests: write
@@ -140,7 +140,7 @@ jobs:
         run: |
           vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }} \
             --scope abdullah-abdulkareems-projects-0896f126 \
-            --env NEXT_PUBLIC_BACKEND_URL=${{ needs.deploy-backend.outputs.VERCEL_URL }} \
+            --env NEXT_PUBLIC_BACKEND_URL=${{ needs.deploy-backend.outputs.backend-url }} \
             --yes &> vercel-output-frontend
           FRONTEND_URL=$(cat vercel-output-frontend | grep 'Preview:' | awk '{print $2}')
           echo "Frontend deployed with URL: $FRONTEND_URL"
@@ -158,7 +158,7 @@ jobs:
 
           # Check if the placeholder exists
           if [[ "$PR_BODY" == *"<!--- live-Preview -->"* ]]; then
-            # Replace the existing preview URL while keeping the placeholder
+            # Replace the existing preview URL and any content after the placeholder
             UPDATED_BODY=$(echo "$PR_BODY" | sed -E "s|(<!--- live-Preview -->).*|\1\n$FRONTEND_URL|")
           else
             # If placeholder is missing, append it at the bottom
