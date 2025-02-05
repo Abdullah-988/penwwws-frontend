@@ -147,6 +147,6 @@
     @apply bg-background text-foreground;
   }
   button{
-    cursor:pointer
+    @apply cursor-pointer
   }
 }
