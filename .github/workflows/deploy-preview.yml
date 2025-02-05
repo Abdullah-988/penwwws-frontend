@@ -34,18 +34,28 @@ jobs:
       - name: Install Neon CLI
         run: npm install -g neonctl
 
-      - name: Create Neon Database Branch
+      - name: Create or Retrieve Neon Database Branch
         id: neon-branch
-        if: github.event.action == 'opened' || github.event.pull_request.additions <= 1
         run: |
-          # Create a new branch for the PR
           BRANCH_NAME="pr-${{ github.event.pull_request.number }}"
-          neonctl branches create \
+
+          # Check if the branch already exists
+          BRANCH_EXISTS=$(neonctl branches list \
             --api-key ${{ secrets.NEON_TOKEN }} \
             --project-id ${{ secrets.NEON_PROJECT_ID }} \
-            --name $BRANCH_NAME
+            | grep -c "$BRANCH_NAME")
 
-          # Get the connection string for the new branch
+          if [ "$BRANCH_EXISTS" -eq 0 ]; then
+            echo "Creating new Neon database branch: $BRANCH_NAME"
+            neonctl branches create \
+              --api-key ${{ secrets.NEON_TOKEN }} \
+              --project-id ${{ secrets.NEON_PROJECT_ID }} \
+              --name $BRANCH_NAME
+          else
+            echo "Neon database branch already exists: $BRANCH_NAME"
+          fi
+
+          # Retrieve the connection string
           DB_URL=$(neonctl connection-string \
             --api-key ${{ secrets.NEON_TOKEN }} \
             --project-id ${{ secrets.NEON_PROJECT_ID }} \
