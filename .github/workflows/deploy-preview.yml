@@ -102,13 +102,13 @@ jobs:
             --yes &> vercel-output-backend
           BACKEND_URL=$(cat vercel-output-backend | grep 'Preview:' | awk '{print $2}')
           echo "VERCEL_URL=${BACKEND_URL}" >> $GITHUB_ENV
-          echo "name=VERCEL_URL::${BACKEND_URL}" >> $GITHUB_OUTPUT
+          echo "VERCEL_URL=${BACKEND_URL}" >> $GITHUB_OUTPUT
 
   deploy-frontend:
     runs-on: ubuntu-latest
+    needs: deploy-backend
     permissions:
       pull-requests: write
-    needs: deploy-backend
     steps:
       - name: Checkout Frontend Repository
         uses: actions/checkout@v4
