@@ -21,7 +21,7 @@ export default function SignupPage() {
             <span className="text-muted-foreground self-start">
               Already have an account?
               <Link
-                href="/signin"
+                href="/sign-in"
                 className="text-primary px-1 font-semibold underline"
               >
                 Sign in
@@ -37,7 +37,6 @@ export default function SignupPage() {
             </span>
             <span className="bg-border h-0.5 flex-grow"></span>
           </div>
-
           <GoogleOAuthBtn />
         </div>
       </aside>

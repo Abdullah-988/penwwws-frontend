@@ -22,7 +22,7 @@ export default function SigninPage() {
             <span className="text-muted-foreground self-start">
               Don't have an account?
               <Link
-                href="/signup"
+                href="/sign-up"
                 className="text-primary px-1 font-semibold underline"
               >
                 Sign up
