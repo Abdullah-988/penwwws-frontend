@@ -62,14 +62,14 @@ jobs:
             --branch $BRANCH_NAME)
 
           echo "DATABASE_URL=${DB_URL}" >> $GITHUB_ENV
-          echo "DB_URL=${DB_URL}" >> $GITHUB_OUTPUT
+          echo "DB_URL=$DB_URL" >> $GITHUB_OUTPUT
 
       - name: Generate JWT_SECRET
         id: jwt-secret
         run: |
           JWT_SECRET=$(openssl rand -base64 32)
           echo "JWT_SECRET=${JWT_SECRET}" >> $GITHUB_ENV
-          echo "JWT_SECRET=${JWT_SECRET}" >> $GITHUB_OUTPUT
+          echo "JWT_SECRET=$JWT_SECRET" >> $GITHUB_OUTPUT
 
       - name: Run Prisma Migrations and Seed
         working-directory: ./backend
@@ -101,8 +101,9 @@ jobs:
             --env NODEMAILER_PASSWORD="${{ secrets.NODEMAILER_PASSWORD }}" \
             --yes &> vercel-output-backend
           BACKEND_URL=$(cat vercel-output-backend | grep 'Preview:' | awk '{print $2}')
+          echo "Backend deployed with URL: $BACKEND_URL"
           echo "VERCEL_URL=${BACKEND_URL}" >> $GITHUB_ENV
-          echo "VERCEL_URL=${BACKEND_URL}" >> $GITHUB_OUTPUT
+          echo "VERCEL_URL=$BACKEND_URL" >> $GITHUB_OUTPUT
 
   deploy-frontend:
     runs-on: ubuntu-latest
@@ -143,7 +144,7 @@ jobs:
             --yes &> vercel-output-frontend
           FRONTEND_URL=$(cat vercel-output-frontend | grep 'Preview:' | awk '{print $2}')
           echo "Frontend deployed with URL: $FRONTEND_URL"
-          echo "FRONTEND_URL=${FRONTEND_URL}" >> $GITHUB_OUTPUT
+          echo "FRONTEND_URL=$FRONTEND_URL" >> $GITHUB_OUTPUT
 
       - name: Update Pull Request with Frontend Preview URL
         env:
@@ -158,7 +159,7 @@ jobs:
           # Check if the placeholder exists
           if [[ "$PR_BODY" == *"<!--- live-Preview -->"* ]]; then
             # Replace the existing preview URL while keeping the placeholder
-            UPDATED_BODY=$(echo "$PR_BODY" | sed -E "s|(<!--- live-Preview -->).*|\1\nFrontend Preview: $FRONTEND_URL|")
+            UPDATED_BODY=$(echo "$PR_BODY" | sed -E "s|(<!--- live-Preview -->).*|\1\n$FRONTEND_URL|")
           else
             # If placeholder is missing, append it at the bottom
             UPDATED_BODY="$PR_BODY\n\n<!--- live-Preview -->\n$FRONTEND_URL"
