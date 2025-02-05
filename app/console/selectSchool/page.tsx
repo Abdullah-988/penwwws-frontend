@@ -19,7 +19,7 @@ type SchoolType = {
 async function getSchools() {
   try {
     const token = await getCookie("token", { cookies });
-    const res = await axios.get("/school", {
+    const res = await axios("/school", {
       headers: { Authorization: token },
     });
     return res.data;
@@ -31,6 +31,8 @@ async function getSchools() {
 
 export default async function SelectSchool() {
   const schoolsList: SchoolType[] = await getSchools();
+
+  if (!schoolsList) return;
 
   if (schoolsList.length === 0) {
     return (
