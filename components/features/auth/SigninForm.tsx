@@ -39,7 +39,7 @@ export default function SigninForm() {
     try {
       const res = await axios.post("/login", formData);
       setCookie("token", res.headers.authorization);
-      router.push("/console");
+      router.push("/console/selectSchool");
     } catch (err) {
       const error = err as AxiosError;
       console.error("Could not sign in: ", error);

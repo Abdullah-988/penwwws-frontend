@@ -13,7 +13,7 @@
 
   --color-popover: hsl(var(--popover));
   --color-popover-foreground: hsl(var(--popover-foreground));
-  --color-primary:var(--primary);
+  --color-primary:var(--primary-800);
   --color-primary-50: var(--primary-50);
   --color-primary-100: var(--primary-100);
   --color-primary-200: var(--primary-200);
@@ -92,8 +92,6 @@
     --primary-800: #0b5a42;
     --primary-900: #0a4a38;
     --primary-950: #042a20;
-
-    --primary:#0a4a38;
     --primary-foreground: 0 0% 98%;
     --secondary: 0 0% 96.1%;
     --secondary-foreground: 0 0% 9%;
@@ -147,5 +145,8 @@
   }
   body {
     @apply bg-background text-foreground;
+  }
+  button{
+    cursor:pointer
   }
 }
