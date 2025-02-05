@@ -82,7 +82,8 @@ jobs:
         run: |
           cd backend
           # Deploy the backend to Vercel and capture the URL
-          vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }} --scope abdullah-abdulkareems-projects-0896f126 \
+          vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }} \
+            --scope abdullah-abdulkareems-projects-0896f126 \
             --env DATABASE_URL=${{ env.DATABASE_URL }} \
             --env JWT_SECRET=${{ env.JWT_SECRET }} \
             --env NODEMAILER_SERVICE=${{ secrets.NODEMAILER_SERVICE }} \
