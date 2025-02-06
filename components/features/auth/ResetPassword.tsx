@@ -45,7 +45,7 @@ export function ResetPassword() {
 
   async function handleSendResetLinkRequest(data: FormDataType) {
     try {
-      await axios.post(`/user/reset-password`, data);
+      await axios.post("/user/reset-password", data);
       setIsResetModalOpen(false);
       form.reset();
       toast({
