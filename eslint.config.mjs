@@ -1,6 +1,8 @@
 import { FlatCompat } from "@eslint/eslintrc";
+import { FlatCompat } from "@eslint/eslintrc";
 import { dirname } from "path";
 import { fileURLToPath } from "url";
+import unusedImports from "eslint-plugin-unused-imports";
 import unusedImports from "eslint-plugin-unused-imports";
 
 const __filename = fileURLToPath(import.meta.url);
