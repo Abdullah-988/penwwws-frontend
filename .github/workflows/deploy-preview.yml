@@ -40,15 +40,13 @@ jobs:
           BRANCH_NAME="pr-${{ github.event.pull_request.number }}"
 
           # Check if the branch already exists
-          BRANCH_EXISTS=$(neonctl branches list \
-            --api-key ${{ secrets.NEON_TOKEN }} \
+          BRANCH_EXISTS=$(neonctl branches list --api-key ${{ secrets.NEON_TOKEN }} \
             --project-id ${{ secrets.NEON_PROJECT_ID }} \
-            | grep -c "$BRANCH_NAME")
+            2>/dev/null | grep -c "$BRANCH_NAME")
 
           if [ "$BRANCH_EXISTS" -eq 0 ]; then
             echo "Creating new Neon database branch: $BRANCH_NAME"
-            neonctl branches create \
-              --api-key ${{ secrets.NEON_TOKEN }} \
+            neonctl branches create --api-key ${{ secrets.NEON_TOKEN }} \
               --project-id ${{ secrets.NEON_PROJECT_ID }} \
               --name $BRANCH_NAME
           else
@@ -56,8 +54,7 @@ jobs:
           fi
 
           # Retrieve the connection string
-          DB_URL=$(neonctl connection-string \
-            --api-key ${{ secrets.NEON_TOKEN }} \
+          DB_URL=$(neonctl connection-string --api-key ${{ secrets.NEON_TOKEN }} \
             --project-id ${{ secrets.NEON_PROJECT_ID }} \
             --branch $BRANCH_NAME)
 
