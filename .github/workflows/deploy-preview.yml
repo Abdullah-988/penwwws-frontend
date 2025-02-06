@@ -46,9 +46,7 @@ jobs:
 
           if [ "$BRANCH_EXISTS" -eq 0 ]; then
             echo "Creating new Neon database branch: $BRANCH_NAME"
-            neonctl branches create --api-key ${{ secrets.NEON_TOKEN }} \
-              --project-id ${{ secrets.NEON_PROJECT_ID }} \
-              --name $BRANCH_NAME
+            neonctl branches create --api-key ${{ secrets.NEON_TOKEN }} --project-id ${{ secrets.NEON_PROJECT_ID }} --name $BRANCH_NAME
           else
             echo "Neon database branch already exists: $BRANCH_NAME"
           fi
