@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useParams } from "next/navigation";
 import { useForm } from "react-hook-form";
 import z from "zod";
@@ -53,18 +53,14 @@ export default function ResetPasswordPage() {
     }
   };
 
-  useEffect(() => {
-    form.setFocus("password");
-  }, [form]);
-
   if (isSuccess) {
     return (
       <div className="flex h-screen w-full flex-col items-center justify-center gap-5 bg-green-50">
         <h1 className="font-PT text-primary text-4xl">
-          Password Reseted Successfully
+          Password Reset Successfully
         </h1>
         <p className="text-muted-foreground w-96 text-center">
-          Your password has been successfully reseted. You can now use your new
+          Your password has been successfully reset. You can now use your new
           password and close this tab.
         </p>
       </div>
@@ -101,6 +97,7 @@ export default function ResetPasswordPage() {
                   <FormControl>
                     <div className="relative">
                       <input
+                        autoFocus
                         {...field}
                         type={isPasswordVisible ? "text" : "password"}
                         className={clsx(
