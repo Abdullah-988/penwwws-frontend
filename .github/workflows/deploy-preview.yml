@@ -129,6 +129,8 @@ jobs:
         run: vercel pull --yes --environment=preview --token=${{ secrets.VERCEL_TOKEN }}
 
       - name: Build Project Artifacts
+        env:
+          NEXT_PUBLIC_BACKEND_URL: ${{ needs.deploy-backend.outputs.backend-url }}
         run: vercel build --token=${{ secrets.VERCEL_TOKEN }}
 
       - name: Deploy Frontend to Vercel (Preview)
@@ -136,7 +138,6 @@ jobs:
         run: |
           vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }} \
             --scope abdullah-abdulkareems-projects-0896f126 \
-            --env NEXT_PUBLIC_BACKEND_URL=${{ needs.deploy-backend.outputs.backend-url }} \
             --yes &> vercel-output-frontend
           FRONTEND_URL=$(cat vercel-output-frontend | grep 'Preview:' | awk '{print $2}')
           echo "Frontend deployed with URL: $FRONTEND_URL"
