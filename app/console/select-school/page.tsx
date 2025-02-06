@@ -9,8 +9,8 @@ type SchoolType = {
   school: {
     id: number;
     name: string;
-    logoUrl: string | null;
-    description: string | null;
+    logoUrl?: string;
+    description?: string;
     createdAt: string;
     updatedAt: string;
   };
@@ -19,13 +19,13 @@ type SchoolType = {
 async function getSchools() {
   try {
     const token = await getCookie("token", { cookies });
-    const res = await axios("/school", {
+    const res = await axios.get("/school", {
       headers: { Authorization: token },
     });
     return res.data;
   } catch (err) {
     const error = err as AxiosError;
-    console.error(error.response?.data || "Unexpected error accrued");
+    console.error(error.response?.data || "Unexpected error occurred");
   }
 }
 

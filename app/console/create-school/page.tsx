@@ -49,7 +49,7 @@ export default function CreateSchoolForm() {
         title: "Could not create your school",
         description:
           (error?.response?.data as string) ||
-          "Unexpected error accrued while creating your school",
+          "Unexpected error occurred while creating your school",
       });
     }
   }

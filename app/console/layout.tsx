@@ -1,18 +1,11 @@
 import { getCookie } from "cookies-next";
 import { cookies } from "next/headers";
 import axios from "@/lib/axiosInstance";
-import { AxiosError } from "axios";
 
 async function getCurrentUser() {
-  try {
-    const token = await getCookie("token", { cookies });
-    const res = await axios("/me", { headers: { Authorization: token } });
-    return res.data;
-  } catch (err) {
-    const error = err as AxiosError;
-    console.error(error.response?.data || "Unexpected error accrued");
-    return null;
-  }
+  const token = await getCookie("token", { cookies });
+  const res = await axios("/me", { headers: { Authorization: token } });
+  return res.data;
 }
 
 export default async function ConsoleLayout({
