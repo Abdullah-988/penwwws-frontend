@@ -1,19 +1,22 @@
 "use client";
 
+import React, { Dispatch, SetStateAction } from "react";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
 import axios from "@/lib/axiosInstance";
+import { AxiosError } from "axios";
 import { useForm } from "react-hook-form";
 import { getCookie } from "cookies-next";
 import { useRouter } from "next/navigation";
-import { AxiosError } from "axios";
 import { useToast } from "@/hooks/use-toast";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { CircleAlert as AlertIcon } from "lucide-react";
-import { LoaderCircle as SpinnerIcon } from "lucide-react";
-import Link from "next/link";
+import {
+  CircleAlert as AlertIcon,
+  LoaderCircle as SpinnerIcon,
+  ArrowLeft,
+} from "lucide-react";
 
 const createSchoolFormSchema = z.object({
   schoolName: z.string().nonempty(),
@@ -21,9 +24,14 @@ const createSchoolFormSchema = z.object({
 
 type formDataType = z.infer<typeof createSchoolFormSchema>;
 
-export default function CreateSchoolForm() {
+type Props = {
+  setCarouselIndex: Dispatch<SetStateAction<0 | 1>>;
+};
+
+export default function CreateSchool({ setCarouselIndex }: Props) {
   const router = useRouter();
   const { toast } = useToast();
+
   const form = useForm<formDataType>({
     defaultValues: { schoolName: "" },
     resolver: zodResolver(createSchoolFormSchema),
@@ -55,40 +63,43 @@ export default function CreateSchoolForm() {
   }
 
   return (
-    <>
+    <section className="flex w-full flex-col items-start gap-8">
+      <div>
+        <h1 className="text-primary text-2xl font-semibold">
+          Create your own school on penwwws
+        </h1>
+        <p className="text-muted-foreground">
+          Creating your school is as simple as providing its name.
+        </p>
+      </div>
       <Form {...form}>
         <form
-          className="space-y-8"
+          className="bg-primary-600/5 w-full space-y-5 rounded-xl px-5 py-8"
           onSubmit={form.handleSubmit(handleCreateSchool)}
         >
-          <h1 className="text-primary text-lg font-semibold">
-            Create Your School
-          </h1>
           <FormField
             name="schoolName"
             control={form.control}
             render={({ field }) => (
-              <FormItem>
+              <FormItem className="w-full">
+                <div className="text-primary mb-4 flex w-full items-center gap-2 rounded-sm text-sm">
+                  <AlertIcon className="h-5 w-5" />
+                  The official name of your school is recommended
+                </div>
                 <FormControl>
                   <Input
                     {...field}
                     placeholder="School name"
-                    className="border-border text-primary h-12 border"
+                    className="border-border text-primary h-12 w-full border text-sm"
                   />
                 </FormControl>{" "}
-                {!form.formState.isDirty && (
-                  <div className="border-border bg-primary/15 text-primary mt-8 flex items-center gap-2 rounded-md border p-2 text-sm">
-                    <AlertIcon className="h-5 w-5" />
-                    School name must be provided
-                  </div>
-                )}
               </FormItem>
             )}
           />
 
           <Button
             disabled={form.formState.isSubmitting}
-            className="w-full font-semibold disabled:cursor-not-allowed"
+            className="w-full rounded-full font-bold disabled:cursor-not-allowed"
           >
             {form.formState.isSubmitting ? (
               <SpinnerIcon className="animate-spin" size={25} />
@@ -98,9 +109,14 @@ export default function CreateSchoolForm() {
           </Button>
         </form>
       </Form>
-      <Link className="text-primary mt-4" href="/console/select-school">
-        View your existing schools
-      </Link>
-    </>
+
+      <button
+        onClick={() => setCarouselIndex(0)}
+        className="text-primary flex w-fit items-center gap-2"
+      >
+        <ArrowLeft className="bg-secondary h-8 w-14 rounded-xl p-2" size={20} />
+        View your Schools
+      </button>
+    </section>
   );
 }
