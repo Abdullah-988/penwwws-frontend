@@ -79,7 +79,7 @@ export default function ChooseSchool({ setCarouselIndex }: Props) {
           Join your school on Penwwws
         </h1>
         <p className="text-muted-foreground">
-          Select the school that you want to join
+          Choose the school that you want to join
         </p>
       </div>
 
@@ -98,7 +98,7 @@ export default function ChooseSchool({ setCarouselIndex }: Props) {
               </Avatar>
               <div>
                 <h1 className="text-primary text-sm font-semibold">
-                  {school.name.slice(0, 20)}
+                  {school.name}
                 </h1>
                 <p className="text-muted-foreground text-sm">
                   {school.description}

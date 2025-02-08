@@ -85,7 +85,7 @@ export default function SignupForm() {
               <FormControl>
                 <Input
                   type="email"
-                  placeholder="abullah@email.com"
+                  placeholder="abdullah@email.com"
                   {...field}
                 />
               </FormControl>

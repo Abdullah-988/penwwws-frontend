@@ -24,7 +24,7 @@ export default async function activateTokenPage({
   }
 
   if (!errorMessage) {
-    redirect("/console/selectSchool");
+    redirect("/console");
   }
 
   return (
