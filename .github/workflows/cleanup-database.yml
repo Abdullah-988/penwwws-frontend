@@ -20,6 +20,5 @@ jobs:
       - name: Delete Neon Branch
         run: |
           BRANCH_NAME="pr-${{ github.event.pull_request.number }}"
-          neonctl branches delete $BRANCH_NAME \
-            --api-key ${{ secrets.NEON_TOKEN }} \
+          neonctl branches delete $BRANCH_NAME --api-key ${{ secrets.NEON_TOKEN }} \
             --project-id ${{ secrets.NEON_PROJECT_ID }}

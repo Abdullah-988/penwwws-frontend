@@ -39,7 +39,7 @@ export default function SigninForm() {
     try {
       const res = await axios.post("/login", formData);
       setCookie("token", res.headers.authorization);
-      router.push("/console/select-school");
+      router.push("/console");
     } catch (err) {
       const error = err as AxiosError;
       console.error("Could not sign in: ", error);
@@ -62,7 +62,12 @@ export default function SigninForm() {
             <FormItem>
               <FormLabel className="text-muted-foreground">Email</FormLabel>
               <FormControl>
-                <Input type="email" placeholder="Email" {...field} />
+                <Input
+                  type="email"
+                  placeholder="Email"
+                  autoComplete="email"
+                  {...field}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -80,6 +85,7 @@ export default function SigninForm() {
                   <Input
                     type={isPasswordVisible ? "text" : "password"}
                     placeholder="Password"
+                    autoComplete="current-password"
                     {...field}
                   />
 

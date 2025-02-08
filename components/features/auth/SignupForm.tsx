@@ -85,7 +85,8 @@ export default function SignupForm() {
               <FormControl>
                 <Input
                   type="email"
-                  placeholder="abullah@email.com"
+                  placeholder="abdullah@email.com"
+                  autoComplete="email"
                   {...field}
                 />
               </FormControl>
@@ -104,7 +105,8 @@ export default function SignupForm() {
                 <div className="relative">
                   <Input
                     type={isPasswordVisible ? "text" : "password"}
-                    placeholder="**********"
+                    placeholder="••••••••"
+                    autoComplete="new-password"
                     {...field}
                   />
 
@@ -137,7 +139,8 @@ export default function SignupForm() {
                 <div className="relative">
                   <Input
                     type={isPasswordVisible ? "text" : "password"}
-                    placeholder="Confirm your password"
+                    placeholder="••••••••"
+                    autoComplete="new-password"
                     {...field}
                   />
 
