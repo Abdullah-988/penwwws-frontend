@@ -25,7 +25,7 @@ const createSchoolFormSchema = z.object({
 type formDataType = z.infer<typeof createSchoolFormSchema>;
 
 type Props = {
-  setSchoolAction: Dispatch<SetStateAction<"choose" | "create">>;
+  setSchoolAction: Dispatch<SetStateAction<"select" | "create">>;
 };
 
 export default function CreateSchool({ setSchoolAction }: Props) {
@@ -48,8 +48,7 @@ export default function CreateSchool({ setSchoolAction }: Props) {
         },
       );
 
-      //TODO:Update redirect path
-      router.push(`/school/${res.data.name}`);
+      router.push(`/school/${res.data.id}/dashboard`);
     } catch (err) {
       const error = err as AxiosError;
       toast({
@@ -89,6 +88,7 @@ export default function CreateSchool({ setSchoolAction }: Props) {
                 <FormControl>
                   <Input
                     {...field}
+                    autoFocus
                     placeholder="School name"
                     className="border-border text-primary h-12 w-full border text-sm"
                   />
@@ -111,7 +111,7 @@ export default function CreateSchool({ setSchoolAction }: Props) {
       </Form>
 
       <button
-        onClick={() => setSchoolAction("choose")}
+        onClick={() => setSchoolAction("select")}
         className="text-primary flex w-fit items-center gap-2"
       >
         <ArrowLeft className="bg-secondary h-8 w-14 rounded-xl p-2" size={20} />

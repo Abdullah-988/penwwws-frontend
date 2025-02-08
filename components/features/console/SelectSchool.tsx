@@ -10,6 +10,9 @@ import Link from "next/link";
 import { LoaderCircle as SpinnerIcon, Plus } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
+import { Button } from "@/components/ui/button";
+
+type RoleType = "SUPER_ADMIN" | "ADMIN" | "STUDENT" | "TEACHER";
 
 type SchoolType = {
   school: {
@@ -19,6 +22,7 @@ type SchoolType = {
     description?: string;
     createdAt: string;
     updatedAt: string;
+    members: { role: RoleType }[];
   };
 };
 
@@ -36,10 +40,10 @@ async function getSchools() {
 }
 
 type Props = {
-  setSchoolAction: Dispatch<SetStateAction<"choose" | "create">>;
+  setSchoolAction: Dispatch<SetStateAction<"select" | "create">>;
 };
 
-export default function ChooseSchool({ setSchoolAction }: Props) {
+export default function SelectSchool({ setSchoolAction }: Props) {
   const router = useRouter();
   const { data: schoolsList, isLoading } = useQuery<SchoolType[]>({
     queryKey: ["schools"],
@@ -47,13 +51,23 @@ export default function ChooseSchool({ setSchoolAction }: Props) {
     refetchInterval: false,
   });
 
+  function getRoleRedirectPath(role: RoleType): string {
+    const roleRedirectMap = {
+      SUPER_ADMIN: "dashboard",
+      ADMIN: "dashboard",
+      STUDENT: "home",
+      TEACHER: "teacher/dashboard",
+    };
+    return roleRedirectMap[role];
+  }
+
   if (isLoading) {
     return <SpinnerIcon className="mx-auto animate-spin" size={25} />;
   }
 
   if (!schoolsList || schoolsList.length === 0) {
     return (
-      <section className="mx-auto flex w-96 flex-col gap-8 text-center">
+      <section className="mx-auto flex w-full flex-col items-center justify-center gap-8 text-center md:w-96">
         <div>
           <h1 className="text-primary text-2xl font-semibold">
             Simplify your school management
@@ -65,11 +79,24 @@ export default function ChooseSchool({ setSchoolAction }: Props) {
         </div>
         <button
           onClick={() => setSchoolAction("create")}
-          className="text-primary mx-auto flex w-fit items-center gap-2"
+          className="text-primary flex w-fit items-center gap-2"
         >
           <Plus className="bg-secondary h-8 w-14 rounded-xl p-2" size={20} />
           Create a new school
         </button>
+        <div className="text-muted-foreground mt-10 flex items-center text-sm">
+          Not seeing your school?
+          <Button
+            variant="link"
+            onClick={() => {
+              deleteCookie("token");
+              router.push("/sign-in");
+            }}
+            className="p-1 font-normal"
+          >
+            Switch account
+          </Button>
+        </div>
       </section>
     );
   }
@@ -81,7 +108,7 @@ export default function ChooseSchool({ setSchoolAction }: Props) {
           Join your school on Penwwws
         </h1>
         <p className="text-muted-foreground">
-          Choose the school that you want to join
+          Select the school that you want to access
         </p>
       </div>
 
@@ -109,10 +136,10 @@ export default function ChooseSchool({ setSchoolAction }: Props) {
             </div>
 
             <Link
-              href={`/school/${school.id}`}
+              href={`/school/${school.id}/${getRoleRedirectPath(school.members[0].role)}`}
               className="bg-primary text-accent rounded-full px-4 py-1 text-sm font-semibold"
             >
-              Join
+              Select
             </Link>
           </div>
         ))}
@@ -126,17 +153,18 @@ export default function ChooseSchool({ setSchoolAction }: Props) {
         Create new school
       </button>
 
-      <div className="text-muted-foreground mt-10 flex items-center gap-1 text-sm">
-        Not seeing your school
-        <button
+      <div className="text-muted-foreground mt-10 flex items-center text-sm">
+        Not seeing your school?
+        <Button
+          variant="link"
           onClick={() => {
             deleteCookie("token");
             router.push("/sign-in");
           }}
-          className="hover:text-primary hover:underline"
+          className="p-1 font-normal"
         >
           Switch account
-        </button>
+        </Button>
       </div>
     </section>
   );
