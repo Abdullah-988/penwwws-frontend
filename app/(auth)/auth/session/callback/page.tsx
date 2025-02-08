@@ -22,7 +22,7 @@ const AuthCallback = () => {
             .post("/oauth", { token, provider: "google" })
             .then((res) => {
               setCookie("token", res.headers.authorization);
-              router.push("/console/select-school");
+              router.push("/console");
             })
             .catch((err) => {
               console.error("Error during authentication:", err);
