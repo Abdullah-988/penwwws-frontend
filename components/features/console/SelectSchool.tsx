@@ -64,8 +64,9 @@ export default function SelectSchool({ setSchoolAction }: Props) {
   if (isLoading) {
     return <SpinnerIcon className="mx-auto animate-spin" size={25} />;
   }
+  if (!schoolsList) return;
 
-  if (!schoolsList || schoolsList.length === 0) {
+  if (schoolsList.length === 0) {
     return (
       <section className="mx-auto flex w-full flex-col items-center justify-center gap-8 text-center md:w-96">
         <div>
