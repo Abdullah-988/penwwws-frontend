@@ -14,7 +14,7 @@ export function ConsoleAside() {
     <div className="flex w-full flex-col items-center justify-center md:p-8 lg:w-2/3">
       <div className="flex w-full items-center justify-center sm:w-[40rem]">
         <AnimatePresence mode="wait">
-          {schoolAction === "choose" ? (
+          {schoolAction === "choose" && (
             <motion.div
               key="choose"
               initial={{ x: -20, opacity: 0 }}
@@ -25,7 +25,9 @@ export function ConsoleAside() {
             >
               <ChooseSchool setSchoolAction={setSchoolAction} />
             </motion.div>
-          ) : (
+          )}
+
+          {schoolAction === "create" && (
             <motion.div
               key="create"
               initial={{ x: 20, opacity: 0 }}
