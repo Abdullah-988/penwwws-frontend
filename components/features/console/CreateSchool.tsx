@@ -25,10 +25,10 @@ const createSchoolFormSchema = z.object({
 type formDataType = z.infer<typeof createSchoolFormSchema>;
 
 type Props = {
-  setCarouselIndex: Dispatch<SetStateAction<0 | 1>>;
+  setSchoolAction: Dispatch<SetStateAction<"choose" | "create">>;
 };
 
-export default function CreateSchool({ setCarouselIndex }: Props) {
+export default function CreateSchool({ setSchoolAction }: Props) {
   const router = useRouter();
   const { toast } = useToast();
 
@@ -111,7 +111,7 @@ export default function CreateSchool({ setCarouselIndex }: Props) {
       </Form>
 
       <button
-        onClick={() => setCarouselIndex(0)}
+        onClick={() => setSchoolAction("choose")}
         className="text-primary flex w-fit items-center gap-2"
       >
         <ArrowLeft className="bg-secondary h-8 w-14 rounded-xl p-2" size={20} />

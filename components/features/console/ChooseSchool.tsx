@@ -13,7 +13,7 @@ import { useRouter } from "next/navigation";
 
 type SchoolType = {
   school: {
-    id: number;
+    id: string;
     name: string;
     logoUrl?: string;
     description?: string;
@@ -36,9 +36,10 @@ async function getSchools() {
 }
 
 type Props = {
-  setCarouselIndex: Dispatch<SetStateAction<0 | 1>>;
+  setSchoolAction: Dispatch<SetStateAction<"choose" | "create">>;
 };
-export default function ChooseSchool({ setCarouselIndex }: Props) {
+
+export default function ChooseSchool({ setSchoolAction }: Props) {
   const router = useRouter();
   const { data: schoolsList, isLoading } = useQuery<SchoolType[]>({
     queryKey: ["schools"],
@@ -62,7 +63,7 @@ export default function ChooseSchool({ setCarouselIndex }: Props) {
           </p>
         </div>
         <button
-          onClick={() => setCarouselIndex(1)}
+          onClick={() => setSchoolAction("create")}
           className="text-primary mx-auto flex w-fit items-center gap-2"
         >
           <Plus className="bg-secondary h-8 w-14 rounded-xl p-2" size={20} />
@@ -117,7 +118,7 @@ export default function ChooseSchool({ setCarouselIndex }: Props) {
       </div>
 
       <button
-        onClick={() => setCarouselIndex(1)}
+        onClick={() => setSchoolAction("create")}
         className="text-primary flex w-fit items-center gap-2"
       >
         <Plus className="bg-secondary h-8 w-14 rounded-xl p-2" size={20} />
@@ -129,7 +130,7 @@ export default function ChooseSchool({ setCarouselIndex }: Props) {
         <button
           onClick={() => {
             deleteCookie("token");
-            router.push("sign-in");
+            router.push("/sign-in");
           }}
           className="hover:text-primary hover:underline"
         >

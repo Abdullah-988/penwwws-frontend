@@ -12,11 +12,9 @@ export default async function activateTokenPage({
   let errorMessage = "";
 
   try {
-    await axios.post(
-      `/activate/${activateToken}`,
-      {},
-      { headers: { Authorization: getCookie("token") } },
-    );
+    await axios.post(`/activate/${activateToken}`, {
+      headers: { Authorization: getCookie("token") },
+    });
   } catch (err) {
     const error = err as AxiosError;
     errorMessage =
