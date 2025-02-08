@@ -44,6 +44,7 @@ export default function ChooseSchool({ setSchoolAction }: Props) {
   const { data: schoolsList, isLoading } = useQuery<SchoolType[]>({
     queryKey: ["schools"],
     queryFn: getSchools,
+    refetchInterval: false,
   });
 
   if (isLoading) {
