@@ -6,7 +6,7 @@ export default function GoogleOAuthBtn() {
   return (
     <button className="hover:bg-muted w-full cursor-pointer rounded-full border font-semibold duration-100">
       <Link href={URL} className="flex items-center justify-center p-1">
-        <GoogleIcon className="h-8 w-8" />
+        <GoogleIcon className="size-8" />
         <span>Google</span>
       </Link>
     </button>
