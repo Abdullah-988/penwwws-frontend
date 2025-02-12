@@ -93,7 +93,8 @@ jobs:
             --env NODEMAILER_SERVICE=${{ secrets.NODEMAILER_SERVICE }} \
             --env NODEMAILER_EMAIL=${{ secrets.NODEMAILER_EMAIL }} \
             --env NODEMAILER_PASSWORD="${{ secrets.NODEMAILER_PASSWORD }}" \
-            --yes --regions fra1 &> vercel-output-backend
+            --yes \
+            --regions fra1 &> vercel-output-backend
           BACKEND_URL=$(cat vercel-output-backend | grep 'Preview:' | awk '{print $2}')
           echo "Backend deployed with URL: $BACKEND_URL"
           echo "VERCEL_URL=${BACKEND_URL}" >> $GITHUB_ENV
