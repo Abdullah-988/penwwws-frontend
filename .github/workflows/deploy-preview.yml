@@ -87,13 +87,13 @@ jobs:
         run: |
           vercel deploy --prebuilt \
             --token=${{ secrets.VERCEL_TOKEN }} \
-            --scope abdullah-abdulkareems-projects-0896f126 \
+            --scope ${{ VERCEL_SCOPE }} \
             --env DATABASE_URL=${{ env.DATABASE_URL }} \
             --env JWT_SECRET="${{ env.JWT_SECRET }}" \
             --env NODEMAILER_SERVICE=${{ secrets.NODEMAILER_SERVICE }} \
             --env NODEMAILER_EMAIL=${{ secrets.NODEMAILER_EMAIL }} \
             --env NODEMAILER_PASSWORD="${{ secrets.NODEMAILER_PASSWORD }}" \
-            --yes &> vercel-output-backend
+            --yes --regions fra1 &> vercel-output-backend
           BACKEND_URL=$(cat vercel-output-backend | grep 'Preview:' | awk '{print $2}')
           echo "Backend deployed with URL: $BACKEND_URL"
           echo "VERCEL_URL=${BACKEND_URL}" >> $GITHUB_ENV
@@ -139,8 +139,8 @@ jobs:
         id: frontend-deploy
         run: |
           vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }} \
-            --scope abdullah-abdulkareems-projects-0896f126 \
-            --yes &> vercel-output-frontend
+            --scope ${{ VERCEL_SCOPE }} \
+            --yes --regions fra1 &> vercel-output-frontend
           FRONTEND_URL=$(cat vercel-output-frontend | grep 'Preview:' | awk '{print $2}')
           echo "Frontend deployed with URL: $FRONTEND_URL"
           echo "FRONTEND_URL=$FRONTEND_URL" >> $GITHUB_OUTPUT
