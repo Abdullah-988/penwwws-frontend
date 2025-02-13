@@ -1,9 +1,8 @@
 "use client";
 
 import { Dispatch, SetStateAction } from "react";
-import { deleteCookie, getCookie } from "cookies-next";
-import axios from "@/lib/axiosInstance";
-import { AxiosError } from "axios";
+import { deleteCookie } from "cookies-next";
+import { getSchools } from "@/services/school";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { getInitials } from "@/lib/utils";
 import Link from "next/link";
@@ -11,33 +10,8 @@ import { LoaderCircle as SpinnerIcon, Plus } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
-
-type RoleType = "SUPER_ADMIN" | "ADMIN" | "STUDENT" | "TEACHER";
-
-type SchoolType = {
-  school: {
-    id: string;
-    name: string;
-    logoUrl?: string;
-    description?: string;
-    createdAt: string;
-    updatedAt: string;
-    members: { role: RoleType }[];
-  };
-};
-
-async function getSchools() {
-  try {
-    const token = await getCookie("token");
-    const res = await axios.get("/school", {
-      headers: { Authorization: token },
-    });
-    return res.data;
-  } catch (err) {
-    const error = err as AxiosError;
-    console.error(error.response?.data || "Unexpected error occurred");
-  }
-}
+import { SchoolType } from "@/types/School";
+import { getRoleRedirectPath } from "@/lib/utils";
 
 type Props = {
   setSchoolAction: Dispatch<SetStateAction<"select" | "create">>;
@@ -50,16 +24,6 @@ export default function SelectSchool({ setSchoolAction }: Props) {
     queryFn: getSchools,
     refetchInterval: false,
   });
-
-  function getRoleRedirectPath(role: RoleType): string {
-    const roleRedirectMap = {
-      SUPER_ADMIN: "dashboard",
-      ADMIN: "dashboard",
-      STUDENT: "home",
-      TEACHER: "teacher/dashboard",
-    };
-    return roleRedirectMap[role];
-  }
 
   if (isLoading) {
     return <SpinnerIcon className="mx-auto animate-spin" size={25} />;
