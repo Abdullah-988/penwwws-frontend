@@ -1,7 +1,7 @@
 "use client";
 
-import { BadgeCheck, ChevronsUpDown, LogOut } from "lucide-react";
-
+import { ChevronsUpDown, LogOut, Settings } from "lucide-react";
+import { deleteCookie } from "cookies-next";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   DropdownMenu,
@@ -19,17 +19,40 @@ import {
   useSidebar,
 } from "@/components/ui/sidebar";
 import { useQuery } from "@tanstack/react-query";
+import { useRouter } from "next/navigation";
 import { UserType } from "@/types/User";
 import { getInitials } from "@/lib/utils";
 import { getUser } from "@/services/user";
+import { Skeleton } from "./ui/skeleton";
 
 export function NavUser() {
-  const { data: user } = useQuery<UserType>({
+  const { data: user, isLoading } = useQuery<UserType>({
     queryKey: ["user"],
     queryFn: getUser,
   });
+
+  //TODO:Remove fullname mock data after updating the backend
   const fullName = "Ako Mawlood";
+  const router = useRouter();
   const { isMobile } = useSidebar();
+
+  if (isLoading) {
+    return (
+      <SidebarMenu>
+        <SidebarMenuItem>
+          <div className="flex items-center gap-3 p-2">
+            <Skeleton className="size-8 rounded-lg" />
+            <div className="flex-1 space-y-2">
+              <Skeleton className="h-2 w-32" />
+              <Skeleton className="h-2 w-20" />
+            </div>
+            <ChevronsUpDown className="ml-auto size-4" />
+          </div>
+        </SidebarMenuItem>
+      </SidebarMenu>
+    );
+  }
+
   if (!user) return;
 
   return (
@@ -77,12 +100,17 @@ export function NavUser() {
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
               <DropdownMenuItem>
-                <BadgeCheck />
-                Account
+                <Settings />
+                Profile settings
               </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>
+            <DropdownMenuItem
+              onClick={() => {
+                deleteCookie("token");
+                router.push("/sign-in");
+              }}
+            >
               <LogOut />
               Log out
             </DropdownMenuItem>

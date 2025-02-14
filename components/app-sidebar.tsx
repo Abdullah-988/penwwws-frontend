@@ -1,15 +1,12 @@
-import * as React from "react";
+"use client";
 
-import {
-  SidebarGroup,
-  SidebarMenu,
-  SidebarMenuButton,
-  SidebarMenuItem,
-} from "@/components/ui/sidebar";
-import { LucideIcon } from "lucide-react";
+import Link from "next/link";
+import clsx from "clsx";
+import { usePathname } from "next/navigation";
+import { Home, Settings, LibraryBig } from "lucide-react";
 
-import { NavUser } from "@/components/nav-user";
 import { SchoolSwitcher } from "./school-switcher";
+import { NavUser } from "@/components/nav-user";
 import {
   Sidebar,
   SidebarContent,
@@ -17,16 +14,30 @@ import {
   SidebarHeader,
   SidebarRail,
 } from "@/components/ui/sidebar";
-import Link from "next/link";
-import clsx from "clsx";
+import {
+  SidebarGroup,
+  SidebarMenu,
+  SidebarMenuButton,
+  SidebarMenuItem,
+} from "@/components/ui/sidebar";
+
+const tabs = [
+  {
+    title: "Home",
+    url: "dashboard",
+    icon: Home,
+  },
+  { title: "Subjects", url: "dashboard/subjects", icon: LibraryBig },
+  { title: "Settings", url: "dashboard/settings", icon: Settings },
+];
 
 type Props = {
   activeSchoolId: string;
-  tabs: { title: string; url: string; icon: LucideIcon }[];
-  pathname: string;
 };
 
-export function AppSidebar({ activeSchoolId, tabs, pathname }: Props) {
+export function AppSidebar({ activeSchoolId }: Props) {
+  const pathname = usePathname();
+
   return (
     <Sidebar collapsible="icon">
       <SidebarHeader>
@@ -38,10 +49,6 @@ export function AppSidebar({ activeSchoolId, tabs, pathname }: Props) {
             {tabs.map((tab) => {
               const isActive =
                 pathname === `/school/${activeSchoolId}/${tab.url}`;
-              console.log(isActive);
-              console.log(pathname);
-              console.log("hello", `/school/${activeSchoolId}/${tab.url}`);
-
               return (
                 <Link
                   key={tab.title}

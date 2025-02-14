@@ -2,6 +2,11 @@
 
 import { useQuery } from "@tanstack/react-query";
 import { ChevronsUpDown } from "lucide-react";
+import { getSchools } from "@/services/school";
+import { SchoolType } from "@/types/School";
+import { getInitials, getRoleRedirectPath } from "@/lib/utils";
+import Link from "next/link";
+
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -17,25 +22,37 @@ import {
   useSidebar,
 } from "@/components/ui/sidebar";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { getSchools } from "@/services/school";
-import { getInitials } from "@/lib/utils";
-import { SchoolType } from "@/types/School";
-import Link from "next/link";
-import { getRoleRedirectPath } from "@/lib/utils";
+import { Skeleton } from "@/components/ui/skeleton";
 
 type Props = { activeSchoolId: string };
 
 export function SchoolSwitcher({ activeSchoolId }: Props) {
-  const { data: schools } = useQuery<SchoolType[]>({
+  const { data: schools, isLoading } = useQuery<SchoolType[]>({
     queryKey: ["schools"],
     queryFn: getSchools,
     refetchInterval: false,
   });
   const { isMobile } = useSidebar();
 
-  const activeSchool = schools?.filter(
+  const activeSchool = schools?.find(
     ({ school }) => school.id === activeSchoolId,
   );
+  if (isLoading) {
+    return (
+      <SidebarMenu>
+        <SidebarMenuItem>
+          <div className="flex items-center gap-3 p-2">
+            <Skeleton className="size-8 rounded-lg" />
+            <div className="flex-1 space-y-2">
+              <Skeleton className="h-2 w-32" />
+              <Skeleton className="h-2 w-20" />
+            </div>
+            <ChevronsUpDown className="ml-auto size-4" />
+          </div>
+        </SidebarMenuItem>
+      </SidebarMenu>
+    );
+  }
 
   if (!schools) return;
 
@@ -51,17 +68,17 @@ export function SchoolSwitcher({ activeSchoolId }: Props) {
               >
                 <Avatar className="size-8">
                   <AvatarFallback className="bg-primary">
-                    {getInitials(activeSchool[0].school.name)}
+                    {getInitials(activeSchool.school.name)}
                   </AvatarFallback>
-                  <AvatarImage src={activeSchool[0].school.logoUrl} />
+                  <AvatarImage src={activeSchool.school.logoUrl} />
                 </Avatar>
 
                 <div className="grid flex-1 text-left text-sm leading-tight">
                   <span className="truncate font-semibold">
-                    {activeSchool[0].school.name}
+                    {activeSchool.school.name}
                   </span>
                   <span className="truncate text-xs">
-                    {activeSchool[0].school.description}
+                    {activeSchool.school.description}
                   </span>
                 </div>
                 <ChevronsUpDown className="ml-auto" />
