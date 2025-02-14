@@ -12,7 +12,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 22
-          cache-dependency-path: ./package-lock.json
+          cache-dependency-path: "**/package-lock.json"
           cache: "npm"
 
       - name: Install Neon CLI
