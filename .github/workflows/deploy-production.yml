@@ -23,4 +23,4 @@ jobs:
 
       - name: Deploy to Vercel
         run: |
-          vercel --token=${{ secrets.VERCEL_TOKEN }} --scope ${{ secrets.VERCEL_SCOPE }} --prod --regions fra1 --yes
+          vercel --token=${{ secrets.VERCEL_TOKEN }} --scope abdullah-abdulkareems-projects-0896f126 --prod --regions fra1 --yes
