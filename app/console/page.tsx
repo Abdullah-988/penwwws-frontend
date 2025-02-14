@@ -1,5 +1,5 @@
 import { ConsoleAside } from "@/components/features/console/ConsoleAside";
-import PenwwwsIcon from "@/public/assets/PenwwwsIcon";
+import PenwwwsIcon from "@/components/icons/PenwwwsIcon";
 
 export default function ConsolePage() {
   return (
