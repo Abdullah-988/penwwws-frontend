@@ -22,7 +22,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { UserType } from "@/types/User";
 import { getInitials } from "@/lib/utils";
-import { getUser } from "@/services/user";
+import { getUser } from "@/fetches/user";
 import { Skeleton } from "./ui/skeleton";
 
 export function NavUser() {
@@ -51,7 +51,7 @@ export function NavUser() {
     );
   }
 
-  if (!user) return;
+  if (!user) return null;
 
   return (
     <SidebarMenu>
@@ -62,7 +62,7 @@ export function NavUser() {
               size="lg"
               className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
             >
-              <Avatar className="h-8 w-8 rounded-lg">
+              <Avatar className="size-8 rounded-lg">
                 <AvatarImage src={user.avatarUrl} alt={user.fullName} />
                 <AvatarFallback className="rounded-lg">
                   {getInitials(user.fullName)}
@@ -83,7 +83,7 @@ export function NavUser() {
           >
             <DropdownMenuLabel className="p-0 font-normal">
               <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
-                <Avatar className="h-8 w-8 rounded-lg">
+                <Avatar className="size-8 rounded-lg">
                   <AvatarImage src={user.avatarUrl} alt={user.fullName} />
                   <AvatarFallback className="rounded-lg">
                     {getInitials(user.fullName)}

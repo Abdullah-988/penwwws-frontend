@@ -2,7 +2,7 @@
 
 import { useQuery } from "@tanstack/react-query";
 import { ChevronsUpDown } from "lucide-react";
-import { getSchools } from "@/services/school";
+import { getSchools } from "@/fetches/school";
 import { SchoolType } from "@/types/School";
 import { getInitials, getRoleRedirectPath } from "@/lib/utils";
 import Link from "next/link";
@@ -54,7 +54,7 @@ export function SchoolSwitcher({ activeSchoolId }: Props) {
     );
   }
 
-  if (!schools) return;
+  if (!schools) return null;
 
   return (
     <SidebarMenu>
@@ -70,7 +70,10 @@ export function SchoolSwitcher({ activeSchoolId }: Props) {
                   <AvatarFallback className="bg-primary">
                     {getInitials(activeSchool.school.name)}
                   </AvatarFallback>
-                  <AvatarImage src={activeSchool.school.logoUrl} />
+                  <AvatarImage
+                    alt={activeSchool.school.name}
+                    src={activeSchool.school.logoUrl}
+                  />
                 </Avatar>
 
                 <div className="grid flex-1 text-left text-sm leading-tight">
@@ -103,7 +106,7 @@ export function SchoolSwitcher({ activeSchoolId }: Props) {
                 <DropdownMenuItem key={school.name} className="gap-2 p-2">
                   <Avatar className="size-8">
                     <AvatarFallback>{getInitials(school.name)}</AvatarFallback>
-                    <AvatarImage src={school.logoUrl} />
+                    <AvatarImage alt={school.name} src={school.logoUrl} />
                   </Avatar>
                   {school.name}
                   <DropdownMenuShortcut>⌘{index + 1}</DropdownMenuShortcut>

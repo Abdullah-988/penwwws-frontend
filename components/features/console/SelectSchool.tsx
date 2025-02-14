@@ -2,7 +2,7 @@
 
 import { Dispatch, SetStateAction } from "react";
 import { deleteCookie } from "cookies-next";
-import { getSchools } from "@/services/school";
+import { getSchools } from "@/fetches/school";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { getInitials } from "@/lib/utils";
 import Link from "next/link";
