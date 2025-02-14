@@ -87,7 +87,7 @@ jobs:
         run: |
           vercel deploy --prebuilt \
             --token=${{ secrets.VERCEL_TOKEN }} \
-            --scope ${{ secrets.VERCEL_SCOPE }} \
+            --scope abdullah-abdulkareems-projects-0896f126 \
             --env DATABASE_URL=${{ env.DATABASE_URL }} \
             --env JWT_SECRET="${{ env.JWT_SECRET }}" \
             --env NODEMAILER_SERVICE=${{ secrets.NODEMAILER_SERVICE }} \
@@ -140,7 +140,7 @@ jobs:
         id: frontend-deploy
         run: |
           vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }} \
-            --scope ${{ secrets.VERCEL_SCOPE }} \
+            --scope abdullah-abdulkareems-projects-0896f126 \
             --yes --regions fra1 &> vercel-output-frontend
           FRONTEND_URL=$(cat vercel-output-frontend | grep 'Preview:' | awk '{print $2}')
           echo "Frontend deployed with URL: $FRONTEND_URL"
