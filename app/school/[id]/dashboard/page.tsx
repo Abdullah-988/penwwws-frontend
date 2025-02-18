@@ -1,12 +1,15 @@
-export default async function Page() {
+import Stats from "@/components/features/dashboard/home/Stats";
+
+export default async function Page({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) {
+  const schoolId = (await params).id;
   return (
-    <div className="h-full w-full p-4 text-xl">
-      <h1>Home</h1>
-      <div className="flex w-full justify-center gap-6">
-        <div className="h-48 w-1/3 rounded-xl border"></div>
-        <div className="h-48 w-1/3 rounded-xl border"></div>
-        <div className="h-48 w-1/3 rounded-xl border"></div>
-      </div>
+    <div className="h-full w-full px-6">
+      <h1 className="text-primary pb-6 text-xl font-bold">Home</h1>
+      <Stats schoolId={schoolId} />
     </div>
   );
 }

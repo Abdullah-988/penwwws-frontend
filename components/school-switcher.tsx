@@ -2,7 +2,7 @@
 
 import { useQuery } from "@tanstack/react-query";
 import { ChevronsUpDown } from "lucide-react";
-import { getSchools } from "@/fetches/school";
+import { getSchools } from "@/fetches/schools";
 import { SchoolType } from "@/types/School";
 import { getInitials, getRoleRedirectPath } from "@/lib/utils";
 import Link from "next/link";
