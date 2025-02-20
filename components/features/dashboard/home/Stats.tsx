@@ -21,14 +21,14 @@ export default async function Stats({ schoolId }: Props) {
     },
   ];
   return (
-    <div className="flex w-full flex-wrap justify-center gap-3 opacity-90 lg:gap-6">
+    <section className="flex w-full flex-wrap justify-center gap-3 opacity-90 lg:gap-6">
       {stats.map((stat) => (
         <div
           key={stat.title}
           className="flex grow flex-col items-start justify-between gap-8 rounded-xl border p-4"
         >
           <div className="flex items-center gap-2 text-sm font-semibold">
-            <stat.icon className="text-primary-700 size-6 rounded-xl" />
+            <stat.icon className="text-primary-700 size-6" />
             <h1 className="font-bold">{stat.title}</h1>
           </div>
 
@@ -37,6 +37,6 @@ export default async function Stats({ schoolId }: Props) {
           </h1>
         </div>
       ))}
-    </div>
+    </section>
   );
 }
