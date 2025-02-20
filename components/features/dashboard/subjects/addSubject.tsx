@@ -28,6 +28,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { AxiosError } from "axios";
+import { useQueryClient } from "@tanstack/react-query";
 
 const addSubjectSchema = z.object({
   name: z
@@ -46,6 +47,7 @@ type Props = {
 
 export default function AddSubject({ schoolId }: Props) {
   const { toast } = useToast();
+  const queryClient = useQueryClient();
   const form = useForm<FormData>({
     resolver: zodResolver(addSubjectSchema),
     defaultValues: {
@@ -61,6 +63,7 @@ export default function AddSubject({ schoolId }: Props) {
       await axios.post(`/school/${schoolId}/subject`, data, {
         headers: { Authorization: token },
       });
+      queryClient.invalidateQueries({ queryKey: ["subjects"] });
       setIsModalOpen(false);
       form.reset();
       toast({

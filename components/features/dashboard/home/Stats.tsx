@@ -21,7 +21,7 @@ export default async function Stats({ schoolId }: Props) {
     },
   ];
   return (
-    <section className="flex w-full flex-wrap justify-center gap-3 opacity-90 lg:gap-6">
+    <section className="flex w-full flex-wrap justify-center gap-4 lg:gap-6">
       {stats.map((stat) => (
         <div
           key={stat.title}
