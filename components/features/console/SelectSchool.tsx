@@ -2,7 +2,7 @@
 
 import { Dispatch, SetStateAction } from "react";
 import { deleteCookie } from "cookies-next";
-import { getSchools } from "@/fetches/school";
+import { getSchools } from "@/fetches/schools";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { getInitials } from "@/lib/utils";
 import Link from "next/link";
@@ -19,7 +19,7 @@ type Props = {
 
 export default function SelectSchool({ setSchoolAction }: Props) {
   const router = useRouter();
-  const { data: schoolsList, isLoading } = useQuery<SchoolType[]>({
+  const { data: schools, isLoading } = useQuery<SchoolType[]>({
     queryKey: ["schools"],
     queryFn: getSchools,
     refetchInterval: false,
@@ -28,9 +28,9 @@ export default function SelectSchool({ setSchoolAction }: Props) {
   if (isLoading) {
     return <SpinnerIcon className="mx-auto animate-spin" size={25} />;
   }
-  if (!schoolsList) return;
+  if (!schools) return;
 
-  if (schoolsList.length === 0) {
+  if (schools.length === 0) {
     return (
       <section className="mx-auto flex w-full flex-col items-center justify-center gap-8 text-center md:w-96">
         <div>
@@ -65,6 +65,7 @@ export default function SelectSchool({ setSchoolAction }: Props) {
       </section>
     );
   }
+  console.log(schools);
 
   return (
     <section className="flex flex-col gap-8">
@@ -78,7 +79,7 @@ export default function SelectSchool({ setSchoolAction }: Props) {
       </div>
 
       <div className="bg-primary-600/5 max-h-[50vh] gap-8 overflow-scroll rounded-xl px-6">
-        {schoolsList.map(({ school }) => (
+        {schools.map(({ school }) => (
           <div
             key={school.id}
             className="flex items-center justify-between py-8 [&:not(:last-child)]:border-b"
