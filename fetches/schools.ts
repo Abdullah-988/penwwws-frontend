@@ -1,12 +1,11 @@
 import { getCookie } from "cookies-next";
-import { cookies } from "next/headers";
 import axios from "@/lib/axiosInstance";
 import { AxiosError } from "axios";
 
-export async function getSchool(schoolId: string) {
+export async function getSchools() {
   try {
-    const token = await getCookie("token", { cookies });
-    const res = await axios.get(`/school/${schoolId}`, {
+    const token = await getCookie("token");
+    const res = await axios.get("/school", {
       headers: { Authorization: token },
     });
     return res.data;
