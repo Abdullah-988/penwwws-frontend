@@ -65,7 +65,6 @@ export default function SelectSchool({ setSchoolAction }: Props) {
       </section>
     );
   }
-  console.log(schools);
 
   return (
     <section className="flex flex-col gap-8">
