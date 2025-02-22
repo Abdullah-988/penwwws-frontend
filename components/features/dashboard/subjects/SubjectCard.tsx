@@ -51,16 +51,16 @@ export default function SubjectCard({ subject, schoolId }: Props) {
             )}{" "}
         </div>
       </div>
-
-      <div className="relative size-24 overflow-hidden rounded-xl">
-        {/* TODO:Add default image url value */}
-        <Image
-          src={subject.imageUrl || "/placeholder.svg"}
-          alt={subject.name}
-          fill
-          className="rounded-xl object-cover"
-        />
-      </div>
+      {subject.imageUrl && (
+        <div className="relative size-24 overflow-hidden rounded-xl">
+          <Image
+            src={subject.imageUrl}
+            alt={subject.name}
+            fill
+            className="rounded-xl object-cover"
+          />
+        </div>
+      )}
     </Link>
   );
 }
