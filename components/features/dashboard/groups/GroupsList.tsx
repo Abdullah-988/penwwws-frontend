@@ -5,6 +5,7 @@ import { getCookie } from "cookies-next";
 import { useQuery } from "@tanstack/react-query";
 import { GroupType } from "@/types/Group";
 import { Skeleton } from "@/components/ui/skeleton";
+import { Users } from "lucide-react";
 type Props = {
   schoolId: string;
 };
@@ -52,6 +53,12 @@ export default function GroupList({ schoolId }: Props) {
         >
           <div className="flex h-full flex-col items-start justify-between gap-2">
             <h2 className="font-semibold">{group.name}</h2>
+          </div>
+          <div className="flex items-center gap-2">
+            <Users size={16} className="text-primary" />
+            <h1>
+              {new Intl.NumberFormat("en-US").format(group._count.members)}
+            </h1>
           </div>
         </div>
       ))}
