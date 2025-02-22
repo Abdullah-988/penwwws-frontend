@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
-  DialogFooter,
+  DialogDescription,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
@@ -31,12 +31,7 @@ import { AxiosError } from "axios";
 import { useQueryClient } from "@tanstack/react-query";
 
 const addSubjectSchema = z.object({
-  name: z
-    .string()
-    .min(2, { message: "Name must be at least 2 characters." })
-    .regex(/^[A-Za-z0-9 ]+$/, {
-      message: "Only letters and numbers are allowed.",
-    }),
+  name: z.string().nonempty("Subject name is required."),
 });
 
 type FormData = z.infer<typeof addSubjectSchema>;
@@ -95,6 +90,9 @@ export default function AddSubject({ schoolId }: Props) {
           <form className="space-y-4" onSubmit={form.handleSubmit(onSubmit)}>
             <DialogHeader>
               <DialogTitle>Add subject</DialogTitle>
+              <DialogDescription>
+                Enter the name of the subject to add it to the school.
+              </DialogDescription>
             </DialogHeader>
 
             <FormField
@@ -117,15 +115,13 @@ export default function AddSubject({ schoolId }: Props) {
               )}
             />
 
-            <DialogFooter>
-              <Button
-                disabled={form.formState.isSubmitting}
-                type="submit"
-                className="rounded-full font-semibold"
-              >
-                {form.formState.isSubmitting ? <SpinnerIcon /> : "Add Subject"}
-              </Button>
-            </DialogFooter>
+            <Button
+              disabled={form.formState.isSubmitting}
+              type="submit"
+              className="w-full rounded-full font-semibold"
+            >
+              {form.formState.isSubmitting ? <SpinnerIcon /> : "Add Subject"}
+            </Button>
           </form>
         </Form>
       </DialogContent>
