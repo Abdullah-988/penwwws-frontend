@@ -88,7 +88,6 @@ jobs:
           vercel deploy --prebuilt \
             --token=${{ secrets.VERCEL_TOKEN }} \
             --scope abdullah-abdulkareems-projects-0896f126 \
-            --alias $DEPLOY_ALIAS \
             --env DATABASE_URL=${{ env.DATABASE_URL }} \
             --env JWT_SECRET="${{ env.JWT_SECRET }}" \
             --env NODEMAILER_SERVICE=${{ secrets.NODEMAILER_SERVICE }} \
@@ -96,7 +95,11 @@ jobs:
             --env NODEMAILER_PASSWORD="${{ secrets.NODEMAILER_PASSWORD }}" \
             --yes \
             --regions fra1 &> vercel-output-backend
-          BACKEND_URL=$(cat vercel-output-backend | grep 'Preview:' | awk '{print $2}')
+          BACKEND_DEPLOY_URL=$(cat vercel-output-backend | grep 'Preview:' | awk '{print $2}')
+          vercel alias set $BACKEND_DEPLOY_URL $DEPLOY_ALIAS --token=${{ secrets.VERCEL_TOKEN }}
+
+          BACKEND_URL="https://$DEPLOY_ALIAS"
+
           echo "Backend deployed with URL: $BACKEND_URL"
           echo "VERCEL_URL=${BACKEND_URL}" >> $GITHUB_ENV
           echo "VERCEL_URL=$BACKEND_URL" >> $GITHUB_OUTPUT
@@ -143,9 +146,12 @@ jobs:
           DEPLOY_ALIAS="penwwws-frontend-pr-$PR_ID.vercel.app"
           vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }} \
             --scope abdullah-abdulkareems-projects-0896f126 \
-            --alias $DEPLOY_ALIAS \
             --yes --regions fra1 &> vercel-output-frontend
-          FRONTEND_URL=$(cat vercel-output-frontend | grep 'Preview:' | awk '{print $2}')
+          FRONTEND_DEPLOY_URL=$(cat vercel-output-frontend | grep 'Preview:' | awk '{print $2}')
+          vercel alias set $FRONTEND_DEPLOY_URL $DEPLOY_ALIAS --token=${{ secrets.VERCEL_TOKEN }}
+
+          FRONTEND_URL="https://$DEPLOY_ALIAS"
+
           echo "Frontend deployed with URL: $FRONTEND_URL"
           echo "FRONTEND_URL=$FRONTEND_URL" >> $GITHUB_OUTPUT
 

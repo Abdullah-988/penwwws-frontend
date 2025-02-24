@@ -1,11 +1,11 @@
-name: Cleanup Neon Database
+name: Cleanup
 
 on:
   pull_request_target:
     types: [closed]
 
 jobs:
-  cleanup-database:
+  cleanup:
     runs-on: ubuntu-latest
     steps:
       - name: Set up Bun.js
@@ -20,15 +20,23 @@ jobs:
         run: |
           PR_ID=${{ github.event.pull_request.number }}
           DEPLOY_ALIAS="penwwws-backend-from-frontend-pr-$PR_ID.vercel.app"
-          echo "Deleting deployment with alias: $DEPLOYMENT_ALIAS"
-          vercel remove $DEPLOY_ALIAS --token=${{ secrets.VERCEL_TOKEN }} --scope abdullah-abdulkareems-projects-0896f126 --yes
+
+          vercel alias ls &> vercel-alias-list
+          DEPLOYMENT_URL=$(cat vercel-alias-list | grep $DEPLOY_ALIAS | awk '{print $1}')
+
+          echo "Deleting deployment with alias: $DEPLOYMENT_URL"
+          vercel remove $DEPLOYMENT_URL --token=${{ secrets.VERCEL_TOKEN }} --yes
 
       - name: Delete Vercel Frontend Preview Deployment
         run: |
           PR_ID=${{ github.event.pull_request.number }}
           DEPLOY_ALIAS="penwwws-frontend-pr-$PR_ID.vercel.app"
-          echo "Deleting deployment with alias: $DEPLOYMENT_ALIAS"
-          vercel remove $DEPLOY_ALIAS --token=${{ secrets.VERCEL_TOKEN }} --scope abdullah-abdulkareems-projects-0896f126 --yes
+
+          vercel alias ls &> vercel-alias-list
+          DEPLOYMENT_URL=$(cat vercel-alias-list | grep $DEPLOY_ALIAS | awk '{print $1}')
+
+          echo "Deleting deployment with alias: $DEPLOYMENT_URL"
+          vercel remove $DEPLOYMENT_URL --token=${{ secrets.VERCEL_TOKEN }} --yes
 
       - name: Install Neon CLI
         run: bun install -g neonctl
