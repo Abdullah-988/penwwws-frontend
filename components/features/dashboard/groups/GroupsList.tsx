@@ -27,9 +27,9 @@ export default function GroupList({ schoolId }: Props) {
   if (isLoading) {
     return (
       <div className="grid w-full grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-        {[...Array(6)].map((_, index) => (
+        {[...Array(6)].keys().map((key) => (
           <div
-            key={index}
+            key={key}
             className="border-border flex items-center justify-between rounded-xl border p-4"
           >
             <div className="flex h-full flex-col items-start justify-between gap-2">

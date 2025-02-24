@@ -27,7 +27,7 @@ type Props = {
 };
 
 export default function SelectGroupField({ form, schoolId }: Props) {
-  const { data: groups = [], isLoading: isLoading } = useQuery<GroupType[]>({
+  const { data: groups = [], isLoading } = useQuery<GroupType[]>({
     queryKey: ["groups", schoolId],
     queryFn: async () => {
       const token = await getCookie("token");
