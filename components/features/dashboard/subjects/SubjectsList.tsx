@@ -49,7 +49,7 @@ export default function SubjectsList({ schoolId }: Props) {
 
       {isLoading ? (
         <div className="grid w-full grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {[...Array(6)].keys().map((key) => (
+          {[...Array(6).keys()].map((key) => (
             <SubjectCardSkeleton key={key} />
           ))}
         </div>

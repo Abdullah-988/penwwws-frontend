@@ -9,7 +9,7 @@ export function SubjectCardSkeleton() {
 
         {/* Teachers Avatars Skeleton */}
         <div className="flex items-center">
-          {[...Array(5)].keys().map((key) => (
+          {[...Array(5).keys()].map((key) => (
             <div
               key={key}
               className="border-background relative size-8 rounded-full border-2"
