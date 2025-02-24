@@ -84,7 +84,7 @@ jobs:
         id: vercel-url
         run: |
           PR_NUMBER=${{ github.event.pull_request.number }}
-          DEPLOY_ALIAS="penwwws-backend-from-frontend-pr-$PR_ID.vercel.app"
+          DEPLOY_ALIAS="penwwws-backend-from-frontend-pr-$PR_NUMBER.vercel.app"
           vercel deploy --prebuilt \
             --token=${{ secrets.VERCEL_TOKEN }} \
             --scope abdullah-abdulkareems-projects-0896f126 \
@@ -143,7 +143,7 @@ jobs:
         id: frontend-deploy
         run: |
           PR_NUMBER=${{ github.event.pull_request.number }}
-          DEPLOY_ALIAS="penwwws-frontend-pr-$PR_ID.vercel.app"
+          DEPLOY_ALIAS="penwwws-frontend-pr-$PR_NUMBER.vercel.app"
           vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }} \
             --scope abdullah-abdulkareems-projects-0896f126 \
             --yes --regions fra1 &> vercel-output-frontend
