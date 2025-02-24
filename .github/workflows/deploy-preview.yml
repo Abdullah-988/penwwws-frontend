@@ -17,22 +17,20 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           path: backend
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
+      - name: Set up Bun.js
+        uses: oven-sh/setup-bun@v2
         with:
-          node-version: 22
-          cache-dependency-path: ./backend/package-lock.json
-          cache: "npm"
+          bun-version: 1.2.0
 
       - name: Install Backend Dependencies
         working-directory: ./backend
-        run: npm install
+        run: bun install
 
       - name: Install Vercel CLI
-        run: npm install -g vercel@latest
+        run: bun install -g vercel@latest
 
       - name: Install Neon CLI
-        run: npm install -g neonctl
+        run: bun install -g neonctl
 
       - name: Create or Retrieve Neon Database Branch
         id: neon-branch
@@ -69,9 +67,9 @@ jobs:
       - name: Run Prisma Migrations and Seed
         working-directory: ./backend
         run: |
-          npx prisma db push --force-reset
-          npx prisma db seed
-          npx prisma generate
+          bunx prisma db push --force-reset
+          bunx prisma db seed
+          bunx prisma generate
 
       - name: Pull Vercel Environment Information
         working-directory: ./backend
@@ -85,9 +83,12 @@ jobs:
         working-directory: ./backend
         id: vercel-url
         run: |
+          PR_NUMBER=${{ github.event.pull_request.number }}
+          DEPLOY_ALIAS="penwwws-backend-from-frontend-pr-$PR_ID.vercel.app"
           vercel deploy --prebuilt \
             --token=${{ secrets.VERCEL_TOKEN }} \
             --scope abdullah-abdulkareems-projects-0896f126 \
+            --alias $DEPLOY_ALIAS \
             --env DATABASE_URL=${{ env.DATABASE_URL }} \
             --env JWT_SECRET="${{ env.JWT_SECRET }}" \
             --env NODEMAILER_SERVICE=${{ secrets.NODEMAILER_SERVICE }} \
@@ -113,20 +114,19 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           persist-credentials: false
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
+      - name: Set up Bun.js
+        uses: oven-sh/setup-bun@v2
         with:
-          node-version: 22
-          cache: "npm"
+          bun-version: 1.2.0
 
       - name: Install Frontend Dependencies
-        run: npm install
+        run: bun install
 
       - name: Install TailwindCSS Dependencies
-        run: npm install lightningcss-linux-x64-gnu @tailwindcss/oxide-linux-x64-gnu sass-embedded-linux-x64
+        run: bun install lightningcss-linux-x64-gnu @tailwindcss/oxide-linux-x64-gnu sass-embedded-linux-x64
 
       - name: Install Vercel CLI
-        run: npm install -g vercel@latest
+        run: bun install -g vercel@latest
 
       - name: Pull Vercel Environment Information
         run: vercel pull --yes --environment=preview --token=${{ secrets.VERCEL_TOKEN }}
@@ -139,8 +139,11 @@ jobs:
       - name: Deploy Frontend to Vercel (Preview)
         id: frontend-deploy
         run: |
+          PR_NUMBER=${{ github.event.pull_request.number }}
+          DEPLOY_ALIAS="penwwws-frontend-pr-$PR_ID.vercel.app"
           vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }} \
             --scope abdullah-abdulkareems-projects-0896f126 \
+            --alias $DEPLOY_ALIAS \
             --yes --regions fra1 &> vercel-output-frontend
           FRONTEND_URL=$(cat vercel-output-frontend | grep 'Preview:' | awk '{print $2}')
           echo "Frontend deployed with URL: $FRONTEND_URL"
