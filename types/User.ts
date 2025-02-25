@@ -3,4 +3,5 @@ export type UserType = {
   fullName: string;
   email: string;
   avatarUrl: string;
+  role: "ADMIN" | "TEACHER" | "STUDENT";
 };
