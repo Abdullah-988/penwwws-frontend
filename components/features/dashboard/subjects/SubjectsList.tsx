@@ -28,8 +28,8 @@ export default function SubjectsList({ schoolId }: Props) {
   if (isLoading) {
     return (
       <div className="grid w-full grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-        {[...Array(6)].map((_, index) => (
-          <SubjectCardSkeleton key={index} />
+        {[...Array(6).keys()].map((key) => (
+          <SubjectCardSkeleton key={key} />
         ))}
       </div>
     );
