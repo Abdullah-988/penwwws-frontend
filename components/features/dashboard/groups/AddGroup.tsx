@@ -6,14 +6,14 @@ import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
-  DialogFooter,
+  DialogDescription,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import SelectGroupField from "./SelectGroupField";
 import { Input } from "@/components/ui/input";
-import { LoaderCircle as SpinnerIcon } from "lucide-react";
-import { Plus } from "lucide-react";
+import { LoaderCircle as SpinnerIcon, Plus } from "lucide-react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -29,52 +29,45 @@ import {
 } from "@/components/ui/form";
 import { AxiosError } from "axios";
 import { useQueryClient } from "@tanstack/react-query";
-
-const addSubjectSchema = z.object({
-  name: z
-    .string()
-    .min(2, { message: "Name must be at least 2 characters." })
-    .regex(/^[A-Za-z0-9 ]+$/, {
-      message: "Only letters and numbers are allowed.",
-    }),
-});
-
-type FormData = z.infer<typeof addSubjectSchema>;
+import { addGroupSchema } from "@/lib/validations";
+type FormData = z.infer<typeof addGroupSchema>;
 
 type Props = {
   schoolId: string;
 };
 
-export default function AddSubject({ schoolId }: Props) {
+export default function AddGroup({ schoolId }: Props) {
   const { toast } = useToast();
   const queryClient = useQueryClient();
-  const form = useForm<FormData>({
-    resolver: zodResolver(addSubjectSchema),
-    defaultValues: {
-      name: "",
-    },
-  });
 
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const form = useForm<FormData>({
+    resolver: zodResolver(addGroupSchema),
+    defaultValues: {
+      name: "",
+      parentId: null,
+    },
+  });
 
   async function onSubmit(data: FormData) {
     const token = await getCookie("token");
     try {
-      await axios.post(`/school/${schoolId}/subject`, data, {
+      await axios.post(`/school/${schoolId}/group`, data, {
         headers: { Authorization: token },
       });
-      queryClient.invalidateQueries({ queryKey: ["subjects"] });
+      queryClient.invalidateQueries({ queryKey: ["groups"] });
       setIsModalOpen(false);
       form.reset();
       toast({
-        title: "Subject Added",
-        description: `The subject ${data.name} has been added.`,
+        title: "Group Added",
+        description: `The group ${data.name} has been added.`,
       });
     } catch (err) {
       const error = err as AxiosError;
-      console.error("Error adding subject:", error.response?.data);
+      console.error("Error adding group:", error.response?.data);
       toast({
-        title: "Subject Add Failed",
+        title: "Group Add Failed",
         description:
           (error.response?.data as string) || "An unexpected error occurred.",
         variant: "destructive",
@@ -87,14 +80,18 @@ export default function AddSubject({ schoolId }: Props) {
       <DialogTrigger asChild>
         <Button size="sm" className="rounded-full px-4 text-sm font-semibold">
           <Plus size={10} />
-          Add Subject
+          Add Group
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <Form {...form}>
           <form className="space-y-4" onSubmit={form.handleSubmit(onSubmit)}>
             <DialogHeader>
-              <DialogTitle>Add subject</DialogTitle>
+              <DialogTitle>Add group</DialogTitle>
+              <DialogDescription>
+                Enter a group name to create a new group. Optionally, select a
+                parent group to make it a subgroup.
+              </DialogDescription>
             </DialogHeader>
 
             <FormField
@@ -103,12 +100,12 @@ export default function AddSubject({ schoolId }: Props) {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel className="text-muted-foreground">
-                    Subject Name
+                    Group Name
                   </FormLabel>
                   <FormControl>
                     <Input
                       type="text"
-                      placeholder="e.g., Mathematics, Science, History"
+                      placeholder="e.g., Stage 1, Class A, Section B"
                       {...field}
                     />
                   </FormControl>
@@ -117,15 +114,20 @@ export default function AddSubject({ schoolId }: Props) {
               )}
             />
 
-            <DialogFooter>
-              <Button
-                disabled={form.formState.isSubmitting}
-                type="submit"
-                className="rounded-full font-semibold"
-              >
-                {form.formState.isSubmitting ? <SpinnerIcon /> : "Add Subject"}
-              </Button>
-            </DialogFooter>
+            <SelectGroupField form={form} schoolId={schoolId} />
+
+            <Button
+              disabled={form.formState.isSubmitting}
+              type="submit"
+              size="sm"
+              className="w-full rounded-full font-semibold"
+            >
+              {form.formState.isSubmitting ? (
+                <SpinnerIcon className="animate-spin" />
+              ) : (
+                "Add Group"
+              )}
+            </Button>
           </form>
         </Form>
       </DialogContent>

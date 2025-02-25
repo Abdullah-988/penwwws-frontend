@@ -10,13 +10,13 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
+      - name: Set up Bun.js
+        uses: oven-sh/setup-bun@v2
         with:
-          node-version: "22"
+          bun-version: 1.2.0
 
       - name: Install dependencies
-        run: npm install
+        run: bun install
 
       - name: Run ESLint
-        run: npm run lint
+        run: bun run lint

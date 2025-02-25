@@ -1,0 +1,48 @@
+name: Cleanup
+
+on:
+  pull_request_target:
+    types: [closed]
+
+jobs:
+  cleanup:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set up Bun.js
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: 1.2.0
+
+      - name: Install Vercel CLI
+        run: bun install -g vercel
+
+      - name: Delete Vercel Backend Preview Deployment
+        run: |
+          PR_ID=${{ github.event.pull_request.number }}
+          DEPLOY_ALIAS="penwwws-backend-from-frontend-pr-$PR_ID.vercel.app"
+
+          vercel alias ls &> vercel-alias-list
+          DEPLOYMENT_URL=$(cat vercel-alias-list | grep $DEPLOY_ALIAS | awk '{print $1}')
+
+          echo "Deleting deployment with alias: $DEPLOYMENT_URL"
+          vercel remove $DEPLOYMENT_URL --token=${{ secrets.VERCEL_TOKEN }} --yes
+
+      - name: Delete Vercel Frontend Preview Deployment
+        run: |
+          PR_ID=${{ github.event.pull_request.number }}
+          DEPLOY_ALIAS="penwwws-frontend-pr-$PR_ID.vercel.app"
+
+          vercel alias ls &> vercel-alias-list
+          DEPLOYMENT_URL=$(cat vercel-alias-list | grep $DEPLOY_ALIAS | awk '{print $1}')
+
+          echo "Deleting deployment with alias: $DEPLOYMENT_URL"
+          vercel remove $DEPLOYMENT_URL --token=${{ secrets.VERCEL_TOKEN }} --yes
+
+      - name: Install Neon CLI
+        run: bun install -g neonctl
+
+      - name: Delete Neon Branch
+        run: |
+          BRANCH_NAME="pr-${{ github.event.pull_request.number }}"
+          neonctl branches delete $BRANCH_NAME --api-key ${{ secrets.NEON_TOKEN }} \
+            --project-id ${{ secrets.NEON_PROJECT_ID }}
