@@ -26,7 +26,7 @@ export default function GroupList({ schoolId }: Props) {
 
   if (isLoading) {
     return (
-      <div className="grid w-full grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+      <div className="grid w-full grid-cols-1 gap-2 md:grid-cols-3 lg:grid-cols-4">
         {[...Array(6).keys()].map((key) => (
           <div
             key={key}
@@ -45,7 +45,7 @@ export default function GroupList({ schoolId }: Props) {
 
   if (!group) return null;
   return (
-    <div className="grid w-full grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+    <div className="grid w-full grid-cols-1 gap-2 md:grid-cols-3 lg:grid-cols-4">
       {group.map((group) => (
         <div
           key={group.id}

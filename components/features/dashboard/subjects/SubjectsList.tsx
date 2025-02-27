@@ -27,7 +27,7 @@ export default function SubjectsList({ schoolId }: Props) {
 
   if (isLoading) {
     return (
-      <div className="grid w-full grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+      <div className="grid w-full grid-cols-1 gap-2 md:grid-cols-3 lg:grid-cols-4">
         {[...Array(6)].map((_, index) => (
           <SubjectCardSkeleton key={index} />
         ))}
@@ -38,7 +38,7 @@ export default function SubjectsList({ schoolId }: Props) {
   if (subjects?.length === 0) return <div>No subjects yet</div>;
   if (!subjects) return null;
   return (
-    <div className="grid w-full grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+    <div className="grid w-full grid-cols-1 items-start gap-2 md:grid-cols-3 lg:grid-cols-4">
       {subjects.map((subject) => (
         <SubjectCard key={subject.id} subject={subject} schoolId={schoolId} />
       ))}

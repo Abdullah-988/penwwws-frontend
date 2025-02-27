@@ -118,15 +118,17 @@ export default function Members({ schoolId }: Props) {
 
   return (
     <div className="w-full">
-      <div className="flex items-center gap-2 py-4">
+      <div className="flex items-center gap-2 py-2">
         <Input
           placeholder="Search for member..."
           value={
-            (table.getColumn("fullName")?.getFilterValue() as string) || ""
+            (table.getColumn("fullName")?.getFilterValue() as string) ||
+            (table.getColumn("email")?.getFilterValue() as string) ||
+            ""
           }
-          onChange={(e) =>
-            table.getColumn("fullName")?.setFilterValue(e.target.value)
-          }
+          onChange={(e) => {
+            table.getColumn("fullName")?.setFilterValue(e.target.value);
+          }}
           className="max-w-sm"
         />
         <Select
