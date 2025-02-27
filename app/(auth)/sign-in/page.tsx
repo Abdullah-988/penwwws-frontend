@@ -1,8 +1,8 @@
 import Link from "next/link";
 import GoogleOAuthBtn from "@/components/GoogleOAuthBtn";
-import PenwwwsIcon from "@/components/icons/PenwwwsIcon";
 import SigninForm from "@/components/features/auth/SigninForm";
 import AuthPromoAside from "@/components/features/auth/AuthPromoAside";
+import PenwwwsIcon from "@/components/icons/Penwwws";
 
 export default function SigninPage() {
   return (
