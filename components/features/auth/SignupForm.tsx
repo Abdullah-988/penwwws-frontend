@@ -171,11 +171,10 @@ export default function SignupForm() {
           }
           className="mt-5 w-full rounded-full disabled:cursor-not-allowed"
         >
-          {form.formState.isSubmitting ? (
+          {form.formState.isSubmitting && (
             <SpinnerIcon className="animate-spin" size={25} />
-          ) : (
-            <span>Sign up</span>
           )}
+          <span>Sign up</span>
         </Button>
       </form>
     </Form>

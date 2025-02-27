@@ -14,12 +14,21 @@ export default function SubjectCard({ subject, schoolId }: Props) {
   return (
     <Link
       href={`/school/${schoolId}/dashboard/subject/${subject.id}`}
-      className="border-border flex items-center justify-between rounded-xl border p-4"
+      className="overflow-hidden rounded-lg border"
     >
-      <div className="flex h-full flex-col items-start justify-between gap-2">
-        <h2 className="font-semibold">{subject.name}</h2>
+      <div className="flex h-full flex-col items-start justify-between">
+        {subject.imageUrl && (
+          <Image
+            src={subject.imageUrl}
+            alt={subject.name}
+            width={200}
+            height={150}
+            className="h-[150px] w-full object-cover"
+          />
+        )}
+        <h2 className="mt-3 px-2 font-semibold">{subject.name}</h2>
 
-        <div className="flex items-center justify-start">
+        <div className="flex items-center justify-start p-2">
           {subject.teachers
             .slice(0, MAX_DISPLAYED_TEACHERS)
             .map((teacher, index) => (
@@ -27,8 +36,8 @@ export default function SubjectCard({ subject, schoolId }: Props) {
                 key={teacher.id}
                 className="border-background size-8 rounded-full border-2"
                 style={{
-                  zIndex: index,
-                  right: index * 10,
+                  zIndex: subject.teachers.length - index,
+                  right: index * 12,
                 }}
               >
                 <AvatarImage src={teacher.avatarUrl} alt={teacher.fullName} />
@@ -51,16 +60,6 @@ export default function SubjectCard({ subject, schoolId }: Props) {
             )}{" "}
         </div>
       </div>
-      {subject.imageUrl && (
-        <div className="relative size-24 overflow-hidden rounded-xl">
-          <Image
-            src={subject.imageUrl}
-            alt={subject.name}
-            fill
-            className="rounded-xl object-cover"
-          />
-        </div>
-      )}
     </Link>
   );
 }

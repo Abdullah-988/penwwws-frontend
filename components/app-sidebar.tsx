@@ -57,7 +57,9 @@ export function AppSidebar({ activeSchoolId }: Props) {
                 >
                   <SidebarMenuItem key={tab.title}>
                     <SidebarMenuButton
-                      className={clsx({ "bg-accent": isActive })}
+                      className={clsx({
+                        "bg-primary text-white duration-150": isActive,
+                      })}
                       tooltip={tab.title}
                     >
                       {tab.icon && <tab.icon />}

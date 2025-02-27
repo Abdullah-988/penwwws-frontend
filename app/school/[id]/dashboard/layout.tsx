@@ -5,6 +5,8 @@ import {
   SidebarProvider,
   SidebarTrigger,
 } from "@/components/ui/sidebar";
+import { getSchool } from "@/fetches/school";
+import { redirect } from "next/navigation";
 
 export default async function DashboardLayout({
   params,
@@ -14,6 +16,14 @@ export default async function DashboardLayout({
   children: React.ReactNode;
 }) {
   const activeSchoolId = (await params).id;
+
+  const school = await getSchool(activeSchoolId);
+
+  const role = school.members[0].role.toLowerCase();
+
+  if (role != "admin" && role != "super_admin") {
+    redirect(`/school/${activeSchoolId}/home`);
+  }
 
   return (
     <SidebarProvider>

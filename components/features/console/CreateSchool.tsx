@@ -101,11 +101,10 @@ export default function CreateSchool({ setSchoolAction }: Props) {
             disabled={form.formState.isSubmitting}
             className="w-full rounded-full font-bold disabled:cursor-not-allowed"
           >
-            {form.formState.isSubmitting ? (
+            {form.formState.isSubmitting && (
               <SpinnerIcon className="animate-spin" size={25} />
-            ) : (
-              <span>Create school</span>
             )}
+            <span>Create school</span>
           </Button>
         </form>
       </Form>

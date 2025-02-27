@@ -1,5 +1,5 @@
 import Link from "next/link";
-import PenwwwsIcon from "@/components/icons/PenwwwsIcon";
+import PenwwwsIcon from "@/components/icons/Penwwws";
 
 export default function AuthPromoAside() {
   return (
@@ -7,9 +7,9 @@ export default function AuthPromoAside() {
       {" "}
       <Link
         href="/"
-        className="absolute top-8 left-8 flex items-center gap-1 text-lg font-semibold"
+        className="absolute top-8 left-8 flex items-center gap-2 text-lg font-semibold"
       >
-        <PenwwwsIcon className="h-5 w-5" />
+        <PenwwwsIcon className="size-6" />
         <span>Penwwws</span>
       </Link>
       <div className="flex flex-col items-center justify-center gap-4 text-center lg:w-[30rem]">
