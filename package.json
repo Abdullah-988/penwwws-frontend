@@ -7,7 +7,8 @@
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "test": "vitest"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.10.0",
@@ -42,9 +43,12 @@
     "@eslint/eslintrc": "^3",
     "@eslint/js": "^9.18.0",
     "@tailwindcss/postcss": "^4.0.0",
+    "@testing-library/dom": "^10.4.0",
+    "@testing-library/react": "^16.2.0",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "@vitejs/plugin-react": "^4.3.4",
     "eslint": "^9.18.0",
     "eslint-config-next": "15.1.5",
     "eslint-config-prettier": "^10.0.1",
@@ -52,11 +56,14 @@
     "eslint-plugin-react": "^7.37.4",
     "eslint-plugin-unused-imports": "^4.1.4",
     "globals": "^15.14.0",
+    "jsdom": "^26.0.0",
     "postcss": "8.5.1",
     "prettier": "^3.4.2",
     "prettier-plugin-tailwindcss": "latest",
     "tailwindcss": "4.0.6",
     "typescript": "^5",
-    "typescript-eslint": "^8.21.0"
+    "typescript-eslint": "^8.21.0",
+    "vite-tsconfig-paths": "^5.1.4",
+    "vitest": "^3.0.8"
   }
 }
