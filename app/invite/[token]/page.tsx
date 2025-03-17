@@ -14,7 +14,6 @@ export default async function InviteTokenPage({
   let errorMessage = "";
 
   try {
-    console.log(token);
     await axios.post(`/invite/${inviteToken}`, {
       headers: { Authorization: token },
     });
