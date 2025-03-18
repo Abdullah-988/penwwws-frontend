@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import {
   ColumnDef,
   flexRender,
@@ -20,10 +21,10 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { useState } from "react";
-import { MemberType } from "./columns";
-import { TableSearch } from "./table-search";
-import RoleFilter from "./role-filter";
+import { MemberType } from "@/components/shared/columns";
+import { TableSearch } from "@/components/shared/table-search";
+import RoleFilter from "@/components/shared/role-filter";
+import AssignGroup from "@/components/shared/assign-group";
 
 const globalFilterFn: FilterFn<MemberType> = (
   row: Row<MemberType>,
@@ -41,9 +42,10 @@ const globalFilterFn: FilterFn<MemberType> = (
 interface DataTableProps {
   columns: ColumnDef<MemberType>[];
   data: MemberType[];
+  schoolId: string;
 }
 
-export function MembersTable({ columns, data }: DataTableProps) {
+export function MembersTable({ columns, data, schoolId }: DataTableProps) {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [rowSelection, setRowSelection] = useState({});
   const [globalFilter, setGlobalFilter] = useState("");
@@ -67,6 +69,10 @@ export function MembersTable({ columns, data }: DataTableProps) {
       globalFilter,
     },
   });
+  const selectedMemberIds = table
+    .getSelectedRowModel()
+    .rows.map((row) => row.original.id)
+    .map(Number);
 
   return (
     <div>
@@ -77,6 +83,12 @@ export function MembersTable({ columns, data }: DataTableProps) {
           setGlobalFilter={setGlobalFilter}
         />
         <RoleFilter table={table} />
+        {table.getSelectedRowModel().rows.length > 0 && (
+          <AssignGroup
+            schoolId={schoolId}
+            selectedMemberIds={selectedMemberIds}
+          />
+        )}
       </div>
       <div className="rounded-md border">
         <Table>

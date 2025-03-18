@@ -28,7 +28,7 @@ export default async function Page({
         <h1 className="text-primary text-xl font-bold">Members</h1>
         <InviteMember schoolId={schoolId} />
       </div>
-      <MembersTable data={members} columns={columns} />
+      <MembersTable schoolId={schoolId} data={members} columns={columns} />
     </div>
   );
 }
