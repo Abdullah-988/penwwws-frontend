@@ -15,15 +15,15 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
-export type Payment = {
+export type MemberType = {
   id: string;
-  name: string;
+  fullName: string;
   email: string;
   avatarUrl?: string;
   role: "ADMIN" | "TEACHER" | "STUDENT";
 };
 
-export const columns: ColumnDef<Payment>[] = [
+export const columns: ColumnDef<MemberType>[] = [
   {
     id: "select",
     header: ({ table }) => (

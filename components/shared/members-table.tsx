@@ -1,5 +1,6 @@
 "use client";
 
+import { Input } from "@/components/ui/input";
 import {
   ColumnDef,
   flexRender,
@@ -7,6 +8,9 @@ import {
   useReactTable,
   getSortedRowModel,
   SortingState,
+  getFilteredRowModel,
+  FilterFn,
+  Row,
 } from "@tanstack/react-table";
 
 import {
@@ -18,33 +22,59 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { useState } from "react";
+import { MemberType } from "./columns";
 
-interface DataTableProps<TData, TValue> {
-  columns: ColumnDef<TData, TValue>[];
-  data: TData[];
+const globalFilterFn: FilterFn<MemberType> = (
+  row: Row<MemberType>,
+  _columnId: string,
+  filterValue: string,
+) => {
+  const fullName = row.original.fullName.toLowerCase();
+  const email = row.original.email.toLowerCase();
+  return (
+    fullName.includes(filterValue.toLowerCase()) ||
+    email.includes(filterValue.toLowerCase())
+  );
+};
+
+interface DataTableProps {
+  columns: ColumnDef<MemberType>[];
+  data: MemberType[];
 }
 
-export function MembersTable<TData, TValue>({
-  columns,
-  data,
-}: DataTableProps<TData, TValue>) {
+export function MembersTable({ columns, data }: DataTableProps) {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [rowSelection, setRowSelection] = useState({});
+  const [globalFilter, setGlobalFilter] = useState("");
+
   const table = useReactTable({
     data,
     columns,
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
+    getFilteredRowModel: getFilteredRowModel(),
     onSortingChange: setSorting,
     onRowSelectionChange: setRowSelection,
+    onGlobalFilterChange: setGlobalFilter,
+    globalFilterFn,
     state: {
       sorting,
       rowSelection,
+      globalFilter,
     },
   });
 
   return (
-    <div className="overflow-x-scroll sm:bg-red-50 md:bg-green-50 lg:bg-yellow-50">
+    <div className="overflow-x-scroll">
+      <div className="w-96 py-6">
+        <Input
+          placeholder="Search by name or email "
+          value={globalFilter}
+          onChange={(e) => {
+            setGlobalFilter(e.target.value);
+          }}
+        />
+      </div>
       <div className="rounded-md border">
         <Table>
           <TableHeader>
