@@ -1,6 +1,5 @@
 "use client";
 
-import { Input } from "@/components/ui/input";
 import {
   ColumnDef,
   flexRender,
@@ -13,7 +12,6 @@ import {
   Row,
   ColumnFiltersState,
 } from "@tanstack/react-table";
-
 import {
   Table,
   TableBody,
@@ -24,13 +22,8 @@ import {
 } from "@/components/ui/table";
 import { useState } from "react";
 import { MemberType } from "./columns";
-import {
-  Select,
-  SelectTrigger,
-  SelectValue,
-  SelectContent,
-  SelectItem,
-} from "@/components/ui/select";
+import { TableSearch } from "./table-search";
+import RoleFilter from "./role-filter";
 
 const globalFilterFn: FilterFn<MemberType> = (
   row: Row<MemberType>,
@@ -79,33 +72,12 @@ export function MembersTable({ columns, data }: DataTableProps) {
     <div>
       <div className="flex items-center gap-6">
         {" "}
-        <div className="w-96 py-6">
-          <Input
-            placeholder="Search by name or email "
-            value={globalFilter}
-            onChange={(e) => {
-              setGlobalFilter(e.target.value);
-            }}
-          />
-        </div>
-        <Select
-          value={(table.getColumn("role")?.getFilterValue() as string) || "ALL"}
-          onValueChange={(value) => {
-            table.getColumn("role")?.setFilterValue(value);
-          }}
-        >
-          <SelectTrigger className="w-32">
-            <SelectValue placeholder="Filter by role" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="ALL">All Roles</SelectItem>
-            <SelectItem value="ADMIN">Admin</SelectItem>
-            <SelectItem value="TEACHER">Teacher</SelectItem>
-            <SelectItem value="STUDENT">Student</SelectItem>
-          </SelectContent>
-        </Select>
+        <TableSearch
+          globalFilter={globalFilter}
+          setGlobalFilter={setGlobalFilter}
+        />
+        <RoleFilter table={table} />
       </div>
-
       <div className="rounded-md border">
         <Table>
           <TableHeader>
