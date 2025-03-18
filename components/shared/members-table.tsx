@@ -11,6 +11,7 @@ import {
   getFilteredRowModel,
   FilterFn,
   Row,
+  ColumnFiltersState,
 } from "@tanstack/react-table";
 
 import {
@@ -23,6 +24,13 @@ import {
 } from "@/components/ui/table";
 import { useState } from "react";
 import { MemberType } from "./columns";
+import {
+  Select,
+  SelectTrigger,
+  SelectValue,
+  SelectContent,
+  SelectItem,
+} from "@/components/ui/select";
 
 const globalFilterFn: FilterFn<MemberType> = (
   row: Row<MemberType>,
@@ -46,6 +54,7 @@ export function MembersTable({ columns, data }: DataTableProps) {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [rowSelection, setRowSelection] = useState({});
   const [globalFilter, setGlobalFilter] = useState("");
+  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
 
   const table = useReactTable({
     data,
@@ -55,26 +64,48 @@ export function MembersTable({ columns, data }: DataTableProps) {
     getFilteredRowModel: getFilteredRowModel(),
     onSortingChange: setSorting,
     onRowSelectionChange: setRowSelection,
+    onColumnFiltersChange: setColumnFilters,
     onGlobalFilterChange: setGlobalFilter,
     globalFilterFn,
     state: {
       sorting,
       rowSelection,
+      columnFilters,
       globalFilter,
     },
   });
 
   return (
-    <div className="overflow-x-scroll">
-      <div className="w-96 py-6">
-        <Input
-          placeholder="Search by name or email "
-          value={globalFilter}
-          onChange={(e) => {
-            setGlobalFilter(e.target.value);
+    <div>
+      <div className="flex items-center gap-6">
+        {" "}
+        <div className="w-96 py-6">
+          <Input
+            placeholder="Search by name or email "
+            value={globalFilter}
+            onChange={(e) => {
+              setGlobalFilter(e.target.value);
+            }}
+          />
+        </div>
+        <Select
+          value={(table.getColumn("role")?.getFilterValue() as string) || "ALL"}
+          onValueChange={(value) => {
+            table.getColumn("role")?.setFilterValue(value);
           }}
-        />
+        >
+          <SelectTrigger className="w-32">
+            <SelectValue placeholder="Filter by role" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="ALL">All Roles</SelectItem>
+            <SelectItem value="ADMIN">Admin</SelectItem>
+            <SelectItem value="TEACHER">Teacher</SelectItem>
+            <SelectItem value="STUDENT">Student</SelectItem>
+          </SelectContent>
+        </Select>
       </div>
+
       <div className="rounded-md border">
         <Table>
           <TableHeader>
