@@ -1,5 +1,6 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -30,14 +31,14 @@ type Props = {
 
 export default function AssignGroup({ selectedMemberIds, schoolId }: Props) {
   const { toast } = useToast();
-
+  const router = useRouter();
   const [groups, setGroups] = useState<GroupType[]>([]);
 
   useEffect(() => {
     getGroups(schoolId).then((groups) => {
       setGroups(groups);
     });
-  }, [groups, schoolId]);
+  }, []);
 
   async function handleAssignGroup(
     selectedMemberIds: number[],
@@ -56,6 +57,7 @@ export default function AssignGroup({ selectedMemberIds, schoolId }: Props) {
         },
       )
       .then(() => {
+        router.refresh();
         toast({
           title: "Success",
           description: `Member(s) have been successfully assigned to ${assignedGroup?.name}.`,

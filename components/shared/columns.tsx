@@ -14,11 +14,13 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { GroupType } from "@/types/Group";
 
 export type MemberType = {
   id: string;
   fullName: string;
   email: string;
+  groups: GroupType[];
   avatarUrl?: string;
   role: "ADMIN" | "TEACHER" | "STUDENT";
 };
@@ -86,8 +88,32 @@ export const columns: ColumnDef<MemberType>[] = [
     ),
   },
   {
+    accessorKey: "groups",
+    header: "Group(s)",
+    cell: ({ row }) => (
+      <div className="items-center">
+        {row.original.groups.map((group) => (
+          <span
+            className="text-primary bg-primary/15 ml-1 rounded-full px-2 py-0.5 text-xs font-medium"
+            key={group.id}
+          >
+            {group.name}
+          </span>
+        ))}
+      </div>
+    ),
+  },
+  {
     accessorKey: "role",
     header: "Role",
+    cell: ({ row }) => {
+      const role = row.original.role;
+      return (
+        <span className="text-primary bg-primary/15 ml-1 rounded-full px-2 py-0.5 text-xs font-medium">
+          {role.charAt(0) + role.slice(1).toLowerCase()}
+        </span>
+      );
+    },
   },
   {
     id: "actions",

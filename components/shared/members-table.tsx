@@ -33,9 +33,11 @@ const globalFilterFn: FilterFn<MemberType> = (
 ) => {
   const fullName = row.original.fullName.toLowerCase();
   const email = row.original.email.toLowerCase();
+  const id = parseInt(row.original.id);
   return (
     fullName.includes(filterValue.toLowerCase()) ||
-    email.includes(filterValue.toLowerCase())
+    email.includes(filterValue.toLowerCase()) ||
+    id === parseInt(filterValue)
   );
 };
 
@@ -90,7 +92,8 @@ export function MembersTable({ columns, data, schoolId }: DataTableProps) {
           />
         )}
       </div>
-      <div className="rounded-md border">
+
+      <div className="overflow-x-auto rounded-md border">
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (

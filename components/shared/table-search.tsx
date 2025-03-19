@@ -9,7 +9,7 @@ export const TableSearch = ({ globalFilter, setGlobalFilter }: Props) => {
   return (
     <div className="w-96 py-6">
       <Input
-        placeholder="Search by name or email"
+        placeholder="Search by id, name or email"
         value={globalFilter}
         onChange={(e) => {
           setGlobalFilter(e.target.value);

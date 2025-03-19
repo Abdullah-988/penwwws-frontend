@@ -22,7 +22,7 @@ export default async function Page({
   const schoolId = (await params).id;
   const members = await getMembers(schoolId);
   return (
-    <div className="w-full px-6">
+    <div className="w-screen px-6 sm:w-auto">
       <Stats schoolId={schoolId} />
       <div className="flex w-full items-center justify-between py-6">
         <h1 className="text-primary text-xl font-bold">Members</h1>
