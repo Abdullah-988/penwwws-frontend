@@ -1,9 +1,10 @@
 "use client";
 
+import { handleDeleteMember } from "@/fetches/deleteMember";
 import { ColumnDef } from "@tanstack/react-table";
 import { Button } from "../ui/button";
 import { ArrowUpDown, MoreHorizontal } from "lucide-react";
-import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { getInitials } from "@/lib/utils";
 import { Checkbox } from "@/components/ui/checkbox";
 import {
@@ -123,6 +124,7 @@ export const columns: ColumnDef<MemberType>[] = [
     id: "actions",
     cell: ({ row }) => {
       const email = row.original.email;
+      const memberId = row.original.id;
       return (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -139,7 +141,12 @@ export const columns: ColumnDef<MemberType>[] = [
               Copy member email
             </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem className="text-destructive">
+            <DropdownMenuItem
+              onClick={() =>
+                handleDeleteMember("cm6wq2hjh0000t2egojjd6jh0", memberId)
+              }
+              className="text-destructive"
+            >
               Remove member
             </DropdownMenuItem>
           </DropdownMenuContent>

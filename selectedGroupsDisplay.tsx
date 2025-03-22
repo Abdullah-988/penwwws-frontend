@@ -9,7 +9,7 @@ export default function SelectedGroupsDisplay({
   groupIds,
   groupNameMap,
 }: SelectedGroupsDisplayProps) {
-  const MAXVISIBLE = 3;
+  const MAXVISIBLE = 2;
 
   if (groupIds.length === 0) {
     return (

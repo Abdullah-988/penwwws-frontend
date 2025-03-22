@@ -28,6 +28,7 @@ import AssignGroup from "@/components/shared/assign-group";
 import UnAssignGroup from "@/components/shared/unassign-group";
 import { GroupFilter } from "./group-filter";
 import { GroupType } from "@/types/Group";
+import DeleteMember from "./deleteMember";
 
 const globalFilterFn: FilterFn<MemberType> = (
   row: Row<MemberType>,
@@ -113,6 +114,10 @@ export function MembersTable({
               selectedMemberIds={selectedMemberIds}
             />
             <UnAssignGroup
+              schoolId={schoolId}
+              selectedMemberIds={selectedMemberIds}
+            />
+            <DeleteMember
               schoolId={schoolId}
               selectedMemberIds={selectedMemberIds}
             />
