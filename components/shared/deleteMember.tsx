@@ -20,9 +20,14 @@ import { AxiosError } from "axios";
 type Props = {
   schoolId: string;
   selectedMemberIds: number[];
+  className?: string;
 };
 
-export default function DeleteMember({ schoolId, selectedMemberIds }: Props) {
+export default function DeleteMember({
+  schoolId,
+  selectedMemberIds,
+  className,
+}: Props) {
   const router = useRouter();
   const { toast } = useToast();
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -55,7 +60,7 @@ export default function DeleteMember({ schoolId, selectedMemberIds }: Props) {
 
   return (
     <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
-      <DialogTrigger asChild>
+      <DialogTrigger className={className} asChild>
         <Button variant="destructive" size="sm">
           Delete Member(s)
         </Button>

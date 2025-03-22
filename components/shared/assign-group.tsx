@@ -16,16 +16,22 @@ import { AxiosError } from "axios";
 import { GroupItem } from "@/components/shared/groupItem";
 import { useQuery } from "@tanstack/react-query";
 import { getGroups } from "@/fetches/groups";
+import clsx from "clsx";
 
 type Props = {
   schoolId: string;
   selectedMemberIds: number[];
+  className?: string;
 };
 
 const flattenGroups = (groups: GroupType[]): GroupType[] =>
   groups.flatMap((g) => [g, ...flattenGroups(g.children ?? [])]);
 
-export default function AssignGroup({ selectedMemberIds, schoolId }: Props) {
+export default function AssignGroup({
+  selectedMemberIds,
+  schoolId,
+  className,
+}: Props) {
   const { toast } = useToast();
   const router = useRouter();
 
@@ -74,7 +80,10 @@ export default function AssignGroup({ selectedMemberIds, schoolId }: Props) {
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button
-          className="bg-primary/10 text-primary hover:bg-primary/15 hover:text-primary border-none"
+          className={clsx(
+            "bg-primary/10 text-primary hover:bg-primary/15 hover:text-primary border-none",
+            className,
+          )}
           size="sm"
           variant="outline"
         >

@@ -1,7 +1,6 @@
 import Stats from "@/components/features/dashboard/home/Stats";
 import InviteMember from "@/components/features/dashboard/home/InviteMember";
 import axios from "@/lib/axiosInstance";
-import { columns } from "@/components/shared/columns";
 import { MembersTable } from "@/components/shared/members-table";
 import { getCookie } from "cookies-next";
 import { cookies } from "next/headers";
@@ -21,6 +20,7 @@ export default async function Page({
 }) {
   const schoolId = (await params).id;
   const members = await getMembers(schoolId);
+
   return (
     <div className="w-screen px-6 sm:w-auto">
       <Stats schoolId={schoolId} />
@@ -28,7 +28,7 @@ export default async function Page({
         <h1 className="text-primary text-xl font-bold">Members</h1>
         <InviteMember schoolId={schoolId} />
       </div>
-      <MembersTable schoolId={schoolId} data={members} columns={columns} />
+      <MembersTable schoolId={schoolId} data={members} />
     </div>
   );
 }

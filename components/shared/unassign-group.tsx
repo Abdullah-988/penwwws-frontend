@@ -16,16 +16,22 @@ import { GroupItem } from "@/components/shared/groupItem";
 import { useQuery } from "@tanstack/react-query";
 import { getGroups } from "@/fetches/groups";
 import { Trash2 } from "lucide-react";
+import clsx from "clsx";
 
 type Props = {
   schoolId: string;
   selectedMemberIds: number[];
+  className?: string;
 };
 
 const flattenGroups = (groups: GroupType[]): GroupType[] =>
   groups.flatMap((g) => [g, ...flattenGroups(g.children ?? [])]);
 
-export default function UnAssignGroup({ selectedMemberIds, schoolId }: Props) {
+export default function UnAssignGroup({
+  selectedMemberIds,
+  schoolId,
+  className,
+}: Props) {
   const { toast } = useToast();
   const router = useRouter();
 
@@ -73,7 +79,10 @@ export default function UnAssignGroup({ selectedMemberIds, schoolId }: Props) {
         <Button
           size="sm"
           variant="outline"
-          className="text-destructive bg-destructive/10 hover:text-destructive hover:bg-destructive/15 border-none"
+          className={clsx(
+            "text-destructive bg-destructive/10 hover:text-destructive hover:bg-destructive/15 border-none",
+            className,
+          )}
         >
           <Trash2 size={6} />
           Unassign group

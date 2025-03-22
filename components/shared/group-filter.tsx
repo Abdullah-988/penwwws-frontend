@@ -65,7 +65,7 @@ export const GroupFilter = ({
         {selectedGroupIds.length > 0 && (
           <button
             onClick={clearFilters}
-            className="text-primary bg-primary/10 ml-2 flex h-7 w-7 items-center justify-center rounded-md"
+            className="text-destructive bg-destructive/10 ml-2 flex h-7 w-7 items-center justify-center rounded-md"
             aria-label="Clear filters"
           >
             <RefreshCw className="h-3.5 w-3.5" />
