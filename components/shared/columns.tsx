@@ -18,6 +18,8 @@ import { GroupType } from "@/types/Group";
 import AssignGroup from "@/components/shared/assign-group";
 import UnAssignGroup from "@/components/shared/unassign-group";
 import DeleteMember from "@/components/shared/deleteMember";
+import { Badge } from "@/components/ui/badge";
+import clsx from "clsx";
 
 export type MemberType = {
   id: string;
@@ -25,7 +27,7 @@ export type MemberType = {
   email: string;
   groups: GroupType[];
   avatarUrl?: string;
-  role: "ADMIN" | "TEACHER" | "STUDENT";
+  role: "SUPER_ADMIN" | "ADMIN" | "TEACHER" | "STUDENT";
 };
 
 export function getColumns(schoolId: string): ColumnDef<MemberType>[] {
@@ -96,12 +98,12 @@ export function getColumns(schoolId: string): ColumnDef<MemberType>[] {
       cell: ({ row }) => (
         <div className="flex flex-wrap gap-1">
           {row.original.groups.map((group) => (
-            <span
+            <Badge
               key={group.id}
-              className="text-primary bg-primary/10 rounded-full px-2 py-0.5 text-xs font-medium"
+              className="text-primary-800 bg-primary-800/10 rounded-full"
             >
               {group.name}
-            </span>
+            </Badge>
           ))}
         </div>
       ),
@@ -116,10 +118,21 @@ export function getColumns(schoolId: string): ColumnDef<MemberType>[] {
       header: "Role",
       cell: ({ row }) => {
         const role = row.original.role;
+        const formattedRole = role
+          .toLowerCase()
+          .replace(/_/g, " ")
+          .replace(/\b\w/g, (char) => char.toUpperCase());
+        const badgeColor: { [role]: string } = {
+          SUPER_ADMIN: "bg-red-800/10 text-red-800",
+          ADMIN: "bg-purple-800/10 text-purple-800",
+          TEACHER: "bg-amber-800/10 text-amber-800",
+          STUDENT: "bg-blue-800/10 text-blue-800",
+        };
+
         return (
-          <span className="text-primary bg-primary/10 ml-1 rounded-full px-2 py-0.5 text-xs font-medium">
-            {role.charAt(0) + role.slice(1).toLowerCase()}
-          </span>
+          <Badge className={clsx("rounded-full", badgeColor[role])}>
+            {formattedRole}
+          </Badge>
         );
       },
     },
