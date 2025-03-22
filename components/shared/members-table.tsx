@@ -25,6 +25,7 @@ import { MemberType } from "@/components/shared/columns";
 import { TableSearch } from "@/components/shared/table-search";
 import RoleFilter from "@/components/shared/role-filter";
 import AssignGroup from "@/components/shared/assign-group";
+import UnAssignGroup from "@/components/shared/unassign-group";
 import { GroupFilter } from "./group-filter";
 import { GroupType } from "@/types/Group";
 
@@ -106,10 +107,16 @@ export function MembersTable({
         />
         <RoleFilter table={table} />
         {table.getSelectedRowModel().rows.length > 0 && (
-          <AssignGroup
-            schoolId={schoolId}
-            selectedMemberIds={selectedMemberIds}
-          />
+          <>
+            <AssignGroup
+              schoolId={schoolId}
+              selectedMemberIds={selectedMemberIds}
+            />
+            <UnAssignGroup
+              schoolId={schoolId}
+              selectedMemberIds={selectedMemberIds}
+            />
+          </>
         )}
       </div>
 

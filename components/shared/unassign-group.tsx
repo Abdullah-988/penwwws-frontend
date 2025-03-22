@@ -10,12 +10,12 @@ import axios from "@/lib/axiosInstance";
 import { GroupType } from "@/types/Group";
 import { getCookie } from "cookies-next";
 import { Button } from "@/components/ui/button";
-import { Users } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { AxiosError } from "axios";
 import { GroupItem } from "@/components/shared/groupItem";
 import { useQuery } from "@tanstack/react-query";
 import { getGroups } from "@/fetches/groups";
+import { Trash2 } from "lucide-react";
 
 type Props = {
   schoolId: string;
@@ -25,7 +25,7 @@ type Props = {
 const flattenGroups = (groups: GroupType[]): GroupType[] =>
   groups.flatMap((g) => [g, ...flattenGroups(g.children ?? [])]);
 
-export default function AssignGroup({ selectedMemberIds, schoolId }: Props) {
+export default function UnAssignGroup({ selectedMemberIds, schoolId }: Props) {
   const { toast } = useToast();
   const router = useRouter();
 
@@ -41,23 +41,20 @@ export default function AssignGroup({ selectedMemberIds, schoolId }: Props) {
     selectedMemberIds: number[],
     schoolId: string,
     groupId: number,
-    assignedGroupName: string | undefined,
+    UnAssignedGroupName: string | undefined,
   ) {
     const token = await getCookie("token");
 
     await axios
-      .post(
-        `/school/${schoolId}/group/${groupId}/member`,
-        { userIds: selectedMemberIds },
-        {
-          headers: { Authorization: token },
-        },
-      )
+      .delete(`/school/${schoolId}/group/${groupId}/member`, {
+        headers: { Authorization: token },
+        data: { userIds: selectedMemberIds },
+      })
       .then(() => {
         router.refresh();
         toast({
           title: "Success",
-          description: `Member(s) have been successfully assigned to ${assignedGroupName}.`,
+          description: `Member(s) have been successfully assigned to ${UnAssignedGroupName}.`,
         });
       })
       .catch((err: AxiosError) => {
@@ -65,7 +62,7 @@ export default function AssignGroup({ selectedMemberIds, schoolId }: Props) {
           title: "Error",
           description:
             (err.response?.data as string) ||
-            `Failed to assign member(s) to ${assignedGroupName}. Please try again.`,
+            `Failed to assign member(s) to ${UnAssignedGroupName}. Please try again.`,
           variant: "destructive",
         });
       });
@@ -74,12 +71,12 @@ export default function AssignGroup({ selectedMemberIds, schoolId }: Props) {
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button
-          className="bg-primary/10 text-primary hover:bg-primary/15 hover:text-primary border-none"
           size="sm"
           variant="outline"
+          className="text-destructive bg-destructive/10 hover:text-destructive hover:bg-destructive/15 border-none"
         >
-          <Users className="text-primary" size={6} />
-          Assign group
+          <Trash2 size={6} />
+          Unassign group
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent>
