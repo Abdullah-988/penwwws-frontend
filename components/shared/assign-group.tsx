@@ -77,7 +77,7 @@ export default function AssignGroup({ selectedMemberIds, schoolId }: Props) {
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button variant="outline">
-          <Users size={6} />
+          <Users className="text-primary" size={6} />
           Assign group
         </Button>
       </DropdownMenuTrigger>

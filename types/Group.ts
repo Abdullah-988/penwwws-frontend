@@ -4,6 +4,7 @@ export type GroupType = {
   parentId: number;
   schoolId: string;
   _count: { members: number };
+  children?: GroupType[];
   createdAt: string;
   updatedAt: string;
 };

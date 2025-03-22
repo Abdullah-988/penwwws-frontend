@@ -25,6 +25,8 @@ import { MemberType } from "@/components/shared/columns";
 import { TableSearch } from "@/components/shared/table-search";
 import RoleFilter from "@/components/shared/role-filter";
 import AssignGroup from "@/components/shared/assign-group";
+import { GroupFilter } from "./group-filter";
+import { GroupType } from "@/types/Group";
 
 const globalFilterFn: FilterFn<MemberType> = (
   row: Row<MemberType>,
@@ -45,9 +47,15 @@ interface DataTableProps {
   columns: ColumnDef<MemberType>[];
   data: MemberType[];
   schoolId: string;
+  defaultFilteredGroupIds?: number[];
 }
 
-export function MembersTable({ columns, data, schoolId }: DataTableProps) {
+export function MembersTable({
+  columns,
+  data,
+  defaultFilteredGroupIds = [],
+  schoolId,
+}: DataTableProps) {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [rowSelection, setRowSelection] = useState({});
   const [globalFilter, setGlobalFilter] = useState("");
@@ -70,6 +78,13 @@ export function MembersTable({ columns, data, schoolId }: DataTableProps) {
       columnFilters,
       globalFilter,
     },
+    filterFns: {
+      groups: (row, filterValue) => {
+        return row.original.groups.some((group: GroupType) =>
+          filterValue.includes(String(group.id)),
+        );
+      },
+    },
   });
   const selectedMemberIds = table
     .getSelectedRowModel()
@@ -78,11 +93,16 @@ export function MembersTable({ columns, data, schoolId }: DataTableProps) {
 
   return (
     <div>
-      <div className="flex items-center gap-6">
+      <div className="flex w-full flex-wrap items-center justify-start gap-3 py-6 md:gap-6">
         {" "}
         <TableSearch
           globalFilter={globalFilter}
           setGlobalFilter={setGlobalFilter}
+        />
+        <GroupFilter
+          table={table}
+          schoolId={schoolId}
+          defaultFilteredGroupIds={defaultFilteredGroupIds}
         />
         <RoleFilter table={table} />
         {table.getSelectedRowModel().rows.length > 0 && (

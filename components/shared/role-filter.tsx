@@ -19,7 +19,7 @@ export default function RoleFilter({ table }: Props) {
         table.getColumn("role")?.setFilterValue(value === "ALL" ? "" : value);
       }}
     >
-      <SelectTrigger className="w-32">
+      <SelectTrigger className="w-28">
         <SelectValue placeholder="Filter by role" />
       </SelectTrigger>
       <SelectContent>

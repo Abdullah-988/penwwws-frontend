@@ -55,7 +55,6 @@ export const columns: ColumnDef<MemberType>[] = [
   },
   {
     accessorKey: "fullName",
-
     header: ({ column }) => (
       <Button
         variant="ghost"
@@ -70,7 +69,7 @@ export const columns: ColumnDef<MemberType>[] = [
           <AvatarFallback>
             {getInitials(row.getValue("fullName"))}
           </AvatarFallback>
-          <AvatarImage src={row.original.avatarUrl}></AvatarImage>
+          <AvatarImage src={row.original.avatarUrl} />
         </Avatar>
         <span className="ml-2">{row.getValue("fullName")}</span>
       </div>
@@ -91,17 +90,22 @@ export const columns: ColumnDef<MemberType>[] = [
     accessorKey: "groups",
     header: "Group(s)",
     cell: ({ row }) => (
-      <div className="items-center">
+      <div className="flex flex-wrap gap-1">
         {row.original.groups.map((group) => (
           <span
-            className="text-primary bg-primary/15 ml-1 rounded-full px-2 py-0.5 text-xs font-medium"
             key={group.id}
+            className="text-primary bg-primary/10 rounded-full px-2 py-0.5 text-xs font-medium"
           >
             {group.name}
           </span>
         ))}
       </div>
     ),
+    filterFn: (row, _columnId, filterValue) => {
+      return row.original.groups.some((group) =>
+        filterValue.includes(group.id),
+      );
+    },
   },
   {
     accessorKey: "role",
@@ -109,7 +113,7 @@ export const columns: ColumnDef<MemberType>[] = [
     cell: ({ row }) => {
       const role = row.original.role;
       return (
-        <span className="text-primary bg-primary/15 ml-1 rounded-full px-2 py-0.5 text-xs font-medium">
+        <span className="text-primary bg-primary/10 ml-1 rounded-full px-2 py-0.5 text-xs font-medium">
           {role.charAt(0) + role.slice(1).toLowerCase()}
         </span>
       );
@@ -119,7 +123,6 @@ export const columns: ColumnDef<MemberType>[] = [
     id: "actions",
     cell: ({ row }) => {
       const email = row.original.email;
-
       return (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>

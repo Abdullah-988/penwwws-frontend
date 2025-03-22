@@ -7,7 +7,7 @@ type Props = {
 };
 export const TableSearch = ({ globalFilter, setGlobalFilter }: Props) => {
   return (
-    <div className="w-96 py-6">
+    <div className="w-full md:max-w-96">
       <Input
         placeholder="Search by id, name or email"
         value={globalFilter}
