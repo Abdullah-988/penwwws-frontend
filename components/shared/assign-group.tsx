@@ -8,43 +8,40 @@ import {
 } from "@/components/ui/dropdown-menu";
 import axios from "@/lib/axiosInstance";
 import { GroupType } from "@/types/Group";
-import { DropdownMenuItem } from "@radix-ui/react-dropdown-menu";
 import { getCookie } from "cookies-next";
-import { useState, useEffect } from "react";
 import { Button } from "../ui/button";
 import { Users } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { AxiosError } from "axios";
-
-async function getGroups(schoolId: string) {
-  const token = await getCookie("token");
-  const res = await axios(`/school/${schoolId}/group`, {
-    headers: { Authorization: token },
-  });
-  return res.data;
-}
+import { GroupItem } from "./groupItem";
+import { useQuery } from "@tanstack/react-query";
+import { getGroups } from "@/fetches/groups";
 
 type Props = {
   schoolId: string;
   selectedMemberIds: number[];
 };
 
+const flattenGroups = (groups: GroupType[]): GroupType[] =>
+  groups.flatMap((g) => [g, ...flattenGroups(g.children ?? [])]);
+
 export default function AssignGroup({ selectedMemberIds, schoolId }: Props) {
   const { toast } = useToast();
   const router = useRouter();
-  const [groups, setGroups] = useState<GroupType[]>([]);
 
-  useEffect(() => {
-    getGroups(schoolId).then((groups) => {
-      setGroups(groups);
-    });
-  }, []);
+  const { data: groups } = useQuery<GroupType[]>({
+    queryKey: ["groups", schoolId],
+    queryFn: () => getGroups(schoolId),
+  });
+
+  const flatGroups = groups ? flattenGroups(groups) : [];
+  const groupNameMap = new Map(flatGroups.map((g) => [g.id, g.name]));
 
   async function handleAssignGroup(
     selectedMemberIds: number[],
     schoolId: string,
     groupId: number,
-    assignedGroup: GroupType,
+    assignedGroupName: string | undefined,
   ) {
     const token = await getCookie("token");
 
@@ -60,7 +57,7 @@ export default function AssignGroup({ selectedMemberIds, schoolId }: Props) {
         router.refresh();
         toast({
           title: "Success",
-          description: `Member(s) have been successfully assigned to ${assignedGroup?.name}.`,
+          description: `Member(s) have been successfully assigned to ${assignedGroupName}.`,
         });
       })
       .catch((err: AxiosError) => {
@@ -68,7 +65,7 @@ export default function AssignGroup({ selectedMemberIds, schoolId }: Props) {
           title: "Error",
           description:
             (err.response?.data as string) ||
-            `Failed to assign member(s) to ${assignedGroup?.name}. Please try again.`,
+            `Failed to assign member(s) to ${assignedGroupName}. Please try again.`,
           variant: "destructive",
         });
       });
@@ -76,27 +73,28 @@ export default function AssignGroup({ selectedMemberIds, schoolId }: Props) {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="outline">
+        <Button size="sm" variant="outline">
           <Users className="text-primary" size={6} />
           Assign group
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent>
-        {groups.map((group) => (
-          <DropdownMenuItem key={group.id}>
-            <Button
-              variant="ghost"
-              className="w-full"
-              size="sm"
-              onClick={() => {
-                handleAssignGroup(selectedMemberIds, schoolId, group.id, group);
-              }}
-            >
-              {" "}
-              {group.name}
-            </Button>
-          </DropdownMenuItem>
-        ))}
+        {groups &&
+          groups.map((group) => (
+            <GroupItem
+              key={group.id}
+              group={group}
+              selectedGroupIds={[]}
+              handleGroupClick={(groupId) =>
+                handleAssignGroup(
+                  selectedMemberIds,
+                  schoolId,
+                  groupId,
+                  groupNameMap.get(groupId),
+                )
+              }
+            />
+          ))}
       </DropdownMenuContent>
     </DropdownMenu>
   );
