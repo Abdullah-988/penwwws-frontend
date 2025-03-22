@@ -37,7 +37,7 @@ export default function UnAssignGroup({ selectedMemberIds, schoolId }: Props) {
   const flatGroups = groups ? flattenGroups(groups) : [];
   const groupNameMap = new Map(flatGroups.map((g) => [g.id, g.name]));
 
-  async function handleAssignGroup(
+  async function handleUnassign(
     selectedMemberIds: number[],
     schoolId: string,
     groupId: number,
@@ -54,7 +54,7 @@ export default function UnAssignGroup({ selectedMemberIds, schoolId }: Props) {
         router.refresh();
         toast({
           title: "Success",
-          description: `Member(s) have been successfully assigned to ${UnAssignedGroupName}.`,
+          description: `Member(s) have been successfully unassigned to ${UnAssignedGroupName}.`,
         });
       })
       .catch((err: AxiosError) => {
@@ -62,7 +62,7 @@ export default function UnAssignGroup({ selectedMemberIds, schoolId }: Props) {
           title: "Error",
           description:
             (err.response?.data as string) ||
-            `Failed to assign member(s) to ${UnAssignedGroupName}. Please try again.`,
+            `Failed to unassign member(s) to ${UnAssignedGroupName}. Please try again.`,
           variant: "destructive",
         });
       });
@@ -87,7 +87,7 @@ export default function UnAssignGroup({ selectedMemberIds, schoolId }: Props) {
               group={group}
               selectedGroupIds={[]}
               handleGroupClick={(groupId) =>
-                handleAssignGroup(
+                handleUnassign(
                   selectedMemberIds,
                   schoolId,
                   groupId,

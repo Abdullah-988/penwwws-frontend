@@ -37,7 +37,7 @@ export default function AssignGroup({ selectedMemberIds, schoolId }: Props) {
   const flatGroups = groups ? flattenGroups(groups) : [];
   const groupNameMap = new Map(flatGroups.map((g) => [g.id, g.name]));
 
-  async function handleAssignGroup(
+  async function handleAssign(
     selectedMemberIds: number[],
     schoolId: string,
     groupId: number,
@@ -90,7 +90,7 @@ export default function AssignGroup({ selectedMemberIds, schoolId }: Props) {
               group={group}
               selectedGroupIds={[]}
               handleGroupClick={(groupId) =>
-                handleAssignGroup(
+                handleAssign(
                   selectedMemberIds,
                   schoolId,
                   groupId,
