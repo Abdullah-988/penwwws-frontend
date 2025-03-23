@@ -27,7 +27,7 @@ type Props = {
 const flattenGroups = (groups: GroupType[]): GroupType[] =>
   groups.flatMap((g) => [g, ...flattenGroups(g.children ?? [])]);
 
-export default function UnAssignGroup({
+export default function UnassignGroup({
   selectedMemberIds,
   schoolId,
   className,

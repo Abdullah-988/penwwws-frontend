@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
 import {
   ColumnDef,
   flexRender,
@@ -24,11 +24,8 @@ import {
 import { MemberType } from "@/components/shared/columns";
 import { TableSearch } from "@/components/shared/table-search";
 import RoleFilter from "@/components/shared/role-filter";
-import AssignGroup from "@/components/shared/assign-group";
-import UnAssignGroup from "@/components/shared/unassign-group";
 import { GroupFilter } from "./group-filter";
 import { GroupType } from "@/types/Group";
-import DeleteMember from "./deleteMember";
 
 const globalFilterFn: FilterFn<MemberType> = (
   row: Row<MemberType>,
@@ -50,6 +47,8 @@ interface DataTableProps {
   data: MemberType[];
   schoolId: string;
   defaultFilteredGroupIds?: number[];
+  children: React.ReactNode;
+  setSelectedMemberIds: Dispatch<SetStateAction<number[]>>;
 }
 
 export function DataTable({
@@ -57,6 +56,8 @@ export function DataTable({
   data,
   defaultFilteredGroupIds = [],
   schoolId,
+  setSelectedMemberIds,
+  children,
 }: DataTableProps) {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [rowSelection, setRowSelection] = useState({});
@@ -89,11 +90,14 @@ export function DataTable({
       },
     },
   });
-
-  const selectedMemberIds = table
-    .getSelectedRowModel()
-    .rows.map((row) => row.original.id)
-    .map(Number);
+  useEffect(() => {
+    setSelectedMemberIds(
+      table
+        .getSelectedRowModel()
+        .rows.map((row) => row.original.id)
+        .map(Number),
+    );
+  }, [table, setSelectedMemberIds, rowSelection]);
 
   return (
     <div>
@@ -109,22 +113,7 @@ export function DataTable({
           defaultFilteredGroupIds={defaultFilteredGroupIds}
         />
         <RoleFilter table={table} />
-        {table.getSelectedRowModel().rows.length > 0 && (
-          <>
-            <AssignGroup
-              schoolId={schoolId}
-              selectedMemberIds={selectedMemberIds}
-            />
-            <UnAssignGroup
-              schoolId={schoolId}
-              selectedMemberIds={selectedMemberIds}
-            />
-            <DeleteMember
-              schoolId={schoolId}
-              selectedMemberIds={selectedMemberIds}
-            />
-          </>
-        )}
+        {children}
       </div>
 
       <div className="overflow-x-auto rounded-md border">

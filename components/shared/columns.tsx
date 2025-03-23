@@ -20,6 +20,7 @@ import UnAssignGroup from "@/components/shared/unassign-group";
 import DeleteMember from "@/components/shared/deleteMember";
 import { Badge } from "@/components/ui/badge";
 import clsx from "clsx";
+import { RoleType } from "@/types/Role";
 
 export type MemberType = {
   id: string;
@@ -27,7 +28,7 @@ export type MemberType = {
   email: string;
   groups: GroupType[];
   avatarUrl?: string;
-  role: "SUPER_ADMIN" | "ADMIN" | "TEACHER" | "STUDENT";
+  role: RoleType;
 };
 
 export function getColumns(schoolId: string): ColumnDef<MemberType>[] {
@@ -151,7 +152,7 @@ export function getColumns(schoolId: string): ColumnDef<MemberType>[] {
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
               <DropdownMenuLabel>Actions</DropdownMenuLabel>
-              <div className="g flex w-full flex-col">
+              <div className="flex w-full flex-col">
                 <AssignGroup
                   schoolId={schoolId}
                   selectedMemberIds={[memberId]}
