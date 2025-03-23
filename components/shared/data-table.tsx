@@ -21,7 +21,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { MemberType } from "@/components/shared/columns";
+import { MemberType } from "@/types/member";
 import { TableSearch } from "@/components/shared/table-search";
 import RoleFilter from "@/components/shared/role-filter";
 import { GroupFilter } from "./group-filter";

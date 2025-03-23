@@ -30,6 +30,8 @@ import {
 import { AxiosError } from "axios";
 import { useQueryClient } from "@tanstack/react-query";
 import { addGroupSchema } from "@/lib/validations";
+import { useRouter } from "next/navigation";
+
 type FormData = z.infer<typeof addGroupSchema>;
 
 type Props = {
@@ -38,6 +40,7 @@ type Props = {
 
 export default function AddGroup({ schoolId }: Props) {
   const { toast } = useToast();
+  const router = useRouter();
   const queryClient = useQueryClient();
 
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -56,6 +59,7 @@ export default function AddGroup({ schoolId }: Props) {
       await axios.post(`/school/${schoolId}/group`, data, {
         headers: { Authorization: token },
       });
+      router.refresh();
       queryClient.invalidateQueries({ queryKey: ["groups"] });
       setIsModalOpen(false);
       form.reset();

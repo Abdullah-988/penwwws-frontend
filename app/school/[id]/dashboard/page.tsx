@@ -1,17 +1,7 @@
 import Stats from "@/components/features/dashboard/home/Stats";
 import InviteMember from "@/components/features/dashboard/home/InviteMember";
-import axios from "@/lib/axiosInstance";
-import { MembersTable } from "@/components/shared/members-table";
-import { getCookie } from "cookies-next";
-import { cookies } from "next/headers";
-
-async function getMembers(schoolId: string) {
-  const token = await getCookie("token", { cookies });
-  const res = await axios.get(`/school/${schoolId}/member`, {
-    headers: { Authorization: token },
-  });
-  return res.data;
-}
+import { MembersTable } from "@/components/features/dashboard/home/home-members-table";
+import { getMembers } from "@/fetches/member";
 
 export default async function Page({
   params,

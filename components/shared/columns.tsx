@@ -14,22 +14,12 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { GroupType } from "@/types/Group";
+import { MemberType } from "@/types/member";
 import AssignGroup from "@/components/shared/assign-group";
 import UnAssignGroup from "@/components/shared/unassign-group";
 import DeleteMember from "@/components/shared/deleteMember";
 import { Badge } from "@/components/ui/badge";
 import clsx from "clsx";
-import { RoleType } from "@/types/Role";
-
-export type MemberType = {
-  id: string;
-  fullName: string;
-  email: string;
-  groups: GroupType[];
-  avatarUrl?: string;
-  role: RoleType;
-};
 
 export function getColumns(schoolId: string): ColumnDef<MemberType>[] {
   return [
