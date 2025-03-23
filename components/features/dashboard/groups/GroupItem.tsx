@@ -51,9 +51,6 @@ export default function GroupItem({
               </div>
             </AccordionTrigger>
             <div className="ml-auto flex items-center gap-2">
-              <span className="text-muted-foreground text-xs">
-                {group._count.members} members
-              </span>
               {hoverIndex === group.id && (
                 <>
                   {" "}
@@ -92,9 +89,6 @@ export default function GroupItem({
             {group.name}
           </div>
           <div className="flex items-center gap-2">
-            <span className="text-muted-foreground text-xs">
-              {group._count.members} members
-            </span>
             {hoverIndex === group.id && (
               <>
                 <DeleteGroup schoolId={schoolId} group={group} />

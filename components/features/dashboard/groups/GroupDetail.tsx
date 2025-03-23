@@ -6,9 +6,9 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-  DialogDescription,
 } from "@/components/ui/dialog";
-import { AlignJustify } from "lucide-react";
+import { AlignJustify, Users } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
 import { GroupType } from "@/types/Group";
 import GroupMembersTable from "./group-members-table";
 import { MemberType } from "@/types/member";
@@ -21,6 +21,9 @@ type Props = {
 };
 
 export default function GroupDetail({ schoolId, group, data }: Props) {
+  const memberCount = new Intl.NumberFormat("en-IN").format(
+    group._count.members,
+  );
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -34,10 +37,13 @@ export default function GroupDetail({ schoolId, group, data }: Props) {
       </DialogTrigger>
       <DialogContent className="max-w-[60rem]">
         <DialogHeader>
-          <DialogTitle>{group.name} detail</DialogTitle>
-          <DialogDescription>
-            here you can assign and un assign groups
-          </DialogDescription>
+          <DialogTitle className="flex items-center gap-4">
+            {group.name}{" "}
+            <Badge variant="outline" className="text-sm">
+              <Users className="text-primary" />
+              {memberCount} <span>member(s)</span>
+            </Badge>
+          </DialogTitle>
         </DialogHeader>
         <div className="w-full overflow-scroll p-1">
           <GroupMembersTable schoolId={schoolId} group={group} data={data} />
