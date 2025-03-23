@@ -1,7 +1,8 @@
 "use client";
 
 import { DataTable } from "@/components/shared/data-table";
-import { getColumns, MemberType } from "@/components/shared/columns";
+import { getColumns } from "@/components/shared/columns";
+import { MemberType } from "@/types/member";
 import { useState } from "react";
 import AssignGroup from "@/components/shared/assign-group";
 import UnassignGroup from "@/components/shared/unassign-group";

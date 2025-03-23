@@ -5,42 +5,95 @@ import {
 } from "@/components/ui/accordion";
 import { GroupType } from "@/types/Group";
 import { Users } from "lucide-react";
+import GroupDetail from "./GroupDetail";
+import { MemberType } from "@/types/member";
+import { Dispatch, SetStateAction } from "react";
 
 type Props = {
   group: GroupType;
+  data: MemberType[];
+  schoolId: string;
+  hoverIndex: number | undefined;
+  setHoverIndex: Dispatch<SetStateAction<number | undefined>>;
 };
 
-export default function GroupItem({ group }: Props) {
+export default function GroupItem({
+  group,
+  data,
+  schoolId,
+  hoverIndex,
+  setHoverIndex,
+}: Props) {
   const hasChildren = group.children && group.children.length > 0;
+
   return (
     <>
       {hasChildren ? (
-        <AccordionItem className="ml-5" value={String(group.id)}>
-          <AccordionTrigger className="text-md flex w-full items-center justify-between rounded-md font-medium">
-            <div className="flex items-center gap-1">
-              <Users className="text-primary size-4" />
-              {group.name}
+        <AccordionItem
+          onMouseEnter={(e) => {
+            e.preventDefault();
+            setHoverIndex(group.id);
+          }}
+          onMouseLeave={(e) => {
+            e.preventDefault();
+            setHoverIndex(undefined);
+          }}
+          value={String(group.id)}
+        >
+          <div className="text-md hover:bg-primary/5 ml-2 flex h-12 w-full cursor-default items-center justify-start rounded-md px-4 font-medium">
+            {" "}
+            <AccordionTrigger className="md p-0">
+              {" "}
+              <div className="flex items-center gap-1">
+                <Users className="text-primary size-4" />
+                {group.name}
+              </div>
+            </AccordionTrigger>
+            <div className="ml-auto flex items-center gap-2">
+              <span className="text-muted-foreground text-xs">
+                {group._count.members} members
+              </span>
+              {hoverIndex === group.id && (
+                <GroupDetail schoolId={schoolId} data={data} group={group} />
+              )}
             </div>
-            <span className="text-muted-foreground ml-auto text-xs">
-              {group._count.members} members
-            </span>
-          </AccordionTrigger>
-          <AccordionContent className="border-primary/30 text-md border-l">
+          </div>
+
+          <AccordionContent className="border-primary/30 text-md ml-4 border-l">
             {group.children &&
               group.children.map((child) => (
-                <GroupItem key={child.id} group={child} />
+                <GroupItem
+                  key={child.id}
+                  group={child}
+                  data={data}
+                  schoolId={schoolId}
+                  hoverIndex={hoverIndex}
+                  setHoverIndex={setHoverIndex}
+                />
               ))}
           </AccordionContent>
         </AccordionItem>
       ) : (
-        <div className="text-md hover:bg-primary/10 ml-5 flex items-center justify-between rounded-md p-3 font-medium">
+        <div
+          onMouseLeave={(e) => {
+            e.preventDefault();
+            setHoverIndex(undefined);
+          }}
+          onMouseEnter={() => setHoverIndex(group.id)}
+          className="text-md hover:bg-primary/5 ml-2 flex h-12 w-full cursor-default items-center justify-between rounded-md px-4 font-medium"
+        >
           <div className="flex items-center gap-1">
             <Users className="text-primary size-4" />
             {group.name}
           </div>
-          <span className="text-muted-foreground text-xs">
-            {group._count.members} members
-          </span>
+          <div className="flex items-center gap-2">
+            <span className="text-muted-foreground text-xs">
+              {group._count.members} members
+            </span>
+            {hoverIndex === group.id && (
+              <GroupDetail schoolId={schoolId} data={data} group={group} />
+            )}
+          </div>
         </div>
       )}
     </>

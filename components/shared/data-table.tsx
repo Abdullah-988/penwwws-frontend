@@ -47,7 +47,7 @@ interface DataTableProps {
   data: MemberType[];
   schoolId: string;
   defaultFilteredGroupIds?: number[];
-  children: React.ReactNode;
+  children?: React.ReactNode;
   setSelectedMemberIds: Dispatch<SetStateAction<number[]>>;
 }
 
@@ -90,6 +90,7 @@ export function DataTable({
       },
     },
   });
+
   useEffect(() => {
     setSelectedMemberIds(
       table
@@ -100,7 +101,7 @@ export function DataTable({
   }, [table, setSelectedMemberIds, rowSelection]);
 
   return (
-    <div>
+    <>
       <div className="flex w-full flex-wrap items-center justify-start gap-3 py-6 md:gap-6">
         {" "}
         <TableSearch
@@ -115,7 +116,6 @@ export function DataTable({
         <RoleFilter table={table} />
         {children}
       </div>
-
       <div className="overflow-x-auto rounded-md border">
         <Table>
           <TableHeader>
@@ -170,6 +170,6 @@ export function DataTable({
         {table.getFilteredSelectedRowModel().rows.length} of{" "}
         {table.getFilteredRowModel().rows.length} row(s) selected.
       </div>
-    </div>
+    </>
   );
 }
