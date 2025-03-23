@@ -5,7 +5,8 @@ import {
 } from "@/components/ui/accordion";
 import { GroupType } from "@/types/Group";
 import { Users } from "lucide-react";
-import GroupDetail from "./GroupDetail";
+import GroupDetail from "@/components/features/dashboard/groups/GroupDetail";
+import DeleteGroup from "@/components/features/dashboard/groups/DeleteGroup";
 import { MemberType } from "@/types/member";
 import { Dispatch, SetStateAction } from "react";
 
@@ -54,7 +55,11 @@ export default function GroupItem({
                 {group._count.members} members
               </span>
               {hoverIndex === group.id && (
-                <GroupDetail schoolId={schoolId} data={data} group={group} />
+                <>
+                  {" "}
+                  <DeleteGroup schoolId={schoolId} group={group} />
+                  <GroupDetail schoolId={schoolId} data={data} group={group} />
+                </>
               )}
             </div>
           </div>
@@ -91,7 +96,10 @@ export default function GroupItem({
               {group._count.members} members
             </span>
             {hoverIndex === group.id && (
-              <GroupDetail schoolId={schoolId} data={data} group={group} />
+              <>
+                <DeleteGroup schoolId={schoolId} group={group} />
+                <GroupDetail schoolId={schoolId} data={data} group={group} />
+              </>
             )}
           </div>
         </div>

@@ -25,7 +25,7 @@ export default function GroupDetail({ schoolId, group, data }: Props) {
     <Dialog>
       <DialogTrigger asChild>
         <Button
-          className="hover:bg-primary/15 bg-blue-800/10 text-blue-800"
+          className="bg-blue-800/10 text-blue-800 hover:bg-blue-800/15"
           size="sm"
           variant="outline"
         >
