@@ -11,7 +11,8 @@ import { AxiosError } from "axios";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { GroupType } from "@/types/Group";
-import { Trash2, Users } from "lucide-react";
+import { Trash2 } from "lucide-react";
+import AssignGroup from "@/components/shared/assign-group";
 
 type Props = {
   data: MemberType[];
@@ -24,35 +25,6 @@ export default function GroupMembersTable({ group, schoolId, data }: Props) {
   const router = useRouter();
 
   const [selectedMemberIds, setSelectedMemberIds] = useState<number[]>([]);
-
-  async function handleAssign() {
-    const token = await getCookie("token");
-
-    await axios
-      .post(
-        `/school/${schoolId}/group/${group.id}/member`,
-        { userIds: selectedMemberIds },
-        {
-          headers: { Authorization: token },
-        },
-      )
-      .then(() => {
-        router.refresh();
-        toast({
-          title: "Success",
-          description: `Member(s) have been successfully assigned to ${group.name}.`,
-        });
-      })
-      .catch((err: AxiosError) => {
-        toast({
-          title: "Error",
-          description:
-            (err.response?.data as string) ||
-            `Failed to assign member(s) to ${group.name}. Please try again.`,
-          variant: "destructive",
-        });
-      });
-  }
 
   async function handleUnassign() {
     const token = await getCookie("token");
@@ -87,18 +59,15 @@ export default function GroupMembersTable({ group, schoolId, data }: Props) {
       data={data}
       defaultFilteredGroupIds={[group.id]}
       schoolId={schoolId}
+      defaultFilteredRole="STUDENT"
     >
       <>
-        <Button
-          onClick={handleAssign}
-          size="sm"
-          className="bg-primary/10 text-primary hover:bg-primary/15 hover:text-primary border-none"
-          disabled={selectedMemberIds.length == 0}
-        >
-          <Users size={6} />
-          Assign group
-        </Button>
-
+        <AssignGroup
+          schoolId={schoolId}
+          selectedMemberIds={selectedMemberIds}
+          assignGroupMode="single"
+          groupId={group.id}
+        />
         <Button
           size="sm"
           onClick={handleUnassign}

@@ -22,7 +22,7 @@ export default function GroupItem({ group, data, schoolId }: Props) {
     <>
       {hasChildren ? (
         <AccordionItem value={String(group.id)}>
-          <div className="text-md group hover:bg-primary/5 ml-2 flex h-12 w-full cursor-default items-center justify-start rounded-md px-4 font-medium">
+          <div className="text-md group hover:bg-primary/5 ml-2 flex h-12 w-full items-center justify-start rounded-md px-4 font-medium">
             {" "}
             <AccordionTrigger className="md p-0">
               {" "}

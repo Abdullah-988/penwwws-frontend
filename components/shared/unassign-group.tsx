@@ -21,7 +21,9 @@ import clsx from "clsx";
 type Props = {
   schoolId: string;
   selectedMemberIds: number[];
+  unassignGroupMode: "single" | "multiple";
   className?: string;
+  groupId?: number;
 };
 
 const flattenGroups = (groups: GroupType[]): GroupType[] =>
@@ -31,6 +33,8 @@ export default function UnassignGroup({
   selectedMemberIds,
   schoolId,
   className,
+  unassignGroupMode,
+  groupId,
 }: Props) {
   const { toast } = useToast();
   const router = useRouter();
@@ -38,6 +42,7 @@ export default function UnassignGroup({
   const { data: groups } = useQuery<GroupType[]>({
     queryKey: ["groups", schoolId],
     queryFn: () => getGroups(schoolId),
+    enabled: unassignGroupMode === "multiple",
   });
 
   const flatGroups = groups ? flattenGroups(groups) : [];
@@ -72,6 +77,29 @@ export default function UnassignGroup({
           variant: "destructive",
         });
       });
+  }
+
+  if (unassignGroupMode === "single" && groupId) {
+    return (
+      <Button
+        onClick={() =>
+          handleUnassign(
+            selectedMemberIds,
+            schoolId,
+            groupId,
+            groupNameMap.get(groupId),
+          )
+        }
+        size="sm"
+        className={clsx(
+          "text-destructive bg-destructive/10 hover:text-destructive hover:bg-destructive/15 border-none",
+          className,
+        )}
+      >
+        <Trash2 size={6} />
+        Unassign group
+      </Button>
+    );
   }
   return (
     <DropdownMenu>

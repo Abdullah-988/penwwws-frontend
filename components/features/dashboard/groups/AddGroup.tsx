@@ -108,7 +108,7 @@ export default function AddGroup({ schoolId, groups }: Props) {
       <DialogTrigger asChild>
         <Button size="sm" className="rounded-full px-4 text-sm font-semibold">
           <Plus size={10} />
-          Add Group
+          New Group
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
@@ -195,7 +195,7 @@ export default function AddGroup({ schoolId, groups }: Props) {
               {form.formState.isSubmitting ? (
                 <SpinnerIcon className="animate-spin" />
               ) : (
-                "New Group"
+                "Add Group"
               )}
             </Button>
           </form>

@@ -6,7 +6,7 @@ import { MemberType } from "@/types/member";
 import { useState } from "react";
 import AssignGroup from "@/components/shared/assign-group";
 import UnassignGroup from "@/components/shared/unassign-group";
-import DeleteMember from "@/components/shared/deleteMember";
+import RemoveMember from "@/components/shared/RemoveMember";
 
 type Props = {
   data: MemberType[];
@@ -29,12 +29,14 @@ export const MembersTable = ({ data, schoolId }: Props) => {
             <AssignGroup
               schoolId={schoolId}
               selectedMemberIds={selectedMemberIds}
+              assignGroupMode="multiple"
             />
             <UnassignGroup
               schoolId={schoolId}
               selectedMemberIds={selectedMemberIds}
+              unassignGroupMode="multiple"
             />
-            <DeleteMember
+            <RemoveMember
               schoolId={schoolId}
               selectedMemberIds={selectedMemberIds}
             />

@@ -47,6 +47,7 @@ interface DataTableProps {
   data: MemberType[];
   schoolId: string;
   defaultFilteredGroupIds?: number[];
+  defaultFilteredRole?: "ADMIN" | "TEACHER" | "STUDENT";
   children?: React.ReactNode;
   setSelectedMemberIds: Dispatch<SetStateAction<number[]>>;
 }
@@ -55,6 +56,7 @@ export function DataTable({
   columns,
   data,
   defaultFilteredGroupIds = [],
+  defaultFilteredRole,
   schoolId,
   setSelectedMemberIds,
   children,
@@ -113,7 +115,7 @@ export function DataTable({
           schoolId={schoolId}
           defaultFilteredGroupIds={defaultFilteredGroupIds}
         />
-        <RoleFilter table={table} />
+        <RoleFilter defaultFilteredRole={defaultFilteredRole} table={table} />
         {children}
       </div>
       <div className="overflow-x-auto rounded-md border">

@@ -17,9 +17,9 @@ import {
 import { MemberType } from "@/types/member";
 import AssignGroup from "@/components/shared/assign-group";
 import UnAssignGroup from "@/components/shared/unassign-group";
-import DeleteMember from "@/components/shared/deleteMember";
 import { Badge } from "@/components/ui/badge";
 import clsx from "clsx";
+import RemoveMember from "@/components/shared/RemoveMember";
 
 export function getColumns(schoolId: string): ColumnDef<MemberType>[] {
   return [
@@ -146,12 +146,14 @@ export function getColumns(schoolId: string): ColumnDef<MemberType>[] {
                 <AssignGroup
                   schoolId={schoolId}
                   selectedMemberIds={[memberId]}
+                  assignGroupMode="multiple"
                   className="bg-card hover:bg-secondary justify-start"
                 />
                 <UnAssignGroup
                   schoolId={schoolId}
                   selectedMemberIds={[memberId]}
                   className="bg-card hover:bg-secondary"
+                  unassignGroupMode="multiple"
                 />
               </div>
               <DropdownMenuSeparator />
@@ -162,10 +164,11 @@ export function getColumns(schoolId: string): ColumnDef<MemberType>[] {
                 Copy member email
               </DropdownMenuItem>
               <DropdownMenuSeparator />
-              <DeleteMember
+              <RemoveMember
                 schoolId={schoolId}
                 selectedMemberIds={[memberId]}
                 className="bg-card hover:bg-secondary text-destructive w-full"
+                btnText="Remove member"
               />
             </DropdownMenuContent>
           </DropdownMenu>

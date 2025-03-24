@@ -21,12 +21,14 @@ type Props = {
   schoolId: string;
   selectedMemberIds: number[];
   className?: string;
+  btnText?: string;
 };
 
-export default function DeleteMember({
+export default function RemoveMember({
   schoolId,
   selectedMemberIds,
   className,
+  btnText = "Remove Member(s)",
 }: Props) {
   const router = useRouter();
   const { toast } = useToast();
@@ -43,15 +45,15 @@ export default function DeleteMember({
     },
     onSuccess: () => {
       toast({
-        title: "Member(s) deleted successfully",
-        description: `${selectedMemberIds.length} member(s) deleted from you school`,
+        title: "Member(s) removed successfully",
+        description: `${selectedMemberIds.length} member(s) remove from you school`,
       });
       setIsModalOpen(false);
       router.refresh();
     },
     onError: (err: AxiosError) => {
       toast({
-        title: "Member(s) deletion failed",
+        title: "Member(s) removal failed",
         description: err.response && (err.response.data as string),
         variant: "destructive",
       });
@@ -62,14 +64,14 @@ export default function DeleteMember({
     <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
       <DialogTrigger className={className} asChild>
         <Button variant="destructive" size="sm">
-          Delete Member(s)
+          {btnText}
         </Button>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Delete Member(s)</DialogTitle>
+          <DialogTitle> {btnText}</DialogTitle>
           <DialogDescription>
-            Please note that deleting a member is an irreversible action. Once
+            Please note that removing a member is an irreversible action. Once
             confirmed, all associated data will be deleted and cannot be
             recovered.
           </DialogDescription>
@@ -83,7 +85,7 @@ export default function DeleteMember({
             Cancel
           </Button>
           <Button variant="destructive" size="sm" onClick={() => mutate()}>
-            {isPending ? <LoaderCircle /> : <span>Delete</span>}
+            {isPending ? <LoaderCircle /> : <span>Remove</span>}
           </Button>
         </DialogFooter>
       </DialogContent>
