@@ -6,11 +6,12 @@ import {
   SelectItem,
 } from "@/components/ui/select";
 import { Table } from "@tanstack/react-table";
-import { MemberType } from "./columns";
+import { MemberType } from "@/types/member";
 
 type Props = {
   table: Table<MemberType>;
 };
+
 export default function RoleFilter({ table }: Props) {
   return (
     <Select

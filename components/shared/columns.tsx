@@ -113,7 +113,7 @@ export function getColumns(schoolId: string): ColumnDef<MemberType>[] {
           .toLowerCase()
           .replace(/_/g, " ")
           .replace(/\b\w/g, (char) => char.toUpperCase());
-        const badgeColor: { [role]: string } = {
+        const badgeColor = {
           SUPER_ADMIN: "bg-red-800/10 text-red-800",
           ADMIN: "bg-purple-800/10 text-purple-800",
           TEACHER: "bg-amber-800/10 text-amber-800",

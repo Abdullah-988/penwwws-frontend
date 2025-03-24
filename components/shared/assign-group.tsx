@@ -13,7 +13,7 @@ import { Button } from "@/components/ui/button";
 import { Users } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { AxiosError } from "axios";
-import { GroupItem } from "@/components/shared/groupItem";
+import { DropdownMenuGroupItem } from "@/components/shared/DropdownMenuGroupItem";
 import { useQuery } from "@tanstack/react-query";
 import { getGroups } from "@/fetches/groups";
 import clsx from "clsx";
@@ -87,14 +87,14 @@ export default function AssignGroup({
           size="sm"
           variant="outline"
         >
-          <Users className="text-primary" size={6} />
+          <Users size={6} />
           Assign group
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent>
         {groups &&
           groups.map((group) => (
-            <GroupItem
+            <DropdownMenuGroupItem
               key={group.id}
               group={group}
               selectedGroupIds={[]}

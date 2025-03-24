@@ -39,7 +39,7 @@ import {
   DropdownMenu,
   DropdownMenuContent,
 } from "@/components/ui/dropdown-menu";
-import { GroupItem } from "@/components/shared/groupItem";
+import { DropdownMenuGroupItem } from "@/components/shared/DropdownMenuGroupItem";
 import { GroupType } from "@/types/Group";
 
 type FormData = z.infer<typeof addGroupSchema>;
@@ -177,7 +177,7 @@ export default function AddGroup({ schoolId, groups }: Props) {
               <DropdownMenuContent className="w-96">
                 {groups &&
                   groups.map((group) => (
-                    <GroupItem
+                    <DropdownMenuGroupItem
                       key={group.id}
                       group={group}
                       selectedGroupIds={selectedGroupIds}
@@ -195,7 +195,7 @@ export default function AddGroup({ schoolId, groups }: Props) {
               {form.formState.isSubmitting ? (
                 <SpinnerIcon className="animate-spin" />
               ) : (
-                "Add Group"
+                "New Group"
               )}
             </Button>
           </form>

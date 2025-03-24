@@ -11,6 +11,7 @@ import { AxiosError } from "axios";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { GroupType } from "@/types/Group";
+import { Trash2, Users } from "lucide-react";
 
 type Props = {
   data: MemberType[];
@@ -94,14 +95,17 @@ export default function GroupMembersTable({ group, schoolId, data }: Props) {
           className="bg-primary/10 text-primary hover:bg-primary/15 hover:text-primary border-none"
           disabled={selectedMemberIds.length == 0}
         >
-          Assign
+          <Users size={6} />
+          Assign group
         </Button>
+
         <Button
           size="sm"
           onClick={handleUnassign}
           disabled={selectedMemberIds.length == 0}
           className="bg-destructive/10 text-destructive hover:bg-destructive/15 hover:text-destructive border-none"
         >
+          <Trash2 size={6} />
           Unassign
         </Button>
       </>

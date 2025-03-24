@@ -12,8 +12,8 @@ import {
 import { ChevronDown, RefreshCw } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import { getGroups } from "@/fetches/groups";
-import { GroupItem } from "@/components/shared/groupItem";
-import SelectedGroupsDisplay from "@/selectedGroupsDisplay";
+import { DropdownMenuGroupItem } from "./DropdownMenuGroupItem";
+import SelectedGroupsDisplay from "@/components/features/dashboard/home/selectedGroupsDisplay";
 
 type GroupFilterProps = {
   table: Table<MemberType>;
@@ -86,7 +86,7 @@ export const GroupFilter = ({
       <DropdownMenuContent className="w-56">
         {groups &&
           groups.map((group) => (
-            <GroupItem
+            <DropdownMenuGroupItem
               key={group.id}
               group={group}
               selectedGroupIds={selectedGroupIds}

@@ -14,7 +14,7 @@ type GroupItemProps = {
   handleGroupClick: (groupId: number) => void;
 };
 
-export function GroupItem({
+export function DropdownMenuGroupItem({
   group,
   selectedGroupIds,
   handleGroupClick,
@@ -46,7 +46,7 @@ export function GroupItem({
           <DropdownMenuSubContent>
             {group.children &&
               group.children.map((child) => (
-                <GroupItem
+                <DropdownMenuGroupItem
                   key={child.id}
                   group={child}
                   selectedGroupIds={selectedGroupIds}

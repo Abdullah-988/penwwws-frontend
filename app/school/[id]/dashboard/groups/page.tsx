@@ -6,7 +6,8 @@ import { cookies } from "next/headers";
 import { GroupType } from "@/types/Group";
 import axios from "@/lib/axiosInstance";
 import { formatGroups } from "@/lib/utils";
-export async function getGroups(schoolId: string) {
+
+async function getGroups(schoolId: string) {
   const token = await getCookie("token", { cookies });
   const res = await axios.get<GroupType[]>(`/school/${schoolId}/group`, {
     headers: { Authorization: token },

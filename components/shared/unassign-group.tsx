@@ -12,8 +12,8 @@ import { getCookie } from "cookies-next";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
 import { AxiosError } from "axios";
-import { GroupItem } from "@/components/shared/groupItem";
 import { useQuery } from "@tanstack/react-query";
+import { DropdownMenuGroupItem } from "./DropdownMenuGroupItem";
 import { getGroups } from "@/fetches/groups";
 import { Trash2 } from "lucide-react";
 import clsx from "clsx";
@@ -91,7 +91,7 @@ export default function UnassignGroup({
       <DropdownMenuContent>
         {groups &&
           groups.map((group) => (
-            <GroupItem
+            <DropdownMenuGroupItem
               key={group.id}
               group={group}
               selectedGroupIds={[]}
