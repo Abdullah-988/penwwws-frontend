@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { Button } from "@/components/ui/button";
 import {
@@ -11,33 +11,28 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { LoaderCircle as SpinnerIcon, Plus } from "lucide-react";
+import { LoaderCircle as SpinnerIcon, Pencil } from "lucide-react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import axios from "@/lib/axiosInstance";
 import { getCookie } from "cookies-next";
 import { Form } from "@/components/ui/form";
 import { AxiosError } from "axios";
-import { groupSchema } from "@/lib/validations";
 import { useRouter } from "next/navigation";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-} from "@/components/ui/dropdown-menu";
-import { DropdownMenuGroupItem } from "@/components/shared/DropdownMenuGroupItem";
+
 import { GroupType } from "@/types/Group";
-import GroupFormFields from "./GroupFormFields";
-import { GroupFormData } from "@/lib/validations";
+import GroupFormFields from "@/components/features/dashboard/groups/GroupFormFields";
+import { GroupFormData, groupSchema } from "@/lib/validations";
 
 type Props = {
   schoolId: string;
+  group: GroupType;
   groups: GroupType[];
 };
 
-export default function AddGroup({ schoolId, groups }: Props) {
+export default function EditGroup({ schoolId, group, groups }: Props) {
   const { toast } = useToast();
   const router = useRouter();
-  const [selectedGroupIds, setSelectedGroupIds] = useState<number[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const flattenGroups = (groups: GroupType[]): GroupType[] =>
@@ -49,34 +44,37 @@ export default function AddGroup({ schoolId, groups }: Props) {
   const form = useForm<GroupFormData>({
     resolver: zodResolver(groupSchema),
     defaultValues: {
-      name: "",
-      parentId: null,
+      name: group.name,
+      parentId: group.parentId,
     },
   });
 
-  function toggleGroup(groupId: number) {
-    setSelectedGroupIds([groupId]);
-    form.setValue("parentId", groupId);
-  }
+  useEffect(() => {
+    if (isModalOpen) {
+      form.reset({
+        name: group.name,
+        parentId: group.parentId,
+      });
+    }
+  }, [group, isModalOpen, form]);
 
   async function onSubmit(data: GroupFormData) {
     const token = await getCookie("token");
     try {
-      await axios.post(`/school/${schoolId}/group`, data, {
+      await axios.put(`/school/${schoolId}/group/${group.id}`, data, {
         headers: { Authorization: token },
       });
       router.refresh();
       setIsModalOpen(false);
-      form.reset();
       toast({
-        title: "Group Added",
-        description: `The group ${data.name} has been added.`,
+        title: "Group Edited",
+        description: `The group ${data.name} has been edited.`,
       });
     } catch (err) {
       const error = err as AxiosError;
-      console.error("Error adding group:", error.response?.data);
+      console.error("Error Editing group:", error.response?.data);
       toast({
-        title: "Group Add Failed",
+        title: "Group Edit Failed",
         description:
           (error.response?.data as string) || "An unexpected error occurred.",
         variant: "destructive",
@@ -84,26 +82,24 @@ export default function AddGroup({ schoolId, groups }: Props) {
     }
   }
 
-  useEffect(() => {
-    setSelectedGroupIds([]);
-    form.reset();
-  }, [isModalOpen, form]);
   return (
     <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
       <DialogTrigger asChild>
-        <Button size="sm" className="rounded-full px-4 text-sm font-semibold">
-          <Plus size={10} />
-          New Group
+        <Button
+          size="sm"
+          className="bg-amber-800/10 text-amber-800 hover:bg-amber-800/15"
+        >
+          <Pencil size={10} />
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <Form {...form}>
           <form className="space-y-4" onSubmit={form.handleSubmit(onSubmit)}>
             <DialogHeader>
-              <DialogTitle>Add group</DialogTitle>
+              <DialogTitle>Edit Group</DialogTitle>
               <DialogDescription>
-                Enter a group name to create a new group. Optionally, select a
-                parent group to make it a subgroup.
+                Edit the group name. Optionally, select a parent group to make
+                it a subgroup.
               </DialogDescription>
             </DialogHeader>
             <GroupFormFields
@@ -111,19 +107,6 @@ export default function AddGroup({ schoolId, groups }: Props) {
               form={form}
               groups={groups}
             />
-            <DropdownMenu>
-              <DropdownMenuContent className="w-96">
-                {groups &&
-                  groups.map((group) => (
-                    <DropdownMenuGroupItem
-                      key={group.id}
-                      group={group}
-                      selectedGroupIds={selectedGroupIds}
-                      handleGroupClick={toggleGroup}
-                    />
-                  ))}
-              </DropdownMenuContent>
-            </DropdownMenu>
             <Button
               disabled={form.formState.isSubmitting}
               type="submit"
@@ -133,7 +116,7 @@ export default function AddGroup({ schoolId, groups }: Props) {
               {form.formState.isSubmitting ? (
                 <SpinnerIcon className="animate-spin" />
               ) : (
-                "Add Group"
+                "Edit Group"
               )}
             </Button>
           </form>

@@ -21,6 +21,7 @@ export default function GroupList({ groups, data, schoolId }: Props) {
           data={data}
           schoolId={schoolId}
           group={group}
+          groups={groups}
         />
       ))}
     </Accordion>

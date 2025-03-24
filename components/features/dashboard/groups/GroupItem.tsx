@@ -8,14 +8,16 @@ import { Users } from "lucide-react";
 import GroupDetail from "@/components/features/dashboard/groups/GroupDetail";
 import DeleteGroup from "@/components/features/dashboard/groups/DeleteGroup";
 import { MemberType } from "@/types/member";
+import EditGroup from "@/components/features/dashboard/groups/EditGroup";
 
 type Props = {
   group: GroupType;
   data: MemberType[];
   schoolId: string;
+  groups: GroupType[];
 };
 
-export default function GroupItem({ group, data, schoolId }: Props) {
+export default function GroupItem({ group, data, schoolId, groups }: Props) {
   const hasChildren = group.children && group.children.length > 0;
 
   return (
@@ -35,6 +37,7 @@ export default function GroupItem({ group, data, schoolId }: Props) {
               <>
                 {" "}
                 <DeleteGroup schoolId={schoolId} group={group} />
+                <EditGroup schoolId={schoolId} group={group} groups={groups} />
                 <GroupDetail schoolId={schoolId} data={data} group={group} />
               </>
             </div>
@@ -48,6 +51,7 @@ export default function GroupItem({ group, data, schoolId }: Props) {
                   group={child}
                   data={data}
                   schoolId={schoolId}
+                  groups={groups}
                 />
               ))}
           </AccordionContent>
@@ -60,6 +64,7 @@ export default function GroupItem({ group, data, schoolId }: Props) {
           </div>
           <div className="flex items-center gap-2 opacity-0 group-hover:opacity-100">
             <DeleteGroup schoolId={schoolId} group={group} />
+            <EditGroup schoolId={schoolId} group={group} groups={groups} />
             <GroupDetail schoolId={schoolId} data={data} group={group} />
           </div>
         </div>
