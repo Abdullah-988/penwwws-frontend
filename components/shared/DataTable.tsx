@@ -22,9 +22,9 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { MemberType } from "@/types/member";
-import { TableSearch } from "@/components/shared/table-search";
-import RoleFilter from "@/components/shared/role-filter";
-import { GroupFilter } from "./group-filter";
+import { TableSearch } from "@/components/shared/TableSearch";
+import RoleFilter from "@/components/shared/RoleFilter";
+import { GroupFilter } from "@/components/shared/GroupFilter";
 import { GroupType } from "@/types/Group";
 
 const globalFilterFn: FilterFn<MemberType> = (

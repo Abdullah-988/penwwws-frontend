@@ -1,6 +1,6 @@
 import Link from "next/link";
-import GoogleOAuthBtn from "@/components/GoogleOAuthBtn";
-import PenwwwsIcon from "@/components/icons/PenwwwsIcon";
+import GoogleOAuthBtn from "@/components/features/auth/GoogleOAuthBtn";
+import PenwwwsIcon from "@/components/icons/Penwwws";
 import SignupForm from "@/components/features/auth/SignupForm";
 import AuthPromoAside from "@/components/features/auth/AuthPromoAside";
 

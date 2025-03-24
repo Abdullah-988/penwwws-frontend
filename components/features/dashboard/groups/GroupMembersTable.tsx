@@ -1,6 +1,6 @@
 "use client";
 
-import { DataTable } from "@/components/shared/data-table";
+import { DataTable } from "@/components/shared/DataTable";
 import { useState } from "react";
 import { getColumns } from "@/components/shared/columns";
 import { MemberType } from "@/types/member";
@@ -12,7 +12,7 @@ import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { GroupType } from "@/types/Group";
 import { Trash2 } from "lucide-react";
-import AssignGroup from "@/components/shared/assign-group";
+import AssignGroup from "@/components/shared/AssignGroup";
 
 type Props = {
   data: MemberType[];

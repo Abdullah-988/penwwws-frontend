@@ -10,7 +10,7 @@ import {
 import { AlignJustify, Users } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { GroupType } from "@/types/Group";
-import GroupMembersTable from "./group-members-table";
+import GroupMembersTable from "@/components/features/dashboard/groups/GroupMembersTable";
 import { MemberType } from "@/types/member";
 import { Button } from "@/components/ui/button";
 

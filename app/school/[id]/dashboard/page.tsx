@@ -1,6 +1,6 @@
 import Stats from "@/components/features/dashboard/home/Stats";
 import InviteMember from "@/components/features/dashboard/home/InviteMember";
-import { MembersTable } from "@/components/features/dashboard/home/home-members-table";
+import { MembersTable } from "@/components/features/dashboard/home/HomeMembersTable";
 import { getMembers } from "@/fetches/member";
 
 export default async function Page({

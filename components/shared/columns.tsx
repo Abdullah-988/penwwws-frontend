@@ -15,8 +15,8 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { MemberType } from "@/types/member";
-import AssignGroup from "@/components/shared/assign-group";
-import UnAssignGroup from "@/components/shared/unassign-group";
+import AssignGroup from "@/components/shared/AssignGroup";
+import UnAssignGroup from "@/components/shared/UnassignGroup";
 import { Badge } from "@/components/ui/badge";
 import clsx from "clsx";
 import RemoveMember from "@/components/shared/RemoveMember";

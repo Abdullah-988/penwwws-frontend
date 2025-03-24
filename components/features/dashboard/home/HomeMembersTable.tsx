@@ -1,11 +1,11 @@
 "use client";
 
-import { DataTable } from "@/components/shared/data-table";
+import { DataTable } from "@/components/shared/DataTable";
 import { getColumns } from "@/components/shared/columns";
 import { MemberType } from "@/types/member";
 import { useState } from "react";
-import AssignGroup from "@/components/shared/assign-group";
-import UnassignGroup from "@/components/shared/unassign-group";
+import AssignGroup from "@/components/shared/AssignGroup";
+import UnassignGroup from "@/components/shared/UnassignGroup";
 import RemoveMember from "@/components/shared/RemoveMember";
 
 type Props = {
