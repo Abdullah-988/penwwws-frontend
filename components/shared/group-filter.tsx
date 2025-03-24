@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { Table } from "@tanstack/react-table";
 import { GroupType } from "@/types/Group";
-import { MemberType } from "@/components/shared/columns";
+import { MemberType } from "@/types/member";
 import {
   DropdownMenu,
   DropdownMenuTrigger,

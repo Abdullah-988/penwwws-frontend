@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { Button } from "@/components/ui/button";
 import {
@@ -11,9 +11,13 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import SelectGroupField from "./SelectGroupField";
 import { Input } from "@/components/ui/input";
-import { LoaderCircle as SpinnerIcon, Plus } from "lucide-react";
+import {
+  LoaderCircle as SpinnerIcon,
+  Plus,
+  ChevronDown,
+  X,
+} from "lucide-react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -28,22 +32,34 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { AxiosError } from "axios";
-import { useQueryClient } from "@tanstack/react-query";
 import { addGroupSchema } from "@/lib/validations";
 import { useRouter } from "next/navigation";
+import { DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+} from "@/components/ui/dropdown-menu";
+import { GroupItem } from "@/components/shared/groupItem";
+import { GroupType } from "@/types/Group";
 
 type FormData = z.infer<typeof addGroupSchema>;
 
 type Props = {
   schoolId: string;
+  groups: GroupType[];
 };
 
-export default function AddGroup({ schoolId }: Props) {
+export default function AddGroup({ schoolId, groups }: Props) {
   const { toast } = useToast();
   const router = useRouter();
-  const queryClient = useQueryClient();
-
+  const [selectedGroupIds, setSelectedGroupIds] = useState<number[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const flattenGroups = (groups: GroupType[]): GroupType[] =>
+    groups.flatMap((g) => [g, ...flattenGroups(g.children ?? [])]);
+
+  const flatGroups = groups ? flattenGroups(groups) : [];
+  const groupNameMap = new Map(flatGroups.map((g) => [g.id, g.name]));
 
   const form = useForm<FormData>({
     resolver: zodResolver(addGroupSchema),
@@ -53,6 +69,11 @@ export default function AddGroup({ schoolId }: Props) {
     },
   });
 
+  function toggleGroup(groupId: number) {
+    setSelectedGroupIds([groupId]);
+    form.setValue("parentId", groupId);
+  }
+
   async function onSubmit(data: FormData) {
     const token = await getCookie("token");
     try {
@@ -60,7 +81,6 @@ export default function AddGroup({ schoolId }: Props) {
         headers: { Authorization: token },
       });
       router.refresh();
-      queryClient.invalidateQueries({ queryKey: ["groups"] });
       setIsModalOpen(false);
       form.reset();
       toast({
@@ -79,6 +99,10 @@ export default function AddGroup({ schoolId }: Props) {
     }
   }
 
+  useEffect(() => {
+    setSelectedGroupIds([]);
+    form.reset();
+  }, [isModalOpen, form]);
   return (
     <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
       <DialogTrigger asChild>
@@ -117,9 +141,51 @@ export default function AddGroup({ schoolId }: Props) {
                 </FormItem>
               )}
             />
+            <DropdownMenu>
+              <FormLabel className="text-muted-foreground">
+                Parent group (Optional)
+              </FormLabel>
+              <div className="group relative w-full">
+                <DropdownMenuTrigger className="hover:border-primary flex w-full items-center justify-between rounded-md border p-2">
+                  <span className="text-sm">
+                    {selectedGroupIds.length > 0 ? (
+                      groupNameMap.get(selectedGroupIds[0])
+                    ) : (
+                      <span className="text-muted-foreground">
+                        Select a group
+                      </span>
+                    )}
+                  </span>
+                  <ChevronDown className="text-muted-foreground h-4 w-4 shrink-0" />
+                </DropdownMenuTrigger>
 
-            <SelectGroupField form={form} schoolId={schoolId} />
-
+                {selectedGroupIds.length > 0 && (
+                  <button
+                    type="button"
+                    className="absolute top-1/2 right-10 -translate-y-1/2 transform opacity-0 transition-opacity group-hover:opacity-100"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setSelectedGroupIds([]);
+                      form.setValue("parentId", null);
+                    }}
+                    aria-label="Clear selection"
+                  >
+                    <X className="text-muted-foreground h-4 w-4" />
+                  </button>
+                )}
+              </div>
+              <DropdownMenuContent className="w-96">
+                {groups &&
+                  groups.map((group) => (
+                    <GroupItem
+                      key={group.id}
+                      group={group}
+                      selectedGroupIds={selectedGroupIds}
+                      handleGroupClick={toggleGroup}
+                    />
+                  ))}
+              </DropdownMenuContent>
+            </DropdownMenu>
             <Button
               disabled={form.formState.isSubmitting}
               type="submit"
