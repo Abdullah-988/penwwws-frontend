@@ -1,7 +1,6 @@
 import SubjectsList from "@/components/features/dashboard/subjects/SubjectsList";
 import AddSubject from "@/components/features/dashboard/subjects/AddSubject";
 
-// tring to fix the error
 export default async function SubjectsPage({
   params,
 }: {
