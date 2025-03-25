@@ -20,7 +20,7 @@ type Props = {
   data: MemberType[];
 };
 
-export default function GroupDetail({ schoolId, group, data }: Props) {
+export default function GroupDetails({ schoolId, group, data }: Props) {
   const memberCount = new Intl.NumberFormat("en-IN").format(
     group._count.members,
   );

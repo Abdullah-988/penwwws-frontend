@@ -16,7 +16,7 @@ import {
 import { GroupType } from "@/types/Group";
 import { Trash2, LoaderCircle } from "lucide-react";
 import { useMutation } from "@tanstack/react-query";
-import axiosInstance from "@/lib/axiosInstance";
+import axios from "@/lib/axiosInstance";
 import { AxiosError } from "axios";
 import { getCookie } from "cookies-next";
 
@@ -35,7 +35,7 @@ export default function DeleteGroup({ schoolId, group }: Props) {
     mutationFn: async () => {
       const token = await getCookie("token");
 
-      await axiosInstance.delete(`/school/${schoolId}/group/${group.id}`, {
+      await axios.delete(`/school/${schoolId}/group/${group.id}`, {
         headers: { Authorization: token },
       });
     },

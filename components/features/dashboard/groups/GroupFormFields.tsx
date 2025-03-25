@@ -85,7 +85,7 @@ export default function GroupFormFields({ form, groups, groupNameMap }: Props) {
                   )}
                 </div>
                 <DropdownMenuContent className="w-96">
-                  {groups &&
+                  {groups && groups?.length > 0 ? (
                     groups.map((group) => (
                       <DropdownMenuGroupItem
                         key={group.id}
@@ -93,7 +93,12 @@ export default function GroupFormFields({ form, groups, groupNameMap }: Props) {
                         selectedGroupIds={field.value ? [field.value] : []}
                         handleGroupClick={toggleGroup}
                       />
-                    ))}
+                    ))
+                  ) : (
+                    <span className="text-muted-foreground p-2 text-sm">
+                      No groups
+                    </span>
+                  )}
                 </DropdownMenuContent>
               </DropdownMenu>
             </FormControl>

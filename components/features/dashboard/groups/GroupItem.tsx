@@ -5,7 +5,7 @@ import {
 } from "@/components/ui/accordion";
 import { GroupType } from "@/types/Group";
 import { Users } from "lucide-react";
-import GroupDetail from "@/components/features/dashboard/groups/GroupDetail";
+import GroupDetails from "@/components/features/dashboard/groups/GroupDetails";
 import DeleteGroup from "@/components/features/dashboard/groups/DeleteGroup";
 import { MemberType } from "@/types/member";
 import EditGroup from "@/components/features/dashboard/groups/EditGroup";
@@ -38,7 +38,7 @@ export default function GroupItem({ group, data, schoolId, groups }: Props) {
                 {" "}
                 <DeleteGroup schoolId={schoolId} group={group} />
                 <EditGroup schoolId={schoolId} group={group} groups={groups} />
-                <GroupDetail schoolId={schoolId} data={data} group={group} />
+                <GroupDetails schoolId={schoolId} data={data} group={group} />
               </>
             </div>
           </div>
@@ -65,7 +65,7 @@ export default function GroupItem({ group, data, schoolId, groups }: Props) {
           <div className="flex items-center gap-2 opacity-0 group-hover:opacity-100">
             <DeleteGroup schoolId={schoolId} group={group} />
             <EditGroup schoolId={schoolId} group={group} groups={groups} />
-            <GroupDetail schoolId={schoolId} data={data} group={group} />
+            <GroupDetails schoolId={schoolId} data={data} group={group} />
           </div>
         </div>
       )}
