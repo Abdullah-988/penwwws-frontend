@@ -84,7 +84,7 @@ export const GroupFilter = ({
       </div>
 
       <DropdownMenuContent className="w-56">
-        {groups &&
+        {groups && groups?.length > 0 ? (
           groups.map((group) => (
             <DropdownMenuGroupItem
               key={group.id}
@@ -92,7 +92,10 @@ export const GroupFilter = ({
               selectedGroupIds={selectedGroupIds}
               handleGroupClick={toggleGroup}
             />
-          ))}
+          ))
+        ) : (
+          <span className="text-muted-foreground p-2 text-sm">No groups</span>
+        )}
       </DropdownMenuContent>
     </DropdownMenu>
   );

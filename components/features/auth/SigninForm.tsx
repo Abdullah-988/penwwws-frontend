@@ -38,7 +38,10 @@ export default function SigninForm() {
   async function onSubmit(formData: formDataType) {
     try {
       const res = await axios.post("/login", formData);
-      setCookie("token", res.headers.authorization);
+      setCookie("token", res.headers.authorization, {
+        maxAge: 60 * 60 * 24 * 30,
+        path: "/",
+      });
       router.push("/console");
     } catch (err) {
       const error = err as AxiosError;
