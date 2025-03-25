@@ -1,5 +1,5 @@
-import AddSubject from "@/components/features/dashboard/subjects/AddSubject";
 import SubjectsList from "@/components/features/dashboard/subjects/SubjectsList";
+import AddSubject from "@/components/features/dashboard/subjects/AddSubject";
 
 export default async function SubjectsPage({
   params,

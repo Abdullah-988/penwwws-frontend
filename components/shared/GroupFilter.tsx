@@ -12,8 +12,8 @@ import {
 import { ChevronDown, RefreshCw } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import { getGroups } from "@/fetches/groups";
-import { DropdownMenuGroupItem } from "./DropdownMenuGroupItem";
-import SelectedGroupsDisplay from "@/components/features/dashboard/home/SelectedGroupsDisplay";
+import { DropdownMenuGroupItem } from "@/components/shared/DropdownMenuGroupItem";
+import SelectedGroupsDisplay from "@/components/shared/SelectedGroupsDisplay";
 
 type GroupFilterProps = {
   table: Table<MemberType>;
