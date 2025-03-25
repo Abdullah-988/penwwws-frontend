@@ -1,67 +1,29 @@
 "use client";
-
-import axios from "@/lib/axiosInstance";
-import { getCookie } from "cookies-next";
-import { useQuery } from "@tanstack/react-query";
+import { Accordion } from "@/components/ui/accordion";
+import GroupItem from "@/components/features/dashboard/groups/GroupItem";
 import { GroupType } from "@/types/Group";
-import { Skeleton } from "@/components/ui/skeleton";
-import { Users } from "lucide-react";
+import { MemberType } from "@/types/member";
+
 type Props = {
+  groups: GroupType[];
+  data: MemberType[];
   schoolId: string;
 };
 
-async function getGroup(schoolId: string) {
-  const token = await getCookie("token");
-  const res = await axios.get(`/school/${schoolId}/group`, {
-    headers: { Authorization: token },
-  });
-  return res.data;
-}
+export default function GroupList({ groups, data, schoolId }: Props) {
+  if (groups.length === 0) return <div>No groups yet</div>;
 
-export default function GroupList({ schoolId }: Props) {
-  const { data: group, isLoading } = useQuery<GroupType[]>({
-    queryKey: ["groups"],
-    queryFn: () => getGroup(schoolId),
-  });
-
-  if (isLoading) {
-    return (
-      <div className="grid w-full grid-cols-1 gap-2 md:grid-cols-3 lg:grid-cols-4">
-        {[...Array(6).keys()].map((key) => (
-          <div
-            key={key}
-            className="border-border flex items-center justify-between rounded-xl border p-4"
-          >
-            <div className="flex h-full flex-col items-start justify-between gap-2">
-              <Skeleton className="h-6 w-36" />
-            </div>
-          </div>
-        ))}
-      </div>
-    );
-  }
-  //TODO: Add default image url value
-  if (group?.length === 0) return <div>No groups yet</div>;
-
-  if (!group) return null;
   return (
-    <div className="grid w-full grid-cols-1 gap-2 md:grid-cols-3 lg:grid-cols-4">
-      {group.map((group) => (
-        <div
+    <Accordion type="multiple">
+      {groups.map((group) => (
+        <GroupItem
           key={group.id}
-          className="border-border flex items-center justify-between rounded-xl border p-4"
-        >
-          <div className="flex h-full flex-col items-start justify-between gap-2">
-            <h2 className="font-semibold">{group.name}</h2>
-          </div>
-          <div className="flex items-center gap-2">
-            <Users size={16} className="text-primary" />
-            <h1>
-              {new Intl.NumberFormat("en-US").format(group._count.members)}
-            </h1>
-          </div>
-        </div>
+          data={data}
+          schoolId={schoolId}
+          group={group}
+          groups={groups}
+        />
       ))}
-    </div>
+    </Accordion>
   );
 }

@@ -1,6 +1,7 @@
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 import { RoleType } from "@/types/Role";
+import { GroupType } from "@/types/Group";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -22,4 +23,30 @@ export function getRoleRedirectPath(role: RoleType): string {
     TEACHER: "teacher/dashboard",
   };
   return roleRedirectMap[role];
+}
+
+export function formatGroups(groups: GroupType[]): GroupType[] {
+  const groupMap = new Map<string | number, GroupType>();
+
+  groups.forEach((group) => {
+    groupMap.set(group.id, { ...group, children: [] });
+  });
+
+  const rootGroups: GroupType[] = [];
+
+  groups.forEach((group) => {
+    if (group.parentId) {
+      const parentGroup = groupMap.get(group.parentId);
+      if (parentGroup) {
+        if (!parentGroup.children) {
+          parentGroup.children = [];
+        }
+        parentGroup.children.push(groupMap.get(group.id)!);
+      }
+    } else {
+      rootGroups.push(groupMap.get(group.id)!);
+    }
+  });
+
+  return rootGroups;
 }

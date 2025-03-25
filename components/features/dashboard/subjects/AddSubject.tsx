@@ -87,7 +87,7 @@ export default function AddSubject({ schoolId }: Props) {
       <DialogTrigger asChild>
         <Button size="sm" className="rounded-full px-4 text-sm font-semibold">
           <Plus size={10} />
-          Add Subject
+          New Subject
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">

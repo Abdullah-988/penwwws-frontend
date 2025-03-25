@@ -37,7 +37,9 @@ export const signinFormSchema = z.object({
   password: z.string().min(8, "Password must be at least 8 characters long"),
 });
 
-export const addGroupSchema = z.object({
+export const groupSchema = z.object({
   name: z.string().trim().nonempty("Group name is required"),
   parentId: z.number().nullable().optional(),
 });
+
+export type GroupFormData = z.infer<typeof groupSchema>;

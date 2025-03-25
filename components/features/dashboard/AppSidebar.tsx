@@ -5,8 +5,8 @@ import clsx from "clsx";
 import { usePathname } from "next/navigation";
 import { Home, Settings, LibraryBig, Users } from "lucide-react";
 
-import { SchoolSwitcher } from "./school-switcher";
-import { NavUser } from "@/components/nav-user";
+import { SchoolSwitcher } from "@/components/features/dashboard/SchoolSwitcher";
+import { NavUser } from "@/components/features/dashboard/NavUser";
 import {
   Sidebar,
   SidebarContent,

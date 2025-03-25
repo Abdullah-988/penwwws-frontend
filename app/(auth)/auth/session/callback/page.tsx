@@ -21,7 +21,10 @@ const AuthCallback = () => {
           axios
             .post("/oauth", { token, provider: "google" })
             .then((res) => {
-              setCookie("token", res.headers.authorization);
+              setCookie("token", res.headers.authorization, {
+                maxAge: 60 * 60 * 24 * 30,
+                path: "/",
+              });
               router.push("/console");
             })
             .catch((err) => {

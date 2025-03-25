@@ -23,7 +23,7 @@ import { useRouter } from "next/navigation";
 import { UserType } from "@/types/User";
 import { getInitials } from "@/lib/utils";
 import { getUser } from "@/fetches/user";
-import { Skeleton } from "./ui/skeleton";
+import { Skeleton } from "@/components/ui/skeleton";
 
 export function NavUser() {
   const { data: user, isLoading } = useQuery<UserType>({

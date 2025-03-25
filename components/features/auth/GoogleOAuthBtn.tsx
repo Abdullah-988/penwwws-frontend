@@ -1,4 +1,4 @@
-import GoogleIcon from "@/components/icons/GoogleIcon";
+import GoogleIcon from "@/components/icons/Google";
 import Link from "next/link";
 
 export default function GoogleOAuthBtn() {

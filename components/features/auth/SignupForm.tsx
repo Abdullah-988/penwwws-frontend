@@ -46,7 +46,10 @@ export default function SignupForm() {
       const { fullName, email, password } = formData;
       const signupData = { fullName, email, password };
       const res = await axios.post("/register", signupData);
-      setCookie("token", res.headers.authorization);
+      setCookie("token", res.headers.authorization, {
+        maxAge: 60 * 60 * 24 * 30,
+        path: "/",
+      });
       router.push(`/confirm-email?email=${formData.email}`);
     } catch (err) {
       const error = err as AxiosError;
