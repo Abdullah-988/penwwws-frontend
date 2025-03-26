@@ -31,7 +31,6 @@ export default async function SettingsPage({
 
   return (
     <div>
-      SettingsPage
       <DeleteSchool school={school} />
     </div>
   );

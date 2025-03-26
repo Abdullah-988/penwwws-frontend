@@ -32,17 +32,14 @@ export default function DeleteSchool({ school }: Props) {
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [isMatch, setIsMatch] = useState<boolean | undefined>(undefined);
+  const [hasSubmitted, setHasSubmitted] = useState(false);
   const rule = `Delete my school ${school.name}`;
-
   async function handleDeleteSchool(e: FormEvent) {
     e.preventDefault();
+    setHasSubmitted(true);
     setIsLoading(true);
-
     try {
-      if (!isMatch) {
-        setErrorMessage("Does not match");
-      }
-      if (isMatch) {
+      if (isMatch && school.members[0].role === "SUPER_ADMIN") {
         const token = await getCookie("token");
         await axiosInstance.delete(`/school/${school.id}`, {
           headers: { Authorization: token },
@@ -62,12 +59,18 @@ export default function DeleteSchool({ school }: Props) {
   }
   useEffect(() => {
     setIsMatch(confirmInputValue.trim() === rule);
-  }, [confirmInputValue, rule]);
+    if (!isMatch && hasSubmitted) {
+      setErrorMessage("Does not match");
+    } else {
+      setErrorMessage("");
+    }
+  }, [confirmInputValue, rule, errorMessage, isMatch, hasSubmitted]);
 
   useEffect(() => {
     if (!isModalOpen) {
       setConfirmInputValue("");
       setErrorMessage("");
+      setHasSubmitted(false);
     }
   }, [isModalOpen]);
 

@@ -19,7 +19,7 @@ type Props = {
 
 export default function SelectSchool({ setSchoolAction }: Props) {
   const router = useRouter();
-  const { data: schools, isLoading } = useQuery<SchoolType[]>({
+  const { data: schools, isLoading } = useQuery<{ school: SchoolType }[]>({
     queryKey: ["schools"],
     queryFn: getSchools,
     refetchInterval: false,

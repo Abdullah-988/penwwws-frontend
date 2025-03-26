@@ -3,7 +3,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { ChevronsUpDown } from "lucide-react";
 import { getSchools } from "@/fetches/schools";
-import { SchoolType } from "@/types/School";
 import { getInitials, getRoleRedirectPath } from "@/lib/utils";
 import Link from "next/link";
 
@@ -23,11 +22,12 @@ import {
 } from "@/components/ui/sidebar";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Skeleton } from "@/components/ui/skeleton";
+import { SchoolType } from "@/types/School";
 
 type Props = { activeSchoolId: string };
 
 export function SchoolSwitcher({ activeSchoolId }: Props) {
-  const { data: schools, isLoading } = useQuery<SchoolType[]>({
+  const { data: schools, isLoading } = useQuery<{ school: SchoolType }[]>({
     queryKey: ["schools"],
     queryFn: getSchools,
     refetchInterval: false,
