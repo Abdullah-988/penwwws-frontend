@@ -34,7 +34,7 @@ export default function DeleteSchool({ school }: Props) {
   const [errorMessage, setErrorMessage] = useState("");
   const [isMatch, setIsMatch] = useState<boolean | undefined>(undefined);
   const [hasSubmitted, setHasSubmitted] = useState(false);
-  const rule = `Delete my school ${school.name}`;
+  const rule = "Delete " + school.name;
   async function handleDeleteSchool(e: FormEvent) {
     e.preventDefault();
     setHasSubmitted(true);
@@ -79,7 +79,7 @@ export default function DeleteSchool({ school }: Props) {
     <section className="rounded-md">
       <h1 className="text-md mb-3 font-semibold">School Deletion</h1>
       <div className="flex flex-col items-end justify-between gap-3 md:flex-row md:items-center md:gap-12">
-        <p className="text-muted-foreground md:max-w-[35rem]">
+        <p className="text-muted-foreground text-sm md:max-w-[35rem]">
           Deleting a school is permanent and cannot be undone. All data,
           including student and staff records, will be removed. Ensure you back
           up important information before proceeding.
@@ -129,7 +129,7 @@ export default function DeleteSchool({ school }: Props) {
               <Input
                 value={confirmInputValue}
                 onChange={(e) => setConfirmInputValue(e.target.value)}
-                placeholder={`Enter "${rule}"`}
+                placeholder={"Enter " + `"${rule}"`}
                 disabled={isLoading}
                 className="focus-visible:ring-destructive mt-2"
               />

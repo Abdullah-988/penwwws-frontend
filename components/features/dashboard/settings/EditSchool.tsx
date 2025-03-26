@@ -32,7 +32,6 @@ type FormData = z.infer<typeof editSchoolSchema>;
 
 export default function EditSchool({ school }: Props) {
   const { toast } = useToast();
-
   const queryClient = useQueryClient();
   const router = useRouter();
 
@@ -44,6 +43,7 @@ export default function EditSchool({ school }: Props) {
     },
     resolver: zodResolver(editSchoolSchema),
   });
+
   async function onsubmit(data: FormData) {
     try {
       const token = await getCookie("token");
@@ -52,7 +52,7 @@ export default function EditSchool({ school }: Props) {
         {
           logoUrl: data.logoUrl || "",
           name: data.name,
-          description: data.description,
+          description: data.description || "",
         },
         {
           headers: { Authorization: token },
@@ -72,10 +72,12 @@ export default function EditSchool({ school }: Props) {
       form.reset(data, { keepDirty: false });
     } catch (err) {
       const error = err as AxiosError;
+
       console.error(
         (error.response && (error.response.data as string)) ||
           "Unexpected error occur",
       );
+
       toast({
         title: "could not edit school",
         description:
@@ -119,7 +121,7 @@ export default function EditSchool({ school }: Props) {
                 <h1 className="text-md font-semibold">Description</h1>
                 <FormMessage />
                 <FormControl>
-                  <Textarea className="h-36 resize-none" {...field} />
+                  <Textarea className="bg-card h-36 resize-none" {...field} />
                 </FormControl>
               </FormItem>
             )}
