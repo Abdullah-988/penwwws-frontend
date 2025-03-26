@@ -75,67 +75,83 @@ export default function DeleteSchool({ school }: Props) {
   }, [isModalOpen]);
 
   return (
-    <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
-      <DialogTrigger asChild>
-        <Button variant="destructive">Delete school</Button>
-      </DialogTrigger>
+    <section className="rounded-xl border">
+      <div className="border-b py-2">
+        <h1 className="text-md px-3 font-semibold">School Deletion</h1>
+      </div>
+      <div className="flex flex-col items-end justify-between gap-3 px-3 py-6 md:flex-row md:items-center md:gap-12">
+        <p className="text-muted-foreground md:max-w-[35rem]">
+          Deleting a school is permanent and cannot be undone. All data,
+          including student and staff records, will be removed. Ensure you back
+          up important information before proceeding.
+        </p>
+        <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
+          <DialogTrigger asChild>
+            <Button variant="destructive">Delete school</Button>
+          </DialogTrigger>
 
-      <DialogContent className="gap-6">
-        <DialogHeader>
-          <DialogTitle>Delete school</DialogTitle>
-        </DialogHeader>
-        <div className="flex w-full flex-col items-center gap-4 border-b pb-6">
-          <div className="flex items-center gap-3">
-            <School size={20} />
-            <h1 className="text-xl font-bold">{school.name}</h1>
-          </div>
-          <div className="flex w-full max-w-sm items-center justify-between text-sm">
-            <div className="flex items-center gap-2">
-              <Users size={15} className="text-muted-foreground" />
-              <span>{school._count.students} Students</span>
+          <DialogContent className="gap-6">
+            <DialogHeader>
+              <DialogTitle>Delete school</DialogTitle>
+            </DialogHeader>
+            <div className="flex w-full flex-col items-center gap-4 border-b pb-6">
+              <div className="flex items-center gap-3">
+                <School size={20} />
+                <h1 className="text-xl font-bold">{school.name}</h1>
+              </div>
+              <div className="flex w-full max-w-sm items-center justify-between text-sm">
+                <div className="flex items-center gap-2">
+                  <Users size={15} className="text-muted-foreground" />
+                  <span>{school._count.students} Students</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <GraduationCap size={15} className="text-muted-foreground" />
+                  <span>{school._count.teachers} teachers</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <LibraryBig size={15} className="text-muted-foreground" />
+                  <span>{school._count.subjects} subjects</span>
+                </div>
+              </div>
             </div>
-            <div className="flex items-center gap-2">
-              <GraduationCap size={15} className="text-muted-foreground" />
-              <span>{school._count.teachers} teachers</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <LibraryBig size={15} className="text-muted-foreground" />
-              <span>{school._count.subjects} subjects</span>
-            </div>
-          </div>
-        </div>
 
-        <form onSubmit={handleDeleteSchool} className="space-y-4">
-          <DialogDescription className="mb-4">
-            Type <strong className="text-destructive">{rule}</strong> to
-            confirm. This action is irreversible.
-          </DialogDescription>
+            <form onSubmit={handleDeleteSchool} className="space-y-4">
+              <DialogDescription className="mb-4">
+                Type <strong className="text-destructive">{rule}</strong> to
+                confirm. This action is irreversible.
+              </DialogDescription>
 
-          {errorMessage && !isMatch && (
-            <p className="text-destructive mt-2 text-sm">{errorMessage}</p>
-          )}
+              {errorMessage && !isMatch && (
+                <p className="text-destructive mt-2 text-sm">{errorMessage}</p>
+              )}
 
-          <Input
-            value={confirmInputValue}
-            onChange={(e) => setConfirmInputValue(e.target.value)}
-            placeholder={`Enter "${rule}"`}
-            disabled={isLoading}
-            className="focus-visible:ring-destructive mt-2"
-          />
+              <Input
+                value={confirmInputValue}
+                onChange={(e) => setConfirmInputValue(e.target.value)}
+                placeholder={`Enter "${rule}"`}
+                disabled={isLoading}
+                className="focus-visible:ring-destructive mt-2"
+              />
 
-          <DialogFooter className="mt-6 gap-3">
-            <Button
-              variant="destructive"
-              disabled={isLoading}
-              type="submit"
-              className="w-full gap-2 rounded-full"
-            >
-              {isLoading && <LoaderCircle className="h-4 w-4 animate-spin" />}
-              Delete
-            </Button>
-          </DialogFooter>
-        </form>
-      </DialogContent>
-    </Dialog>
+              <DialogFooter className="mt-6 gap-3">
+                <Button
+                  variant="destructive"
+                  disabled={isLoading}
+                  type="submit"
+                  className="w-full gap-2 rounded-full"
+                >
+                  {isLoading && (
+                    <LoaderCircle className="h-4 w-4 animate-spin" />
+                  )}
+                  Delete
+                </Button>
+              </DialogFooter>
+            </form>
+          </DialogContent>
+        </Dialog>
+
+        <DeleteSchool school={school} />
+      </div>
+    </section>
   );
 }
