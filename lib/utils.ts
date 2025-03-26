@@ -50,3 +50,8 @@ export function formatGroups(groups: GroupType[]): GroupType[] {
 
   return rootGroups;
 }
+
+export function formatNumber(number: number) {
+  const formattedNumber = new Intl.NumberFormat().format(number);
+  return formattedNumber;
+}

@@ -19,6 +19,7 @@ import { useRouter } from "next/navigation";
 import { Input } from "@/components/ui/input";
 import { LoaderCircle } from "lucide-react";
 import { SchoolType } from "@/types/School";
+import { formatNumber } from "@/lib/utils";
 
 type Props = {
   school: SchoolType;
@@ -102,15 +103,15 @@ export default function DeleteSchool({ school }: Props) {
               <div className="flex w-full max-w-sm items-center justify-between text-sm">
                 <div className="flex items-center gap-2">
                   <Users size={15} className="text-muted-foreground" />
-                  <span>{school._count.students} Students</span>
+                  <span>{formatNumber(school._count.students)} Students</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <GraduationCap size={15} className="text-muted-foreground" />
-                  <span>{school._count.teachers} teachers</span>
+                  <span>{formatNumber(school._count.teachers)} teachers</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <LibraryBig size={15} className="text-muted-foreground" />
-                  <span>{school._count.subjects} subjects</span>
+                  <span>{formatNumber(school._count.subjects)} subjects</span>
                 </div>
               </div>
             </div>

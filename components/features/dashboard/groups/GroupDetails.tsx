@@ -13,6 +13,7 @@ import { GroupType } from "@/types/Group";
 import GroupMembersTable from "@/components/features/dashboard/groups/GroupMembersTable";
 import { MemberType } from "@/types/member";
 import { Button } from "@/components/ui/button";
+import { formatNumber } from "@/lib/utils";
 
 type Props = {
   schoolId: string;
@@ -21,9 +22,7 @@ type Props = {
 };
 
 export default function GroupDetails({ schoolId, group, data }: Props) {
-  const memberCount = new Intl.NumberFormat("en-IN").format(
-    group._count.members,
-  );
+  const memberCount = formatNumber(group._count.members);
   return (
     <Dialog>
       <DialogTrigger asChild>
