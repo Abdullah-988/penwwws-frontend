@@ -30,8 +30,23 @@ export default async function SettingsPage({
   const school: SchoolType = await getSchool(schoolId);
 
   return (
-    <div>
-      <DeleteSchool school={school} />
+    <div className="p-6">
+      <h1 className="text-3xl font-semibold">Settings</h1>
+      <div className="mx-auto my-12 w-full md:max-w-[50rem]">
+        <section className="rounded-xl border">
+          <div className="border-b py-2">
+            <h1 className="px-3 text-lg font-semibold">School Deletion</h1>
+          </div>
+          <div className="flex flex-col items-end justify-between gap-3 px-3 py-6 md:flex-row md:items-center md:gap-12">
+            <p className="text-muted-foreground md:max-w-[35rem]">
+              Deleting a school is permanent and cannot be undone. All data,
+              including student and staff records, will be removed. Ensure you
+              back up important information before proceeding.
+            </p>
+            <DeleteSchool school={school} />
+          </div>
+        </section>
+      </div>
     </div>
   );
 }
