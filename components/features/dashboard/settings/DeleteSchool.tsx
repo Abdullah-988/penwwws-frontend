@@ -75,11 +75,9 @@ export default function DeleteSchool({ school }: Props) {
   }, [isModalOpen]);
 
   return (
-    <section className="rounded-xl border">
-      <div className="border-b py-2">
-        <h1 className="text-md px-3 font-semibold">School Deletion</h1>
-      </div>
-      <div className="flex flex-col items-end justify-between gap-3 px-3 py-6 md:flex-row md:items-center md:gap-12">
+    <section className="rounded-md">
+      <h1 className="text-md mb-3 font-semibold">School Deletion</h1>
+      <div className="flex flex-col items-end justify-between gap-3 md:flex-row md:items-center md:gap-12">
         <p className="text-muted-foreground md:max-w-[35rem]">
           Deleting a school is permanent and cannot be undone. All data,
           including student and staff records, will be removed. Ensure you back
@@ -87,7 +85,9 @@ export default function DeleteSchool({ school }: Props) {
         </p>
         <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
           <DialogTrigger asChild>
-            <Button variant="destructive">Delete school</Button>
+            <Button variant="destructive" className="rounded-full" size="sm">
+              Delete school
+            </Button>
           </DialogTrigger>
 
           <DialogContent className="gap-6">
@@ -149,8 +149,6 @@ export default function DeleteSchool({ school }: Props) {
             </form>
           </DialogContent>
         </Dialog>
-
-        <DeleteSchool school={school} />
       </div>
     </section>
   );

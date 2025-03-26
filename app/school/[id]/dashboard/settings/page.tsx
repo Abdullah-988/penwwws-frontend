@@ -1,9 +1,11 @@
 import DeleteSchool from "@/components/features/dashboard/settings/DeleteSchool";
+import EditSchool from "@/components/features/dashboard/settings/EditSchool";
 import axios from "@/lib/axiosInstance";
 import { SchoolType } from "@/types/School";
 import { AxiosError } from "axios";
 import { getCookie } from "cookies-next";
 import { cookies } from "next/headers";
+import { Settings } from "lucide-react";
 
 async function getSchool(schoolId: string) {
   try {
@@ -31,8 +33,12 @@ export default async function SettingsPage({
 
   return (
     <div className="p-6">
-      <h1 className="text-3xl font-semibold">Settings</h1>
-      <div className="mx-auto my-12 w-full md:max-w-[50rem]">
+      <div className="flex items-center gap-2">
+        <Settings size={30} />
+        <h1 className="text-3xl font-semibold">Settings</h1>
+      </div>
+      <div className="mx-auto my-12 flex w-full flex-col gap-12 md:max-w-[40rem]">
+        <EditSchool school={school} />
         <DeleteSchool school={school} />
       </div>
     </div>
