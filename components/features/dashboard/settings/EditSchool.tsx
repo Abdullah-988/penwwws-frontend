@@ -58,10 +58,9 @@ export default function EditSchool({ school }: Props) {
           headers: { Authorization: token },
         },
       );
-
+      router.refresh();
       queryClient.invalidateQueries({
         queryKey: ["schools"],
-        refetchType: "active",
       });
 
       toast({
