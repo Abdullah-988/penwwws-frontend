@@ -93,6 +93,10 @@ jobs:
             --env NODEMAILER_SERVICE=${{ secrets.NODEMAILER_SERVICE }} \
             --env NODEMAILER_EMAIL=${{ secrets.NODEMAILER_EMAIL }} \
             --env NODEMAILER_PASSWORD="${{ secrets.NODEMAILER_PASSWORD }}" \
+            --env CLOUDINARY_UPLOAD_PRESET="${{ secrets.CLOUDINARY_UPLOAD_PRESET }}" \
+            --env CLOUDINARY_CLOUD_NAME=${{ secrets.CLOUDINARY_CLOUD_NAME }} \
+            --env CLOUDINARY_API_KEY=${{ secrets.CLOUDINARY_API_KEY }} \
+            --env CLOUDINARY_API_SECRET="${{ secrets.CLOUDINARY_API_SECRET }}" \
             --yes \
             --regions fra1 &> vercel-output-backend
           BACKEND_DEPLOY_URL=$(cat vercel-output-backend | grep 'Preview:' | awk '{print $2}')
@@ -137,6 +141,8 @@ jobs:
       - name: Build Project Artifacts
         env:
           NEXT_PUBLIC_BACKEND_URL: ${{ needs.deploy-backend.outputs.backend-url }}
+          NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET: ${{ vars.CLOUDINARY_UPLOAD_PRESET }}
+          NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME: ${{ vars.CLOUDINARY_CLOUD_NAME }}
         run: vercel build --token=${{ secrets.VERCEL_TOKEN }}
 
       - name: Deploy Frontend to Vercel (Preview)

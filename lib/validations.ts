@@ -43,9 +43,12 @@ export const groupSchema = z.object({
 });
 
 export type GroupFormData = z.infer<typeof groupSchema>;
+<<<<<<< HEAD
 
 export const editSchoolSchema = z.object({
   name: z.string().nonempty("School name can not be empty"),
   description: z.string().optional(),
   logoUrl: z.string().optional(),
 });
+=======
+>>>>>>> main
