@@ -47,22 +47,16 @@ export default function EditSchool({ school }: Props) {
   async function onsubmit(data: FormData) {
     try {
       const token = await getCookie("token");
-      await axios.put(
-        `/school/${school.id}`,
-        {
-          logoUrl: data.logoUrl || "",
-          name: data.name,
-          description: data.description || "",
-        },
-        {
-          headers: { Authorization: token },
-        },
-      );
-      router.refresh();
-      queryClient.invalidateQueries({
-        queryKey: ["schools"],
+      await axios.put(`/school/${school.id}`, data, {
+        headers: { Authorization: token },
       });
 
+      await queryClient.invalidateQueries({
+        queryKey: ["schools"],
+        refetchType: "active",
+      });
+
+      router.refresh();
       toast({
         title: "School updated",
         description: "The school details have been successfully updated.",
@@ -78,7 +72,7 @@ export default function EditSchool({ school }: Props) {
       );
 
       toast({
-        title: "could not edit school",
+        title: "Could not edit school",
         description:
           (error.response && (error.response.data as string)) ||
           "Unexpected error occur",
@@ -89,9 +83,9 @@ export default function EditSchool({ school }: Props) {
 
   useEffect(() => {
     form.reset({
-      name: school.name,
-      description: school.description,
-      logoUrl: school.logoUrl,
+      name: school.name || "",
+      description: school.description || "",
+      logoUrl: school.logoUrl || "",
     });
   }, [school, form]);
 

@@ -5,7 +5,7 @@ import { SchoolType } from "@/types/School";
 import { AxiosError } from "axios";
 import { getCookie } from "cookies-next";
 import { cookies } from "next/headers";
-import { Settings } from "lucide-react";
+import { School, Settings } from "lucide-react";
 import Image from "next/image";
 
 async function getSchool(schoolId: string) {
@@ -40,18 +40,22 @@ export default async function SettingsPage({
       </div>
       <div className="mx-auto my-12 flex w-full flex-col gap-12 md:max-w-[40rem]">
         <section className="flex items-center justify-start gap-6">
-          <Image
-            src={school.logoUrl || ""}
-            width={50}
-            height={50}
-            alt="school-logo"
-            className="h-auto w-auto"
-          />
+          {school.logoUrl ? (
+            <Image
+              src={school.logoUrl}
+              width={50}
+              height={50}
+              alt="school-logo"
+              className="h-auto w-auto"
+            />
+          ) : (
+            <School className="text-primary size-10" />
+          )}
           <div>
             <h1 className="flex justify-between font-semibold">
               {school.name}
             </h1>
-            <p className="text-muted-foreground max-w-[20rem] text-sm">
+            <p className="text-muted-foreground line-clamp-4 max-w-[20rem] text-sm">
               {school.description}
             </p>
           </div>

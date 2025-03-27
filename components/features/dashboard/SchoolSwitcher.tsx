@@ -30,7 +30,6 @@ export function SchoolSwitcher({ activeSchoolId }: Props) {
   const { data: schools, isLoading } = useQuery<{ school: SchoolType }[]>({
     queryKey: ["schools"],
     queryFn: getSchools,
-    refetchInterval: false,
   });
   const { isMobile } = useSidebar();
 

@@ -34,7 +34,8 @@ export default function DeleteSchool({ school }: Props) {
   const [errorMessage, setErrorMessage] = useState("");
   const [isMatch, setIsMatch] = useState<boolean | undefined>(undefined);
   const [hasSubmitted, setHasSubmitted] = useState(false);
-  const rule = "Delete " + school.name;
+  const rule = "Delete " + school.name.trim();
+
   async function handleDeleteSchool(e: FormEvent) {
     e.preventDefault();
     setHasSubmitted(true);
@@ -60,6 +61,7 @@ export default function DeleteSchool({ school }: Props) {
   }
   useEffect(() => {
     setIsMatch(confirmInputValue.trim() === rule);
+
     if (!isMatch && hasSubmitted) {
       setErrorMessage("Does not match");
     } else {
