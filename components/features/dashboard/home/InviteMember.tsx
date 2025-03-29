@@ -1,6 +1,5 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { Button } from "@/components/ui/button";
 import { useQueryClient } from "@tanstack/react-query";
@@ -49,9 +48,7 @@ type Props = {
 
 export default function GenerateInvitationLink({ schoolId }: Props) {
   const { toast } = useToast();
-
   const queryClient = useQueryClient();
-  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const form = useForm<FormData>({
     resolver: zodResolver(generateInvitationLinkSchema),
@@ -67,7 +64,6 @@ export default function GenerateInvitationLink({ schoolId }: Props) {
         headers: { Authorization: token },
       });
       queryClient.invalidateQueries({ queryKey: ["schoolInvitations"] });
-      setIsModalOpen(false);
       toast({
         title: "Invitation Link Generated",
         description: `An invitation link has been successfully generated with the role of ${data.role.toLocaleLowerCase()}.`,
@@ -78,12 +74,8 @@ export default function GenerateInvitationLink({ schoolId }: Props) {
       console.error("Error sending invitation:", error.response?.data);
     }
   }
-  useEffect(() => {
-    form.reset();
-  }, [isModalOpen, form]);
-
   return (
-    <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
+    <Dialog onOpenChange={() => form.reset()}>
       <DialogTrigger asChild>
         <Button size="sm" className="rounded-full px-4 text-sm font-semibold">
           <Plus size={10} />
@@ -112,8 +104,8 @@ export default function GenerateInvitationLink({ schoolId }: Props) {
                           <SelectValue placeholder="Select a role" />
                         </SelectTrigger>
                         <SelectContent>
-                          <SelectItem value="TEACHER">Teacher</SelectItem>
                           <SelectItem value="STUDENT">Student</SelectItem>
+                          <SelectItem value="TEACHER">Teacher</SelectItem>
                           <SelectItem value="ADMIN">Admin</SelectItem>
                         </SelectContent>
                       </Select>

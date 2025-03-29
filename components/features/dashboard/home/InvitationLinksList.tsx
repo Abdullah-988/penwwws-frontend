@@ -1,4 +1,6 @@
-import axiosInstance from "@/lib/axiosInstance";
+"use client";
+
+import axios from "@/lib/axiosInstance";
 import { AxiosError } from "axios";
 import { useQuery } from "@tanstack/react-query";
 import { getCookie } from "cookies-next";
@@ -7,6 +9,7 @@ import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Copy } from "lucide-react";
 import { capitalizeFirstLetter } from "@/lib/utils";
+import DeleteInvitationLink from "@/components/features/dashboard/home/DeleteInvitationLink";
 
 type Props = {
   schoolId: string;
@@ -15,7 +18,7 @@ type Props = {
 async function getSchoolInvitations(schoolId: string) {
   const token = await getCookie("token");
   try {
-    const res = await axiosInstance.get(`school/${schoolId}/invitation`, {
+    const res = await axios.get(`school/${schoolId}/invitation`, {
       headers: { Authorization: token },
     });
     return res.data;
@@ -42,7 +45,7 @@ export default function InvitationLinksList({ schoolId }: Props) {
   });
 
   return (
-    <section className="flex w-full flex-col gap-3">
+    <section className="flex max-h-80 w-full flex-col gap-3 overflow-y-scroll">
       {schoolInvitations &&
         schoolInvitations.map((invitation) => {
           const generatedLink = `http://localhost:3000/invite/${invitation.token}`;
@@ -58,17 +61,23 @@ export default function InvitationLinksList({ schoolId }: Props) {
                   defaultValue={generatedLink}
                   readOnly
                 />
-                <Button
-                  onClick={async () =>
-                    await navigator.clipboard.writeText(generatedLink)
-                  }
-                  type="submit"
-                  size="sm"
-                  className="px-3"
-                >
-                  <span className="sr-only">Copy</span>
-                  <Copy />
-                </Button>
+                <div className="flex items-center gap-2">
+                  <DeleteInvitationLink
+                    schoolId={schoolId}
+                    tokenId={invitation.id}
+                  />
+                  <Button
+                    onClick={async () =>
+                      await navigator.clipboard.writeText(generatedLink)
+                    }
+                    type="submit"
+                    size="sm"
+                    className="bg-primary/5 text-primary hover:bg-primary/10 px-3"
+                  >
+                    <span className="sr-only">Copy</span>
+                    <Copy />
+                  </Button>
+                </div>
               </div>
             </div>
           );
