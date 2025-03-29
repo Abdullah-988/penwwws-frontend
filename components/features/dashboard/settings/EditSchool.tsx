@@ -46,7 +46,7 @@ export default function EditSchool({ school }: Props) {
     defaultValues: {
       name: school.name,
       description: school.description,
-      logoUrl: school.logoUrl,
+      logoPublicId: school.logoUrl,
     },
     resolver: zodResolver(editSchoolSchema),
   });
@@ -91,13 +91,13 @@ export default function EditSchool({ school }: Props) {
     form.reset({
       name: school.name || "",
       description: school.description || "",
-      logoUrl: school.logoUrl || "",
+      logoPublicId: school.logoUrl || "",
     });
   }, [school, form]);
 
   useEffect(() => {
     if (uploadedFiles.length > 0) {
-      form.setValue("logoUrl", uploadedFiles[0].url);
+      form.setValue("logoPublicId", uploadedFiles[0].public_id);
     }
   }, [uploadedFiles, form]);
 
@@ -132,7 +132,7 @@ export default function EditSchool({ school }: Props) {
             )}
           />
           <FormField
-            name="logoUrl"
+            name="logoPublicId"
             control={form.control}
             render={({ field }) => (
               <FormItem>
