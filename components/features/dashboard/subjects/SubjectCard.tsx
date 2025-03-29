@@ -13,7 +13,7 @@ export default function SubjectCard({ subject, schoolId }: Props) {
   const MAX_DISPLAYED_TEACHERS = 5;
   return (
     <Link
-      href={`/school/${schoolId}/dashboard/subject/${subject.id}`}
+      href={`/school/${schoolId}/subjects/${subject.id}`}
       className="overflow-hidden rounded-lg border"
     >
       <div className="flex h-full flex-col items-start justify-between">
