@@ -10,8 +10,8 @@ import { LoaderCircle as SpinnerIcon, Plus } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
-import { SchoolType } from "@/types/School";
 import { getRoleRedirectPath } from "@/lib/utils";
+import { SchoolsType } from "@/types/Schools";
 
 type Props = {
   setSchoolAction: Dispatch<SetStateAction<"select" | "create">>;
@@ -19,7 +19,7 @@ type Props = {
 
 export default function SelectSchool({ setSchoolAction }: Props) {
   const router = useRouter();
-  const { data: schools, isLoading } = useQuery<SchoolType[]>({
+  const { data: schools, isLoading } = useQuery<SchoolsType>({
     queryKey: ["schools"],
     queryFn: getSchools,
     refetchInterval: false,
@@ -30,7 +30,8 @@ export default function SelectSchool({ setSchoolAction }: Props) {
   }
   if (!schools) return;
 
-  if (schools.length === 0) {
+  console.log(schools);
+  if (schools.joined.length === 0) {
     return (
       <section className="mx-auto flex w-full flex-col items-center justify-center gap-8 text-center md:w-96">
         <div>
@@ -78,7 +79,7 @@ export default function SelectSchool({ setSchoolAction }: Props) {
       </div>
 
       <div className="bg-primary-600/5 max-h-[50vh] gap-8 overflow-scroll rounded-xl px-6">
-        {schools.map(({ school }) => (
+        {schools.joined.map(({ school }) => (
           <div
             key={school.id}
             className="flex items-center justify-between py-8 [&:not(:last-child)]:border-b"
@@ -106,6 +107,36 @@ export default function SelectSchool({ setSchoolAction }: Props) {
             >
               Select
             </Link>
+          </div>
+        ))}
+      </div>
+
+      <div className="max-h-[50vh] gap-8 overflow-scroll rounded-xl bg-amber-800/5 px-6">
+        {schools.pending.map(({ school }) => (
+          <div
+            key={school.id}
+            className="flex items-center justify-between py-8 [&:not(:last-child)]:border-b"
+          >
+            <div className="flex items-center gap-2">
+              <Avatar className="text-accent rounded-xl bg-amber-800">
+                <AvatarFallback className="bg-amber-800">
+                  {getInitials(school.name)}
+                </AvatarFallback>
+                <AvatarImage src={school.logoUrl} />
+              </Avatar>
+              <div>
+                <h1 className="text-primary text-sm font-semibold">
+                  {school.name}
+                </h1>
+                <p className="text-muted-foreground text-sm">
+                  {school.description}
+                </p>
+              </div>
+            </div>
+
+            <div className="text-accent rounded-full bg-amber-800 px-4 py-1 text-sm font-semibold opacity-90">
+              Pending
+            </div>
           </div>
         ))}
       </div>

@@ -3,7 +3,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { ChevronsUpDown } from "lucide-react";
 import { getSchools } from "@/fetches/schools";
-import { SchoolType } from "@/types/School";
 import { getInitials, getRoleRedirectPath } from "@/lib/utils";
 import Link from "next/link";
 
@@ -23,18 +22,19 @@ import {
 } from "@/components/ui/sidebar";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Skeleton } from "@/components/ui/skeleton";
+import { SchoolsType } from "@/types/Schools";
 
 type Props = { activeSchoolId: string };
 
 export function SchoolSwitcher({ activeSchoolId }: Props) {
-  const { data: schools, isLoading } = useQuery<SchoolType[]>({
+  const { data: schools, isLoading } = useQuery<SchoolsType>({
     queryKey: ["schools"],
     queryFn: getSchools,
     refetchInterval: false,
   });
   const { isMobile } = useSidebar();
 
-  const activeSchool = schools?.find(
+  const activeSchool = schools?.joined?.find(
     ({ school }) => school.id === activeSchoolId,
   );
   if (isLoading) {
