@@ -22,20 +22,12 @@ import {
 } from "@/components/ui/sidebar";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Skeleton } from "@/components/ui/skeleton";
-<<<<<<< HEAD
-import { SchoolType } from "@/types/School";
-=======
 import { SchoolsType } from "@/types/Schools";
->>>>>>> ako-mawlood/feature/dashboard/invite
 
 type Props = { activeSchoolId: string };
 
 export function SchoolSwitcher({ activeSchoolId }: Props) {
-<<<<<<< HEAD
-  const { data: schools, isLoading } = useQuery<{ school: SchoolType }[]>({
-=======
   const { data: schools, isLoading } = useQuery<SchoolsType>({
->>>>>>> ako-mawlood/feature/dashboard/invite
     queryKey: ["schools"],
     queryFn: getSchools,
   });

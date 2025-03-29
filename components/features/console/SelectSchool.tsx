@@ -19,11 +19,7 @@ type Props = {
 
 export default function SelectSchool({ setSchoolAction }: Props) {
   const router = useRouter();
-<<<<<<< HEAD
-  const { data: schools, isLoading } = useQuery<{ school: SchoolType }[]>({
-=======
   const { data: schools, isLoading } = useQuery<SchoolsType>({
->>>>>>> ako-mawlood/feature/dashboard/invite
     queryKey: ["schools"],
     queryFn: getSchools,
     refetchInterval: false,

@@ -1,6 +1,6 @@
 "use client";
 
-import { FileUploader } from "@/components/features/upload/file-uploader";
+import { FileUploader } from "@/components/shared/upload/file-uploader";
 import { useUploadFile } from "@/hooks/use-upload-file";
 
 export default function SubjectsPage() {
