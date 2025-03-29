@@ -8,5 +8,8 @@ export type SchoolType = {
   createdAt: string;
   updatedAt: string;
   members: { role: RoleType }[];
+<<<<<<< HEAD
   _count: { subjects: number; students: number; teachers: number };
+=======
+>>>>>>> ako-mawlood/feature/dashboard/invite
 };

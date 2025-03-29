@@ -22,18 +22,26 @@ import {
 } from "@/components/ui/sidebar";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Skeleton } from "@/components/ui/skeleton";
+<<<<<<< HEAD
 import { SchoolType } from "@/types/School";
+=======
+import { SchoolsType } from "@/types/Schools";
+>>>>>>> ako-mawlood/feature/dashboard/invite
 
 type Props = { activeSchoolId: string };
 
 export function SchoolSwitcher({ activeSchoolId }: Props) {
+<<<<<<< HEAD
   const { data: schools, isLoading } = useQuery<{ school: SchoolType }[]>({
+=======
+  const { data: schools, isLoading } = useQuery<SchoolsType>({
+>>>>>>> ako-mawlood/feature/dashboard/invite
     queryKey: ["schools"],
     queryFn: getSchools,
   });
   const { isMobile } = useSidebar();
 
-  const activeSchool = schools?.find(
+  const activeSchool = schools?.joined?.find(
     ({ school }) => school.id === activeSchoolId,
   );
   if (isLoading) {
@@ -53,7 +61,7 @@ export function SchoolSwitcher({ activeSchoolId }: Props) {
     );
   }
 
-  if (!schools) return null;
+  if (!schools?.joined) return null;
 
   return (
     <SidebarMenu>
@@ -97,7 +105,7 @@ export function SchoolSwitcher({ activeSchoolId }: Props) {
             <DropdownMenuLabel className="text-muted-foreground text-xs">
               Schools
             </DropdownMenuLabel>
-            {schools.map(({ school }, index) => (
+            {schools.joined.map(({ school }, index) => (
               <Link
                 key={school.id}
                 href={`/school/${school.id}/${getRoleRedirectPath(school.members[0].role)}`}
