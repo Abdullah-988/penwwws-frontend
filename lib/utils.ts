@@ -8,11 +8,15 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 export function getInitials(name: string) {
-  return name
-    .split(" ")
-    .slice(0, 2)
-    .map((word) => word[0].toUpperCase())
-    .join("");
+  if (!name.trim()) return "";
+
+  const words = name.trim().split(" ");
+  const firstInitial = words[0][0]?.toUpperCase() || "";
+
+  const secondInitial =
+    words.length > 1 ? words[1][0]?.toUpperCase() || "" : "";
+
+  return firstInitial + secondInitial;
 }
 
 export function getRoleRedirectPath(role: RoleType): string {
@@ -49,6 +53,11 @@ export function formatGroups(groups: GroupType[]): GroupType[] {
   });
 
   return rootGroups;
+}
+
+export function formatNumber(number: number) {
+  const formattedNumber = new Intl.NumberFormat().format(number);
+  return formattedNumber;
 }
 
 export function formatBytes(
@@ -94,4 +103,8 @@ export function composeEventHandlers<E>(
       return ourEventHandler?.(event);
     }
   };
+}
+
+export function capitalizeFirstLetter(word: string) {
+  return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
 }
