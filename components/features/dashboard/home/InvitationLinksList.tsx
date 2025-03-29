@@ -45,7 +45,7 @@ export default function InvitationLinksList({ schoolId }: Props) {
   });
 
   return (
-    <section className="flex max-h-80 w-full flex-col gap-3 overflow-y-scroll">
+    <section className="mt-3 flex max-h-80 w-full flex-col gap-3 overflow-y-scroll p-1">
       {schoolInvitations &&
         schoolInvitations.map((invitation) => {
           const generatedLink = `http://localhost:3000/invite/${invitation.token}`;

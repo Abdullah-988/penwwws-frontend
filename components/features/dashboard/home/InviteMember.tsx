@@ -88,7 +88,8 @@ export default function GenerateInvitationLink({ schoolId }: Props) {
             <DialogHeader>
               <DialogTitle>Share link</DialogTitle>
               <DialogDescription>
-                Anyone who has this link will be able to view this.
+                Generate and share a link to grant access with the selected
+                role.
               </DialogDescription>
             </DialogHeader>
             <div className="flex items-end gap-6">
