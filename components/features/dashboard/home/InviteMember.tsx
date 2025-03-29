@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { Button } from "@/components/ui/button";
+import { useQueryClient } from "@tanstack/react-query";
 import {
   Dialog,
   DialogContent,
@@ -11,7 +12,6 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
 import { LoaderCircle as SpinnerIcon, Plus } from "lucide-react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -23,11 +23,9 @@ import {
   FormControl,
   FormField,
   FormItem,
-  FormLabel,
   FormMessage,
 } from "@/components/ui/form";
 import { AxiosError } from "axios";
-import { emailValidation } from "@/lib/validations";
 import {
   Select,
   SelectContent,
@@ -35,29 +33,29 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import InvitationLinksList from "@/components/features/dashboard/home/InvitationLinksList";
 
-const inviteMemberSchema = z.object({
-  email: emailValidation,
+const generateInvitationLinkSchema = z.object({
   role: z.enum(["TEACHER", "STUDENT", "ADMIN"], {
     required_error: "Please select a role.",
   }),
 });
 
-type FormData = z.infer<typeof inviteMemberSchema>;
+type FormData = z.infer<typeof generateInvitationLinkSchema>;
 
 type Props = {
   schoolId: string;
 };
 
-export default function InviteMember({ schoolId }: Props) {
+export default function GenerateInvitationLink({ schoolId }: Props) {
   const { toast } = useToast();
 
+  const queryClient = useQueryClient();
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const form = useForm<FormData>({
-    resolver: zodResolver(inviteMemberSchema),
+    resolver: zodResolver(generateInvitationLinkSchema),
     defaultValues: {
-      email: "",
       role: undefined,
     },
   });
@@ -68,10 +66,11 @@ export default function InviteMember({ schoolId }: Props) {
       await axios.post(`/school/${schoolId}/invite`, data, {
         headers: { Authorization: token },
       });
+      queryClient.invalidateQueries({ queryKey: ["schoolInvitations"] });
       setIsModalOpen(false);
       toast({
-        title: "Invitation Sent",
-        description: `An invitation has been sent to ${data.email} as ${data.role}.`,
+        title: "Invitation Link Generated",
+        description: `An invitation link has been successfully generated with the role of ${data.role.toLocaleLowerCase()}.`,
       });
     } catch (err) {
       const error = err as AxiosError;
@@ -91,77 +90,53 @@ export default function InviteMember({ schoolId }: Props) {
           Invite Member
         </Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[425px]">
+      <DialogContent className="sm:max-w-[525px]">
         <Form {...form}>
           <form className="space-y-4" onSubmit={form.handleSubmit(onSubmit)}>
             <DialogHeader>
-              <DialogTitle>Invite Member</DialogTitle>
+              <DialogTitle>Share link</DialogTitle>
               <DialogDescription>
-                Enter the email address and select a role for the person you
-                want to invite.
+                Anyone who has this link will be able to view this.
               </DialogDescription>
             </DialogHeader>
-            {!!form.formState.errors.root && (
-              <FormMessage className="rounded-md border border-red-500 bg-red-500/15 p-2">
-                {form.formState.errors.root?.message}
-              </FormMessage>
-            )}
-            <FormField
-              name="email"
-              control={form.control}
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="text-muted-foreground">
-                    Email Address
-                  </FormLabel>
-                  <FormControl>
-                    <Input
-                      type="email"
-                      placeholder="e.g., abdullah.ahmad@email.com"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+            <div className="flex items-end gap-6">
+              <FormField
+                name="role"
+                control={form.control}
+                render={({ field }) => (
+                  <FormItem className="grow">
+                    <FormMessage />
+                    <FormControl>
+                      <Select onValueChange={field.onChange}>
+                        <SelectTrigger className="mb-0">
+                          <SelectValue placeholder="Select a role" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="TEACHER">Teacher</SelectItem>
+                          <SelectItem value="STUDENT">Student</SelectItem>
+                          <SelectItem value="ADMIN">Admin</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </FormControl>
+                  </FormItem>
+                )}
+              />
 
-            <FormField
-              name="role"
-              control={form.control}
-              render={({ field }) => (
-                <FormItem>
-                  <FormControl>
-                    <Select onValueChange={field.onChange}>
-                      <SelectTrigger>
-                        <SelectValue placeholder="Select a role" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="TEACHER">Teacher</SelectItem>
-                        <SelectItem value="STUDENT">Student</SelectItem>
-                        <SelectItem value="ADMIN">Admin</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <Button
-              disabled={form.formState.isSubmitting}
-              type="submit"
-              size="sm"
-              className="w-full rounded-full"
-            >
-              {form.formState.isSubmitting ? (
-                <SpinnerIcon className="animate-spin" />
-              ) : (
-                "Send Invitation"
-              )}
-            </Button>
+              <Button
+                disabled={form.formState.isSubmitting}
+                type="submit"
+                size="sm"
+              >
+                {form.formState.isSubmitting ? (
+                  <SpinnerIcon className="animate-spin" />
+                ) : (
+                  "Generate Link"
+                )}
+              </Button>
+            </div>
           </form>
         </Form>
+        <InvitationLinksList schoolId={schoolId} />
       </DialogContent>
     </Dialog>
   );
