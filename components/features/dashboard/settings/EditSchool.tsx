@@ -46,7 +46,7 @@ export default function EditSchool({ school }: Props) {
     defaultValues: {
       name: school.name,
       description: school.description,
-      logoPublicId: school.logoUrl,
+      logoPublicId: school.logoUrl || "",
     },
     resolver: zodResolver(editSchoolSchema),
   });
@@ -54,9 +54,13 @@ export default function EditSchool({ school }: Props) {
   async function onSubmit(data: FormData) {
     try {
       const token = await getCookie("token");
-      await axios.put(`/school/${school.id}`, data, {
-        headers: { Authorization: token },
-      });
+      await axios.put(
+        `/school/${school.id}`,
+        { ...data, logoPublicId: form.getValues("logoPublicId") || null },
+        {
+          headers: { Authorization: token },
+        },
+      );
 
       await queryClient.invalidateQueries({
         queryKey: ["schools"],
