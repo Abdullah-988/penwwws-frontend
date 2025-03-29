@@ -23,7 +23,6 @@ async function getSchool(schoolId: string) {
     );
   }
 }
-
 export default async function SettingsPage({
   params,
 }: {
