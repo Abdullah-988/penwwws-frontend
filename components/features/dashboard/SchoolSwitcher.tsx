@@ -3,7 +3,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { ChevronsUpDown } from "lucide-react";
 import { getSchools } from "@/fetches/schools";
-import { SchoolType } from "@/types/School";
 import { getInitials, getRoleRedirectPath } from "@/lib/utils";
 import Link from "next/link";
 
@@ -23,18 +22,19 @@ import {
 } from "@/components/ui/sidebar";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Skeleton } from "@/components/ui/skeleton";
+import { SchoolsType } from "@/types/Schools";
 
 type Props = { activeSchoolId: string };
 
 export function SchoolSwitcher({ activeSchoolId }: Props) {
-  const { data: schools, isLoading } = useQuery<SchoolType[]>({
+  const { data: schools, isLoading } = useQuery<SchoolsType>({
     queryKey: ["schools"],
     queryFn: getSchools,
     refetchInterval: false,
   });
   const { isMobile } = useSidebar();
 
-  const activeSchool = schools?.find(
+  const activeSchool = schools?.joined?.find(
     ({ school }) => school.id === activeSchoolId,
   );
   if (isLoading) {
@@ -54,7 +54,7 @@ export function SchoolSwitcher({ activeSchoolId }: Props) {
     );
   }
 
-  if (!schools) return null;
+  if (!schools?.joined) return null;
 
   return (
     <SidebarMenu>
@@ -98,7 +98,7 @@ export function SchoolSwitcher({ activeSchoolId }: Props) {
             <DropdownMenuLabel className="text-muted-foreground text-xs">
               Schools
             </DropdownMenuLabel>
-            {schools.map(({ school }, index) => (
+            {schools.joined.map(({ school }, index) => (
               <Link
                 key={school.id}
                 href={`/school/${school.id}/${getRoleRedirectPath(school.members[0].role)}`}
