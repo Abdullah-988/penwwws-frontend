@@ -150,8 +150,6 @@ jobs:
           DEPLOY_ALIAS="penwwws-frontend-pr-$PR_NUMBER.vercel.app"
           vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }} \
             --scope abdullah-abdulkareems-projects-0896f126 \
-            --env NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET=${{ secrets.CLOUDINARY_UPLOAD_PRESET }} \
-            --env NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME=${{ secrets.CLOUDINARY_CLOUD_NAME }} \
             --yes --regions fra1 &> vercel-output-frontend
           FRONTEND_DEPLOY_URL=$(cat vercel-output-frontend | grep 'Preview:' | awk '{print $2}')
           vercel alias set $FRONTEND_DEPLOY_URL $DEPLOY_ALIAS --token=${{ secrets.VERCEL_TOKEN }}
