@@ -78,7 +78,7 @@ export default function SelectSchool({ setSchoolAction }: Props) {
       </div>
 
       <div className="bg-primary-600/5 max-h-[50vh] gap-8 overflow-scroll rounded-xl px-6">
-        {schools.map(({ school }) => (
+        {schools.joined.map(({ school }) => (
           <div
             key={school.id}
             className="flex items-center justify-between py-8 [&:not(:last-child)]:border-b"
