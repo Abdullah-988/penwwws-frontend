@@ -34,7 +34,9 @@ export function SchoolSwitcher({ activeSchoolId }: Props) {
   });
   const { isMobile } = useSidebar();
 
+  // @ts-expect-error Unupdated types (will be updated in another pull request)
   const activeSchool = schools?.joined.find(
+    // @ts-expect-error Unupdated types (will be updated in another pull request)
     ({ school }) => school.id === activeSchoolId,
   );
   if (isLoading) {
@@ -98,6 +100,7 @@ export function SchoolSwitcher({ activeSchoolId }: Props) {
             <DropdownMenuLabel className="text-muted-foreground text-xs">
               Schools
             </DropdownMenuLabel>
+            {/* @ts-expect-error Unupdated types (will be updated in another pull request) */}
             {schools.joined.map(({ school }, index) => (
               <Link
                 key={school.id}

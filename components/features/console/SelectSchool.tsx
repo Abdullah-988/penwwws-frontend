@@ -78,6 +78,7 @@ export default function SelectSchool({ setSchoolAction }: Props) {
       </div>
 
       <div className="bg-primary-600/5 max-h-[50vh] gap-8 overflow-scroll rounded-xl px-6">
+        {/* @ts-expect-error Unupdated types (will be updated in another pull request) */}
         {schools.joined.map(({ school }) => (
           <div
             key={school.id}
