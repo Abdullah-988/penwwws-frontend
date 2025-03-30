@@ -139,19 +139,19 @@ jobs:
         run: vercel pull --yes --environment=preview --token=${{ secrets.VERCEL_TOKEN }}
 
       - name: Build Project Artifacts
+        env:
+          NEXT_PUBLIC_BACKEND_URL: ${{ needs.deploy-backend.outputs.backend-url }}
         run: vercel build --token=${{ secrets.VERCEL_TOKEN }}
 
       - name: Deploy Frontend to Vercel (Preview)
-        env:
-          NEXT_PUBLIC_BACKEND_URL: ${{ needs.deploy-backend.outputs.backend-url }}
-          NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET: ${{ secrets.CLOUDINARY_UPLOAD_PRESET }}
-          NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME: ${{ secrets.CLOUDINARY_CLOUD_NAME }}
         id: frontend-deploy
         run: |
           PR_NUMBER=${{ github.event.pull_request.number }}
           DEPLOY_ALIAS="penwwws-frontend-pr-$PR_NUMBER.vercel.app"
           vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }} \
             --scope abdullah-abdulkareems-projects-0896f126 \
+            --env NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET=${{ secrets.CLOUDINARY_UPLOAD_PRESET }} \
+            --env NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME=${{ secrets.CLOUDINARY_CLOUD_NAME }} \
             --yes --regions fra1 &> vercel-output-frontend
           FRONTEND_DEPLOY_URL=$(cat vercel-output-frontend | grep 'Preview:' | awk '{print $2}')
           vercel alias set $FRONTEND_DEPLOY_URL $DEPLOY_ALIAS --token=${{ secrets.VERCEL_TOKEN }}
