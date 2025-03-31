@@ -9,3 +9,7 @@ export type SubjectType = {
   createdAt: string;
   updatedAt: string;
 };
+
+export type subjectDetailType = Omit<SubjectType, "teachers"> & {
+  users: UserType[];
+};
