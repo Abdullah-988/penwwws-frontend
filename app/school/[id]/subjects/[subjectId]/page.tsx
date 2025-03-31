@@ -6,7 +6,7 @@ import axios from "@/lib/axiosInstance";
 import { AxiosError } from "axios";
 import { subjectDetailType } from "@/types/Subject";
 
-export async function getSubject(schoolId: string, subjectId: number) {
+async function getSubject(schoolId: string, subjectId: number) {
   try {
     const token = await getCookie("token", { cookies });
 
