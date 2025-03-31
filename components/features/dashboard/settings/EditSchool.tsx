@@ -97,7 +97,7 @@ export default function EditSchool({ school }: Props) {
 
   useEffect(() => {
     if (uploadedFiles.length > 0) {
-      form.setValue("logoUrl", uploadedFiles[0].public_id);
+      form.setValue("logoUrl", uploadedFiles[0].url);
     }
   }, [uploadedFiles, form]);
 
