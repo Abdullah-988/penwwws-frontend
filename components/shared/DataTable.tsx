@@ -60,7 +60,7 @@ type DataTableProps = {
   defaultFilteredRole?: "ADMIN" | "TEACHER" | "STUDENT";
   children?: React.ReactNode;
   setSelectedMemberIds: Dispatch<SetStateAction<number[]>>;
-  resetSelectionRef: RefObject<ResetSelectionType | null>;
+  resetSelectionRef?: RefObject<ResetSelectionType | null>;
 };
 
 export function DataTable({

@@ -1,7 +1,7 @@
 "use client";
 
 import { DataTable } from "@/components/shared/DataTable";
-import { getColumns } from "@/components/shared/columns";
+import { GetColumns } from "@/components/shared/columns";
 import { MemberType } from "@/types/member";
 import { useState, useRef } from "react";
 import AssignGroup from "@/components/shared/AssignGroup";
@@ -21,7 +21,7 @@ export const MembersTable = ({ data, schoolId }: Props) => {
   return (
     <>
       <DataTable
-        columns={getColumns(schoolId)}
+        columns={GetColumns(schoolId)}
         data={data}
         schoolId={schoolId}
         setSelectedMemberIds={setSelectedMemberIds}
