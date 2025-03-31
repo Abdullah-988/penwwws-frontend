@@ -1,6 +1,13 @@
 "use client";
 
-import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
+import React, {
+  Dispatch,
+  SetStateAction,
+  useEffect,
+  useState,
+  RefObject,
+  useImperativeHandle,
+} from "react";
 import {
   ColumnDef,
   flexRender,
@@ -42,7 +49,10 @@ const globalFilterFn: FilterFn<MemberType> = (
   );
 };
 
-interface DataTableProps {
+export type ResetSelectionType = {
+  resetSelection: () => void;
+};
+type DataTableProps = {
   columns: ColumnDef<MemberType>[];
   data: MemberType[];
   schoolId: string;
@@ -50,7 +60,8 @@ interface DataTableProps {
   defaultFilteredRole?: "ADMIN" | "TEACHER" | "STUDENT";
   children?: React.ReactNode;
   setSelectedMemberIds: Dispatch<SetStateAction<number[]>>;
-}
+  resetSelectionRef: RefObject<ResetSelectionType | null>;
+};
 
 export function DataTable({
   columns,
@@ -59,6 +70,7 @@ export function DataTable({
   defaultFilteredRole,
   schoolId,
   setSelectedMemberIds,
+  resetSelectionRef,
   children,
 }: DataTableProps) {
   const [sorting, setSorting] = useState<SortingState>([]);
@@ -92,6 +104,14 @@ export function DataTable({
       },
     },
   });
+
+  function handleResetSelection() {
+    setSelectedMemberIds([]);
+    table.toggleAllRowsSelected(false);
+  }
+  useImperativeHandle(resetSelectionRef, () => ({
+    resetSelection: handleResetSelection,
+  }));
 
   useEffect(() => {
     setSelectedMemberIds(
