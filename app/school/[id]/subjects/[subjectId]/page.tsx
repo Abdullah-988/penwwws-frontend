@@ -5,6 +5,7 @@ import { cookies } from "next/headers";
 import axios from "@/lib/axiosInstance";
 import { AxiosError } from "axios";
 import { subjectDetailType } from "@/types/Subject";
+import Navbar from "@/components/shared/Navbar";
 
 async function getSubject(schoolId: string, subjectId: number) {
   try {
@@ -28,20 +29,22 @@ export default async function SubjectPage({
   const schoolId = (await params).id;
   const subjectId = (await params).subjectId;
   const subject: subjectDetailType = await getSubject(schoolId, subjectId);
-
   console.log(subject);
   return (
-    <Tabs defaultValue="documents">
-      <TabsList>
-        <TabsTrigger value="documents">Documents</TabsTrigger>
-        <TabsTrigger value="students">Students</TabsTrigger>
-        <TabsTrigger value="marks">Marks table</TabsTrigger>
-      </TabsList>
-      <TabsContent value="documents">
-        <DocumentsTab schoolId={schoolId} subjectId={subjectId} />
-      </TabsContent>
-      <TabsContent value="students">Students</TabsContent>
-      <TabsContent value="marks">Marks table</TabsContent>
-    </Tabs>
+    <div>
+      <Navbar schoolId={schoolId} />
+      <Tabs defaultValue="documents">
+        <TabsList>
+          <TabsTrigger value="documents">Documents</TabsTrigger>
+          <TabsTrigger value="students">Students</TabsTrigger>
+          <TabsTrigger value="marks">Marks table</TabsTrigger>
+        </TabsList>
+        <TabsContent value="documents">
+          <DocumentsTab schoolId={schoolId} subjectId={subjectId} />
+        </TabsContent>
+        <TabsContent value="students">Students</TabsContent>
+        <TabsContent value="marks">Marks table</TabsContent>
+      </Tabs>
+    </div>
   );
 }
