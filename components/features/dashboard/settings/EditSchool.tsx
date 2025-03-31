@@ -46,7 +46,7 @@ export default function EditSchool({ school }: Props) {
     defaultValues: {
       name: school.name,
       description: school.description,
-      logoPublicId: school.logoUrl || "",
+      logoUrl: school.logoUrl || "",
     },
     resolver: zodResolver(editSchoolSchema),
   });
@@ -54,13 +54,9 @@ export default function EditSchool({ school }: Props) {
   async function onSubmit(data: FormData) {
     try {
       const token = await getCookie("token");
-      await axios.put(
-        `/school/${school.id}`,
-        { ...data, logoPublicId: form.getValues("logoPublicId") || null },
-        {
-          headers: { Authorization: token },
-        },
-      );
+      await axios.put(`/school/${school.id}`, data, {
+        headers: { Authorization: token },
+      });
 
       await queryClient.invalidateQueries({
         queryKey: ["schools"],
@@ -95,13 +91,13 @@ export default function EditSchool({ school }: Props) {
     form.reset({
       name: school.name || "",
       description: school.description || "",
-      logoPublicId: school.logoUrl || "",
+      logoUrl: school.logoUrl || "",
     });
   }, [school, form]);
 
   useEffect(() => {
     if (uploadedFiles.length > 0) {
-      form.setValue("logoPublicId", uploadedFiles[0].public_id);
+      form.setValue("logoUrl", uploadedFiles[0].public_id);
     }
   }, [uploadedFiles, form]);
 
@@ -136,7 +132,7 @@ export default function EditSchool({ school }: Props) {
             )}
           />
           <FormField
-            name="logoPublicId"
+            name="logoUrl"
             control={form.control}
             render={({ field }) => (
               <FormItem>
