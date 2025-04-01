@@ -1,5 +1,5 @@
 import DocumentsTab from "@/components/features/subject/Documents";
-import SubjectPageHeader from "@/components/features/subject/SubjectPageHeader";
+
 import Navbar from "@/components/shared/Navbar";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { getCookie } from "cookies-next";
@@ -7,6 +7,7 @@ import { cookies } from "next/headers";
 import axios from "@/lib/axiosInstance";
 import { AxiosError } from "axios";
 import { SubjectDetailType } from "@/types/Subject";
+import SubjectPageHeader from "@/components/features/subject/SubjectPageHeader";
 
 async function getSubject(schoolId: string, subjectId: number) {
   try {

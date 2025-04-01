@@ -31,12 +31,7 @@ import {
 import { AxiosError } from "axios";
 
 const addSubjectSchema = z.object({
-  name: z
-    .string()
-    .min(2, { message: "Name must be at least 2 characters." })
-    .regex(/^[A-Za-z0-9 ]+$/, {
-      message: "Only letters and numbers are allowed.",
-    }),
+  name: z.string().min(2, { message: "Name must be at least 2 characters." }),
 });
 
 type FormData = z.infer<typeof addSubjectSchema>;
