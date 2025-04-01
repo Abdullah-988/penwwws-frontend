@@ -32,6 +32,7 @@ import Image from "next/image";
 import { X } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { SubjectDetailType } from "@/types/Subject";
+import DeleteSubject from "./DeleteSubject";
 
 type Props = {
   schoolId: string;
@@ -107,7 +108,7 @@ export default function EditSubject({ schoolId, subject }: Props) {
           <Settings />
         </Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[625px]">
+      <DialogContent className="sm:max-w-[725px]">
         <Form {...form}>
           <form className="space-y-6" onSubmit={form.handleSubmit(onSubmit)}>
             <DialogHeader>
@@ -190,20 +191,36 @@ export default function EditSubject({ schoolId, subject }: Props) {
                 </FormItem>
               )}
             />
-            <Button
-              disabled={form.formState.isSubmitting || isUploading}
-              type="submit"
-              size="sm"
-              className="w-full rounded-full font-semibold"
-            >
-              {form.formState.isSubmitting ? (
-                <SpinnerIcon className="animate-spin" />
-              ) : (
-                "Save Changes"
-              )}
-            </Button>
+            <div className="ml-auto flex w-fit items-center gap-3">
+              <Button
+                disabled={form.formState.isSubmitting || isUploading}
+                type="button"
+                variant="outline"
+                size="sm"
+                className="w-fit rounded-full font-semibold"
+              >
+                Cancel
+              </Button>
+              <Button
+                disabled={form.formState.isSubmitting || isUploading}
+                type="submit"
+                size="sm"
+                className="w-fit rounded-full font-semibold"
+              >
+                {form.formState.isSubmitting ? (
+                  <SpinnerIcon className="animate-spin" />
+                ) : (
+                  "Save"
+                )}
+              </Button>
+            </div>
           </form>
         </Form>
+        <DeleteSubject
+          schoolId={schoolId}
+          subjectName={subject.name}
+          subjectId={subject.id}
+        />
       </DialogContent>
     </Dialog>
   );
