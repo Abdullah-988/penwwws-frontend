@@ -49,3 +49,10 @@ export const editSchoolSchema = z.object({
   description: z.string().max(200, "Too long").optional(),
   logoUrl: z.string().nullable(),
 });
+
+export const subjectSchema = z.object({
+  name: z.string().nonempty("Subject name can not be empty"),
+  imageUrl: z.string().nullable().optional(),
+});
+
+export type SubjectFormData = z.infer<typeof subjectSchema>;

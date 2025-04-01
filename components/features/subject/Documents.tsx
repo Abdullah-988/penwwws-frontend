@@ -2,12 +2,6 @@ import { getCookie } from "cookies-next";
 import { cookies } from "next/headers";
 import axios from "@/lib/axiosInstance";
 import { AxiosError } from "axios";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
 
 type Props = {
   schoolId: string;
@@ -25,42 +19,6 @@ export type Document = {
     uploadedAt: string;
   }[];
 };
-
-const mockDocuments: Document[] = [
-  {
-    id: 1,
-    title: "Mathematics Syllabus",
-    files: [
-      {
-        id: 1,
-        name: "Algebra Basics.pdf",
-        url: "#",
-        type: "PDF",
-        uploadedAt: "2024-03-15",
-      },
-      {
-        id: 2,
-        name: "Geometry Exercises.docx",
-        url: "#",
-        type: "DOCX",
-        uploadedAt: "2024-03-16",
-      },
-    ],
-  },
-  {
-    id: 2,
-    title: "Physics Lab Reports",
-    files: [
-      {
-        id: 3,
-        name: "Optics Lab Results.xlsx",
-        url: "#",
-        type: "XLSX",
-        uploadedAt: "2024-03-17",
-      },
-    ],
-  },
-];
 
 export async function getDocuments(schoolId: string, subjectId: number) {
   try {
@@ -81,11 +39,11 @@ export async function getDocuments(schoolId: string, subjectId: number) {
 export default async function DocumentsTab({ schoolId, subjectId }: Props) {
   console.log(schoolId, subjectId);
   return (
-    <div className="">
-      <Accordion type="single" collapsible className="w-full">
+    <div className="hidden">
+      {/* <Accordion type="single" collapsible className="w-full">
         {mockDocuments.map((document) => (
           <>
-            <AccordionItem key={document.id} value={document.title}>
+            <AccordionItem key={document.title} value={document.title}>
               <AccordionTrigger>{document.title}</AccordionTrigger>
               <AccordionContent>
                 {document.files.map((file) => (
@@ -97,7 +55,7 @@ export default async function DocumentsTab({ schoolId, subjectId }: Props) {
             </AccordionItem>
           </>
         ))}
-      </Accordion>
+      </Accordion> */}
     </div>
   );
 }

@@ -35,7 +35,7 @@ export default async function SubjectPage({
     <>
       <Navbar schoolId={schoolId} />
       <div className="mt-3 px-3 md:mt-6 md:px-20">
-        <SubjectPageHeader subject={subject} />
+        <SubjectPageHeader subject={subject} schoolId={schoolId} />
         <Tabs defaultValue="documents">
           <TabsList>
             <TabsTrigger value="documents">Documents</TabsTrigger>
