@@ -42,6 +42,7 @@ export default function EditSchool({ school }: Props) {
       defaultUploadedFiles: [],
     });
 
+  const lastUploadedFileIndex = uploadedFiles.length - 1;
   const form = useForm<FormData>({
     defaultValues: {
       name: school.name,
@@ -57,18 +58,16 @@ export default function EditSchool({ school }: Props) {
       await axios.put(`/school/${school.id}`, data, {
         headers: { Authorization: token },
       });
-
       await queryClient.invalidateQueries({
         queryKey: ["schools"],
       });
-      router.refresh();
 
+      setUploadedFiles([]);
       toast({
         title: "School updated",
         description: "The school details have been successfully updated.",
       });
 
-      setUploadedFiles([]);
       form.reset(data, { keepDirty: false });
     } catch (err) {
       const error = err as AxiosError;
@@ -86,7 +85,6 @@ export default function EditSchool({ school }: Props) {
       });
     }
   }
-
   useEffect(() => {
     form.reset({
       name: school.name || "",
@@ -97,10 +95,9 @@ export default function EditSchool({ school }: Props) {
 
   useEffect(() => {
     if (uploadedFiles.length > 0) {
-      form.setValue("logoUrl", uploadedFiles[0].url);
+      form.setValue("logoUrl", uploadedFiles[lastUploadedFileIndex].url);
     }
-  }, [uploadedFiles, form]);
-
+  }, [uploadedFiles, form, lastUploadedFileIndex]);
   return (
     <section className="rounded-md">
       <Form {...form}>
@@ -138,9 +135,9 @@ export default function EditSchool({ school }: Props) {
               <FormItem>
                 {field.value ? (
                   <div className="mb-4 flex items-center justify-between">
-                    {uploadedFiles.length === 0 && field.value && (
+                    {uploadedFiles.length === 0 && (
                       <>
-                        <div className="flex w-full items-center gap-1">
+                        <div className="flex w-full items-center gap-2">
                           {school.logoUrl && (
                             <Image
                               src={school.logoUrl}
@@ -151,11 +148,12 @@ export default function EditSchool({ school }: Props) {
                               alt="Uploaded file"
                             />
                           )}
-                          <h1>School logo</h1>
+                          <h1 className="text-sm font-semibold">School logo</h1>
                         </div>
                         <Button
                           onClick={() => {
                             field.onChange("");
+                            setUploadedFiles([]);
                           }}
                           type="button"
                           variant="outline"
@@ -166,11 +164,12 @@ export default function EditSchool({ school }: Props) {
                         </Button>
                       </>
                     )}
+
                     {uploadedFiles.length > 0 && (
                       <>
                         <div className="flex w-full items-center gap-3">
                           <Image
-                            src={uploadedFiles[0].url}
+                            src={uploadedFiles[lastUploadedFileIndex].url}
                             width={68}
                             height={68}
                             loading="lazy"
@@ -178,10 +177,15 @@ export default function EditSchool({ school }: Props) {
                             alt="Uploaded file"
                           />
 
-                          <h1>Uploaded Logo</h1>
+                          <h1 className="text-sm font-semibold">
+                            {uploadedFiles[lastUploadedFileIndex].name}
+                          </h1>
                         </div>
                         <Button
-                          onClick={() => setUploadedFiles([])}
+                          onClick={() => {
+                            field.onChange("");
+                            setUploadedFiles([]);
+                          }}
                           type="button"
                           variant="outline"
                           size="icon"
@@ -214,14 +218,14 @@ export default function EditSchool({ school }: Props) {
               size="sm"
               variant="outline"
               disabled={
-                (form.formState.isSubmitting || !form.formState.isDirty) &&
-                uploadedFiles.length === 0
+                form.formState.isSubmitting ||
+                (!form.formState.isDirty && uploadedFiles.length === 0)
               }
               type="button"
               onClick={() => {
                 setUploadedFiles([]);
-                router.refresh();
                 form.reset();
+                router.refresh();
               }}
               className="rounded-full"
             >
@@ -232,8 +236,8 @@ export default function EditSchool({ school }: Props) {
               size="sm"
               className="rounded-full"
               disabled={
-                (form.formState.isSubmitting || !form.formState.isDirty) &&
-                uploadedFiles.length === 0
+                form.formState.isSubmitting ||
+                (!form.formState.isDirty && uploadedFiles.length === 0)
               }
             >
               {form.formState.isSubmitting ? (
