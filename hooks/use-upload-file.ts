@@ -38,9 +38,21 @@ export function useUploadFile({
           "upload_preset",
           process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET || "",
         );
+        let resource = "";
 
+        if (
+          file.type === "png" ||
+          file.type === "jpg" ||
+          file.type === "jpeg"
+        ) {
+          resource = "resource/image/upload";
+        } else if (file.type === "mp4" || file.type === "mov") {
+          resource = "resources/video/upload";
+        } else {
+          resource = "resource/raw/upload";
+        }
         const res = await axios.post(
-          `https://api.cloudinary.com/v1_1/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/upload`,
+          `https://api.cloudinary.com/v1_1/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/${resource}`,
           formData,
           {
             onUploadProgress: (event) => {
