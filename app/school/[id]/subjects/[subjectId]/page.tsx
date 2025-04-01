@@ -1,11 +1,12 @@
 import DocumentsTab from "@/components/features/subject/Documents";
+import SubjectPageHeader from "@/components/features/subject/SubjectPageHeader";
+import Navbar from "@/components/shared/Navbar";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { getCookie } from "cookies-next";
 import { cookies } from "next/headers";
 import axios from "@/lib/axiosInstance";
 import { AxiosError } from "axios";
-import { subjectDetailType } from "@/types/Subject";
-import Navbar from "@/components/shared/Navbar";
+import { SubjectDetailType } from "@/types/Subject";
 
 async function getSubject(schoolId: string, subjectId: number) {
   try {
@@ -28,23 +29,26 @@ export default async function SubjectPage({
 }) {
   const schoolId = (await params).id;
   const subjectId = (await params).subjectId;
-  const subject: subjectDetailType = await getSubject(schoolId, subjectId);
-  console.log(subject);
+  const subject: SubjectDetailType = await getSubject(schoolId, subjectId);
+
   return (
-    <div>
+    <>
       <Navbar schoolId={schoolId} />
-      <Tabs defaultValue="documents">
-        <TabsList>
-          <TabsTrigger value="documents">Documents</TabsTrigger>
-          <TabsTrigger value="students">Students</TabsTrigger>
-          <TabsTrigger value="marks">Marks table</TabsTrigger>
-        </TabsList>
-        <TabsContent value="documents">
-          <DocumentsTab schoolId={schoolId} subjectId={subjectId} />
-        </TabsContent>
-        <TabsContent value="students">Students</TabsContent>
-        <TabsContent value="marks">Marks table</TabsContent>
-      </Tabs>
-    </div>
+      <div className="mt-3 px-3 md:mt-6 md:px-20">
+        <SubjectPageHeader subject={subject} />
+        <Tabs defaultValue="documents">
+          <TabsList>
+            <TabsTrigger value="documents">Documents</TabsTrigger>
+            <TabsTrigger value="students">Students</TabsTrigger>
+            <TabsTrigger value="marks">Marks table</TabsTrigger>
+          </TabsList>
+          <TabsContent value="documents">
+            <DocumentsTab schoolId={schoolId} subjectId={subjectId} />
+          </TabsContent>
+          <TabsContent value="students">Students</TabsContent>
+          <TabsContent value="marks">Marks table</TabsContent>
+        </Tabs>
+      </div>
+    </>
   );
 }

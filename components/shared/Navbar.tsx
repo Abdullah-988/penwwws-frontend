@@ -64,20 +64,24 @@ export default function Navbar({ schoolId }: Props) {
     queryFn: () => getSchool(schoolId),
   });
 
-  if (!user) return;
+  //TODO: Fix the return
+  if (!user) return null;
   return (
-    <nav className="flex items-center justify-between px-6 py-3">
+    <nav className="flex items-center justify-between border-b px-3 py-6 md:px-12">
       <Link
         href={`/school/${schoolId}/${getRoleRedirectPath(user.role)}`}
-        className="text-md flex gap-3 font-semibold"
+        className="text-md flex items-center gap-3 font-semibold"
       >
         {isSchoolLoading ? (
-          <Skeleton className="h-10 w-10 rounded-full" />
+          <Skeleton className="size-12 rounded-full" />
         ) : (
-          <Avatar>
-            <AvatarImage src={school?.logoUrl} />
-            <AvatarFallback>{getInitials(school?.name ?? "")}</AvatarFallback>
-          </Avatar>
+          <>
+            <Avatar className="size-12">
+              <AvatarImage src={school?.logoUrl} />
+              <AvatarFallback>{getInitials(school?.name ?? "")}</AvatarFallback>
+            </Avatar>
+            <h1 className="hover:underline">{school?.name}</h1>
+          </>
         )}
       </Link>
 
@@ -85,9 +89,9 @@ export default function Navbar({ schoolId }: Props) {
         <DropdownMenuTrigger asChild>
           <div className="cursor-pointer">
             {isUserLoading ? (
-              <Skeleton className="h-10 w-10 rounded-full" />
+              <Skeleton className="size-12 rounded-full" />
             ) : (
-              <Avatar className="size-10 rounded-full">
+              <Avatar className="size-12 rounded-full">
                 <AvatarImage src={user?.avatarUrl} alt={user?.fullName} />
                 <AvatarFallback className="rounded-lg">
                   {getInitials(user?.fullName ?? "")}
@@ -96,15 +100,11 @@ export default function Navbar({ schoolId }: Props) {
             )}
           </div>
         </DropdownMenuTrigger>
-        <DropdownMenuContent
-          className="w-[--radix-dropdown-menu-trigger-width] min-w-56 rounded-lg"
-          align="end"
-          sideOffset={4}
-        >
+        <DropdownMenuContent>
           <DropdownMenuLabel className="p-0 font-normal">
             <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
               {isUserLoading ? (
-                <Skeleton className="h-8 w-8 rounded-lg" />
+                <Skeleton className="size-8 rounded-lg" />
               ) : (
                 <Avatar className="size-8 rounded-lg">
                   <AvatarImage src={user?.avatarUrl} alt={user?.fullName} />

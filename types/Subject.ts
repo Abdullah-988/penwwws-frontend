@@ -10,6 +10,6 @@ export type SubjectType = {
   updatedAt: string;
 };
 
-export type subjectDetailType = Omit<SubjectType, "teachers"> & {
+export type SubjectDetailType = Omit<SubjectType, "teachers"> & {
   users: UserType[];
 };
