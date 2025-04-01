@@ -10,6 +10,13 @@ import { Button } from "@/components/ui/button";
 import { Copy } from "lucide-react";
 import { capitalizeFirstLetter } from "@/lib/utils";
 import DeleteInvitationLink from "@/components/features/dashboard/home/DeleteInvitationLink";
+import { useState } from "react";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 type Props = {
   schoolId: string;
@@ -39,6 +46,10 @@ type SchoolInvitationType = {
 };
 
 export default function InvitationLinksList({ schoolId }: Props) {
+  const host = window.location.host;
+  const [copiedInvitationId, setCopiedInvitationId] = useState<number | null>(
+    null,
+  );
   const { data: schoolInvitations } = useQuery<SchoolInvitationType[]>({
     queryKey: ["schoolInvitations"],
     queryFn: async () => await getSchoolInvitations(schoolId),
@@ -48,7 +59,7 @@ export default function InvitationLinksList({ schoolId }: Props) {
     <section className="mt-3 flex max-h-80 w-full flex-col gap-3 overflow-y-scroll p-1">
       {schoolInvitations &&
         schoolInvitations.map((invitation) => {
-          const generatedLink = `http://localhost:3000/invite/${invitation.token}`;
+          const generatedLink = `${host}/invite/${invitation.token}`;
           return (
             <div key={invitation.id} className="space-y-2">
               <Label htmlFor="link">
@@ -66,17 +77,34 @@ export default function InvitationLinksList({ schoolId }: Props) {
                     schoolId={schoolId}
                     tokenId={invitation.id}
                   />
-                  <Button
-                    onClick={async () =>
-                      await navigator.clipboard.writeText(generatedLink)
-                    }
-                    type="submit"
-                    size="sm"
-                    className="bg-primary/5 text-primary hover:bg-primary/10 px-3"
-                  >
-                    <span className="sr-only">Copy</span>
-                    <Copy />
-                  </Button>
+
+                  <TooltipProvider>
+                    <Tooltip
+                      open={copiedInvitationId === invitation.id}
+                      onOpenChange={(open) =>
+                        !open && setCopiedInvitationId(null)
+                      }
+                    >
+                      <TooltipTrigger asChild>
+                        <Button
+                          onClick={async () => {
+                            setCopiedInvitationId(invitation.id);
+                            await navigator.clipboard.writeText(generatedLink);
+                            setTimeout(() => setCopiedInvitationId(null), 500);
+                          }}
+                          type="submit"
+                          size="sm"
+                          className="bg-primary/5 text-primary hover:bg-primary/10 px-3"
+                        >
+                          <span className="sr-only">Copy</span>
+                          <Copy />
+                        </Button>
+                      </TooltipTrigger>
+                      <TooltipContent className="">
+                        <p>Copied!</p>
+                      </TooltipContent>
+                    </Tooltip>
+                  </TooltipProvider>
                 </div>
               </div>
             </div>
