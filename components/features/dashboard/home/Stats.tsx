@@ -1,5 +1,6 @@
 import { Users, GraduationCap, LibraryBig } from "lucide-react";
 import { getSchool } from "@/fetches/school";
+import { formatNumber } from "@/lib/utils";
 
 type Props = {
   schoolId: string;
@@ -33,7 +34,7 @@ export default async function Stats({ schoolId }: Props) {
             </div>
 
             <h1 className="mt-2 text-4xl font-bold">
-              {new Intl.NumberFormat("en-US").format(stat.count)}
+              {formatNumber(stat.count)}
             </h1>
           </div>
           <div className="rounded-lg border p-2">
