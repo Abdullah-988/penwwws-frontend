@@ -67,7 +67,7 @@ export default function Navbar({ schoolId }: Props) {
   //TODO: Fix the return
   if (!user) return null;
   return (
-    <nav className="flex items-center justify-between border-b px-3 py-6 md:px-12">
+    <nav className="flex items-center justify-between border-b p-6">
       <Link
         href={`/school/${schoolId}/${getRoleRedirectPath(user.role)}`}
         className="text-md flex items-center gap-3 font-semibold"

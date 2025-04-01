@@ -18,11 +18,11 @@ import { AxiosError } from "axios";
 import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 
-interface Props {
+type Props = {
   schoolId: string;
   subjectId: string;
   subjectName: string;
-}
+};
 
 export default function DeleteSubject({
   schoolId,
