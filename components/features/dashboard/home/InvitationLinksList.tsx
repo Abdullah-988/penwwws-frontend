@@ -46,7 +46,7 @@ type SchoolInvitationType = {
 };
 
 export default function InvitationLinksList({ schoolId }: Props) {
-  const host = window.location.host;
+  const host = window.location.protocol + "//" + window.location.hostname;
   const [copiedInvitationId, setCopiedInvitationId] = useState<number | null>(
     null,
   );
