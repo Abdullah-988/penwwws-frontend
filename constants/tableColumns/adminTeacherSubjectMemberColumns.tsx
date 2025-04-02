@@ -18,10 +18,12 @@ import {
 import { MemberType } from "@/types/member";
 import { Badge } from "@/components/ui/badge";
 import clsx from "clsx";
+import UnassignSubject from "@/components/features/subject/UnassignSubject";
+import { SubjectDetailType } from "@/types/Subject";
 
 export function getColumns(
   schoolId: string,
-  subjectId: number,
+  subject: SubjectDetailType,
 ): ColumnDef<MemberType>[] {
   return [
     {
@@ -63,7 +65,7 @@ export function getColumns(
       ),
       cell: ({ row }) => (
         <Link
-          href={`/school/${schoolId}/subjects/${subjectId}/members/${row.original.id}`}
+          href={`/school/${schoolId}/subjects/${subject.id}/members/${row.original.id}`}
           className="flex items-center"
         >
           <Avatar className="size-7 rounded-full">
@@ -145,13 +147,17 @@ export function getColumns(
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
               <DropdownMenuLabel>Actions</DropdownMenuLabel>
-
+              <UnassignSubject
+                schoolId={schoolId}
+                selectedMemberIds={[row.original.id]}
+                subject={subject}
+              />
+              <DropdownMenuSeparator />
               <DropdownMenuItem
                 onClick={() => navigator.clipboard.writeText(email)}
               >
                 Copy member email
               </DropdownMenuItem>
-              <DropdownMenuSeparator />
             </DropdownMenuContent>
           </DropdownMenu>
         );
