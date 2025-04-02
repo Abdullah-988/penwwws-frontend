@@ -22,7 +22,7 @@ type Props = {
   schoolId: string;
   members: MemberType[];
 };
-export default function AssignSubjectMembersTable({
+export default function AssignSubjectTable({
   subject,
   schoolId,
   members,
@@ -49,7 +49,7 @@ export default function AssignSubjectMembersTable({
         <DropdownMenuItem
           onClick={() => navigator.clipboard.writeText(member.email)}
         >
-          <Copy size={16} /> Copy email Copy email
+          <Copy size={16} /> Copy email
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

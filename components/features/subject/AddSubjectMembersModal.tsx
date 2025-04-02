@@ -11,7 +11,7 @@ import { Button } from "@/components/ui/button";
 import { formatNumber } from "@/lib/utils";
 import { getMembers } from "@/fetches/member";
 import { SubjectDetailType } from "@/types/Subject";
-import AssignSubjectMembersTable from "@/components/features/subject/AssignSubjectMemberTable";
+import AssignSubjectTable from "@/components/features/subject/AssignSubjectTable";
 
 type Props = {
   schoolId: string;
@@ -42,7 +42,7 @@ export default async function AddSubjectMembersModal({
             </Badge>
           </DialogTitle>
         </DialogHeader>
-        <AssignSubjectMembersTable
+        <AssignSubjectTable
           schoolId={schoolId}
           members={members}
           subject={subject}

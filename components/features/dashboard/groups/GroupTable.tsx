@@ -25,7 +25,7 @@ type Props = {
   group: GroupType;
 };
 
-export default function GroupMembersTable({ group, schoolId, data }: Props) {
+export default function GroupTable({ group, schoolId, data }: Props) {
   const [selectedMemberIds, setSelectedMemberIds] = useState<number[]>([]);
 
   const columns = GetColumns((member) => (

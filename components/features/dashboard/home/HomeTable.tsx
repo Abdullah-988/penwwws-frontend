@@ -24,7 +24,7 @@ type Props = {
   schoolId: string;
 };
 
-export const MembersTable = ({ data, schoolId }: Props) => {
+export const HomeTable = ({ data, schoolId }: Props) => {
   const resetSelectionRef = useRef<ResetSelectionType | null>(null);
   const [selectedMemberIds, setSelectedMemberIds] = useState<number[]>([]);
 
