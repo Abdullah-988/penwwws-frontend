@@ -17,18 +17,14 @@ import { getCookie } from "cookies-next";
 import { AxiosError } from "axios";
 import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
+import { SubjectDetailType } from "@/types/Subject";
 
 type Props = {
   schoolId: string;
-  subjectId: number;
-  subjectName: string;
+  subject: SubjectDetailType;
 };
 
-export default function DeleteSubject({
-  schoolId,
-  subjectId,
-  subjectName,
-}: Props) {
+export default function DeleteSubject({ schoolId, subject }: Props) {
   const { toast } = useToast();
   const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
@@ -36,7 +32,7 @@ export default function DeleteSubject({
   const deleteMutation = useMutation({
     mutationFn: async () => {
       const token = await getCookie("token");
-      return axios.delete(`/school/${schoolId}/subject/${subjectId}`, {
+      return axios.delete(`/school/${schoolId}/subject/${subject.id}`, {
         headers: { Authorization: token },
       });
     },
@@ -45,7 +41,7 @@ export default function DeleteSubject({
       setIsOpen(false);
       toast({
         title: "Subject Deleted",
-        description: `${subjectName} has been permanently deleted.`,
+        description: `${subject.name} has been permanently deleted.`,
       });
     },
     onError: (error: AxiosError) => {
@@ -61,30 +57,21 @@ export default function DeleteSubject({
 
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
-      <section className="mt-6 flex items-center justify-between gap-10 rounded-md p-3 py-3">
-        <div className="flex flex-col">
-          <h1 className="text-destructive font-semibold">Delete Subject</h1>
-          <p className="text-muted-foreground text-sm">
-            Deleting this subject is irreversible and will remove all associated
-            data. Please confirm before proceeding.
-          </p>
-        </div>
-        <DialogTrigger asChild>
-          <Button
-            size="sm"
-            className="bg-destructive/10 text-destructive hover:bg-destructive/15"
-            variant="destructive"
-          >
-            <Trash2 size={14} />
-          </Button>
-        </DialogTrigger>
-      </section>
+      <DialogTrigger asChild>
+        <Button
+          size="sm"
+          className="bg-destructive/10 text-destructive hover:bg-destructive/15"
+          variant="destructive"
+        >
+          <Trash2 size={14} />
+        </Button>
+      </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle>Delete Subject</DialogTitle>
           <DialogDescription>
             Are you sure you want to delete{" "}
-            <strong className="text-destructive">{subjectName}</strong>? This
+            <strong className="text-destructive">{subject.name}</strong>? This
             action cannot be undone.
           </DialogDescription>
         </DialogHeader>

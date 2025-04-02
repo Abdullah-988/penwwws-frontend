@@ -5,6 +5,7 @@ import { SubjectDetailType } from "@/types/Subject";
 import Image from "next/image";
 import EditSubject from "@/components/features/subject/EditSubject";
 import { Library } from "lucide-react";
+import DeleteSubject from "./DeleteSubject";
 
 type Props = {
   schoolId: string;
@@ -17,11 +18,16 @@ export default function SubjectPageHeader({ subject, schoolId }: Props) {
   return (
     <section className="flex w-full justify-between gap-10 md:h-60">
       <div className="flex flex-col justify-between">
-        <div className="flex items-end gap-2">
-          <h1 className="text-2xl font-bold md:text-5xl">{subject.name} </h1>
-          <EditSubject subject={subject} schoolId={schoolId} />
+        <div className="flex flex-col items-start gap-2 md:flex-row md:items-center">
+          <h1 className="text-lg font-bold sm:text-2xl md:text-5xl">
+            {subject.name}{" "}
+          </h1>
+          <div className="flex items-center gap-2">
+            <EditSubject subject={subject} schoolId={schoolId} />
+            <DeleteSubject subject={subject} schoolId={schoolId} />
+          </div>
         </div>
-        <TeachersAvatars teachers={teachers} size="lg" />
+        <TeachersAvatars teachers={teachers} className="md:size-12" />
       </div>
       {subject.imageUrl ? (
         <Image

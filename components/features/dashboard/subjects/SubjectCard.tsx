@@ -25,7 +25,7 @@ export default function SubjectCard({ subject, schoolId }: Props) {
       )}
       <div className="flex h-20 flex-col justify-start">
         <h2 className="mt-3 px-2 font-semibold">{subject.name}</h2>
-        <TeachersAvatars teachers={subject.teachers} size="sm" />
+        <TeachersAvatars teachers={subject.teachers} />
       </div>
     </Link>
   );

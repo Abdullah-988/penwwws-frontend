@@ -3,25 +3,19 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { getInitials } from "@/lib/utils";
 import { MemberType } from "@/types/member";
-
-const sizeClasses = {
-  sm: "size-8",
-  md: "size-10",
-  lg: "size-12",
-};
+import clsx from "clsx";
 
 type Props = {
   teachers: MemberType[];
   maxDisplayed?: number;
-  size: "sm" | "md" | "lg";
+  className?: string;
 };
 
 export function TeachersAvatars({
   teachers = [],
   maxDisplayed = 5,
-  size,
+  className,
 }: Props) {
-  const sizeClass = sizeClasses[size];
   const displayedTeachers = teachers.slice(0, maxDisplayed);
   const overflowCount = teachers.length - maxDisplayed;
 
@@ -30,7 +24,7 @@ export function TeachersAvatars({
       {displayedTeachers.map((teacher, index) => (
         <Avatar
           key={teacher.id}
-          className={`border-background ${sizeClass} rounded-full border-2`}
+          className={clsx("border-background rounded-full border-2", className)}
           style={{
             zIndex: displayedTeachers.length - index,
             right: index * 12,
@@ -43,7 +37,7 @@ export function TeachersAvatars({
 
       {overflowCount > 0 && (
         <Avatar
-          className={`border-background ${sizeClass} rounded-full border-2`}
+          className={clsx("border-background rounded-full border-2", className)}
           style={{
             zIndex: 0,
             right: maxDisplayed * 12,

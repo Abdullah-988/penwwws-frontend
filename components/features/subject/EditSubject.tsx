@@ -11,7 +11,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { LoaderCircle as SpinnerIcon, Settings } from "lucide-react";
+import { LoaderCircle as SpinnerIcon, Pencil } from "lucide-react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import axios from "@/lib/axiosInstance";
@@ -32,7 +32,6 @@ import Image from "next/image";
 import { X } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { SubjectDetailType } from "@/types/Subject";
-import DeleteSubject from "./DeleteSubject";
 
 type Props = {
   schoolId: string;
@@ -102,13 +101,13 @@ export default function EditSubject({ schoolId, subject }: Props) {
     <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
       <DialogTrigger asChild>
         <Button
-          size="icon"
-          className="bg-blue-800/10 text-blue-800 hover:bg-blue-800/15"
+          size="sm"
+          className="bg-amber-800/10 text-amber-800 hover:bg-amber-800/15"
         >
-          <Settings />
+          <Pencil />
         </Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[725px]">
+      <DialogContent>
         <Form {...form}>
           <form className="space-y-6" onSubmit={form.handleSubmit(onSubmit)}>
             <DialogHeader>
@@ -193,6 +192,7 @@ export default function EditSubject({ schoolId, subject }: Props) {
             />
             <div className="ml-auto flex w-fit items-center gap-3">
               <Button
+                onClick={() => setIsModalOpen(false)}
                 disabled={form.formState.isSubmitting || isUploading}
                 type="button"
                 variant="outline"
@@ -216,11 +216,6 @@ export default function EditSubject({ schoolId, subject }: Props) {
             </div>
           </form>
         </Form>
-        <DeleteSubject
-          schoolId={schoolId}
-          subjectName={subject.name}
-          subjectId={subject.id}
-        />
       </DialogContent>
     </Dialog>
   );
