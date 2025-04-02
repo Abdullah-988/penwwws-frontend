@@ -43,12 +43,12 @@ export const HomeTable = ({ data, schoolId }: Props) => {
             schoolId={schoolId}
             selectedMemberIds={[member.id]}
             assignGroupMode="multiple"
-            className="bg-card hover:bg-secondary justify-start"
+            className="bg-card hover:bg-secondary justify-start shadow-none"
           />
           <UnassignGroup
             schoolId={schoolId}
             selectedMemberIds={[member.id]}
-            className="bg-card hover:bg-secondary"
+            className="bg-card hover:bg-secondary w-full justify-start shadow-none"
             unassignGroupMode="multiple"
           />
         </div>
@@ -63,7 +63,7 @@ export const HomeTable = ({ data, schoolId }: Props) => {
           schoolId={schoolId}
           selectedMemberIds={[member.id]}
           resetSelectionRef={resetSelectionRef}
-          className="text-destructive bg-card hover:bg-muted w-full"
+          className="text-destructive bg-card hover:bg-muted w-full shadow-none"
           btnText="Remove member"
         />
       </DropdownMenuContent>

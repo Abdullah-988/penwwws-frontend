@@ -24,7 +24,10 @@ export function TeachersAvatars({
       {displayedTeachers.map((teacher, index) => (
         <Avatar
           key={teacher.id}
-          className={clsx("border-background rounded-full border-2", className)}
+          className={clsx(
+            "border-background size-8 rounded-full border-2",
+            className,
+          )}
           style={{
             zIndex: displayedTeachers.length - index,
             right: index * 12,
@@ -37,7 +40,10 @@ export function TeachersAvatars({
 
       {overflowCount > 0 && (
         <Avatar
-          className={clsx("border-background rounded-full border-2", className)}
+          className={clsx(
+            "border-background size-8 rounded-full border-2",
+            className,
+          )}
           style={{
             zIndex: 0,
             right: maxDisplayed * 12,

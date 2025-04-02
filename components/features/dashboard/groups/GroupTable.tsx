@@ -43,12 +43,12 @@ export default function GroupTable({ group, schoolId, data }: Props) {
             schoolId={schoolId}
             selectedMemberIds={[member.id]}
             assignGroupMode="multiple"
-            className="bg-card hover:bg-secondary justify-start"
+            className="bg-card hover:bg-secondary justify-start shadow-none"
           />
           <UnassignGroup
             schoolId={schoolId}
             selectedMemberIds={[member.id]}
-            className="bg-card hover:bg-secondary"
+            className="bg-card hover:bg-secondary w-full justify-start shadow-none"
             unassignGroupMode="multiple"
           />
         </div>
