@@ -3,6 +3,7 @@
 import { ColumnDef } from "@tanstack/react-table";
 import { Button } from "@/components//ui/button";
 import { ArrowUpDown, MoreHorizontal } from "lucide-react";
+import Link from "next/link";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { capitalizeFirstLetter, getInitials } from "@/lib/utils";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -14,14 +15,14 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import AssignGroup from "@/components/shared/AssignGroup";
-import UnAssignGroup from "@/components/shared/UnassignGroup";
+import { MemberType } from "@/types/member";
 import { Badge } from "@/components/ui/badge";
 import clsx from "clsx";
-import RemoveMember from "@/components/shared/RemoveMember";
-import { MemberType } from "@/types/member";
 
-export function getColumns(schoolId: string): ColumnDef<MemberType>[] {
+export function getColumns(
+  schoolId: string,
+  subjectId: number,
+): ColumnDef<MemberType>[] {
   return [
     {
       id: "select",
@@ -61,15 +62,20 @@ export function getColumns(schoolId: string): ColumnDef<MemberType>[] {
         </Button>
       ),
       cell: ({ row }) => (
-        <div className="flex items-center">
+        <Link
+          href={`/school/${schoolId}/subjects/${subjectId}/members/${row.original.id}`}
+          className="flex items-center"
+        >
           <Avatar className="size-7 rounded-full">
             <AvatarFallback>
               {getInitials(row.getValue("fullName"))}
             </AvatarFallback>
             <AvatarImage src={row.original.avatarUrl} />
           </Avatar>
-          <span className="ml-2">{row.getValue("fullName")}</span>
-        </div>
+          <span className="ml-2 hover:underline">
+            {row.getValue("fullName")}
+          </span>
+        </Link>
       ),
     },
     {
@@ -88,16 +94,18 @@ export function getColumns(schoolId: string): ColumnDef<MemberType>[] {
       header: "Group(s)",
       cell: ({ row }) => (
         <div className="flex flex-wrap gap-1">
-          {row.original.groups.map((group) => (
-            <Badge
-              key={group.id}
-              className="text-primary-800 bg-primary-800/10 rounded-full"
-            >
-              {group.name}
-            </Badge>
-          ))}
+          {row.original.groups &&
+            row.original.groups.map((group) => (
+              <Badge
+                key={group.id}
+                className="text-primary-800 bg-primary-800/10 rounded-full"
+              >
+                {group.name}
+              </Badge>
+            ))}
         </div>
       ),
+
       filterFn: (row, _columnId, filterValue) => {
         return row.original.groups.some((group) =>
           filterValue.includes(group.id),
@@ -127,7 +135,6 @@ export function getColumns(schoolId: string): ColumnDef<MemberType>[] {
       id: "actions",
       cell: ({ row }) => {
         const email = row.original.email;
-        const memberId = parseInt(row.original.id);
         return (
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
@@ -138,21 +145,6 @@ export function getColumns(schoolId: string): ColumnDef<MemberType>[] {
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
               <DropdownMenuLabel>Actions</DropdownMenuLabel>
-              <div className="flex w-full flex-col">
-                <AssignGroup
-                  schoolId={schoolId}
-                  selectedMemberIds={[memberId]}
-                  assignGroupMode="multiple"
-                  className="bg-card hover:bg-secondary justify-start"
-                />
-                <UnAssignGroup
-                  schoolId={schoolId}
-                  selectedMemberIds={[memberId]}
-                  className="bg-card hover:bg-secondary"
-                  unassignGroupMode="multiple"
-                />
-              </div>
-              <DropdownMenuSeparator />
 
               <DropdownMenuItem
                 onClick={() => navigator.clipboard.writeText(email)}
@@ -160,12 +152,6 @@ export function getColumns(schoolId: string): ColumnDef<MemberType>[] {
                 Copy member email
               </DropdownMenuItem>
               <DropdownMenuSeparator />
-              <RemoveMember
-                schoolId={schoolId}
-                selectedMemberIds={[memberId]}
-                className="bg-card hover:bg-secondary text-destructive w-full"
-                btnText="Remove member"
-              />
             </DropdownMenuContent>
           </DropdownMenu>
         );

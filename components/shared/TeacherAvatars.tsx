@@ -1,16 +1,17 @@
 "use client";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { UserType } from "@/types/User";
 import { getInitials } from "@/lib/utils";
+import { MemberType } from "@/types/member";
 
 const sizeClasses = {
   sm: "size-8",
   md: "size-10",
   lg: "size-12",
 };
+
 type Props = {
-  teachers: UserType[];
+  teachers: MemberType[];
   maxDisplayed?: number;
   size: "sm" | "md" | "lg";
 };

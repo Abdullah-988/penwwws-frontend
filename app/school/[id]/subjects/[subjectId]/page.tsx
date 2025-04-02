@@ -1,5 +1,3 @@
-import DocumentsTab from "@/components/features/subject/Documents";
-
 import Navbar from "@/components/shared/Navbar";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { getCookie } from "cookies-next";
@@ -8,6 +6,7 @@ import axios from "@/lib/axiosInstance";
 import { AxiosError } from "axios";
 import { SubjectDetailType } from "@/types/Subject";
 import SubjectPageHeader from "@/components/features/subject/SubjectPageHeader";
+import { getSubjectTabs } from "@/constants/subjectTabs";
 
 async function getSubject(schoolId: string, subjectId: number) {
   try {
@@ -22,13 +21,6 @@ async function getSubject(schoolId: string, subjectId: number) {
     console.error(error.response?.data || "Unexpected error occurred");
   }
 }
-const SUBJECT_TABS = [
-  { value: "documents", label: "Documents" },
-  { value: "students", label: "Students" },
-  { value: "assignments", label: "Assignments" },
-  { value: "marks", label: "Marks" },
-] as const;
-
 export default async function SubjectPage({
   params,
 }: {
@@ -37,6 +29,7 @@ export default async function SubjectPage({
   const schoolId = (await params).id;
   const subjectId = (await params).subjectId;
   const subject: SubjectDetailType = await getSubject(schoolId, subjectId);
+  const SUBJECT_TABS = getSubjectTabs(schoolId, subject);
 
   return (
     <>
@@ -56,15 +49,10 @@ export default async function SubjectPage({
             ))}
           </TabsList>
 
-          {/* Tab Contents */}
           <div className="w-full">
             {SUBJECT_TABS.map((tab) => (
-              <TabsContent key={tab.value} value={tab.value} className="mt-4">
-                {tab.value === "documents" ? (
-                  <DocumentsTab schoolId={schoolId} subjectId={subjectId} />
-                ) : (
-                  <div>{tab.label}</div>
-                )}
+              <TabsContent key={tab.value} value={tab.value}>
+                {tab.content}
               </TabsContent>
             ))}
           </div>

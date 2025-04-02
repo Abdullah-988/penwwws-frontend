@@ -20,7 +20,7 @@ import { useRouter } from "next/navigation";
 
 type Props = {
   schoolId: string;
-  subjectId: string;
+  subjectId: number;
   subjectName: string;
 };
 

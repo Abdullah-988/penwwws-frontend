@@ -1,15 +1,15 @@
-import { UserType } from "./User";
+import { MemberType } from "./member";
 
 export type SubjectType = {
-  id: string;
+  id: number;
   name: string;
   imageUrl: string;
   schoolId: string;
-  teachers: UserType[];
+  teachers: MemberType[];
   createdAt: string;
   updatedAt: string;
 };
 
 export type SubjectDetailType = Omit<SubjectType, "teachers"> & {
-  users: UserType[];
+  users: MemberType[];
 };
