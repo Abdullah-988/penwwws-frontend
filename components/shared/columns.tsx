@@ -2,35 +2,23 @@
 
 import { ColumnDef } from "@tanstack/react-table";
 import { Button } from "@/components//ui/button";
-import { ArrowUpDown, MoreHorizontal } from "lucide-react";
+import { ArrowUpDown } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { capitalizeFirstLetter, getInitials } from "@/lib/utils";
 import { Checkbox } from "@/components/ui/checkbox";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import AssignGroup from "@/components/shared/AssignGroup";
-import UnAssignGroup from "@/components/shared/UnassignGroup";
+
 import { Badge } from "@/components/ui/badge";
 import clsx from "clsx";
-import RemoveMember from "@/components/shared/RemoveMember";
 import { MemberType } from "@/types/member";
-import { useRef } from "react";
-import { ResetSelectionType } from "./DataTable";
-
-export function GetColumns(schoolId: string): ColumnDef<MemberType>[] {
-  const resetSelectionRef = useRef<ResetSelectionType | null>(null);
+import { JSX } from "react";
+export function GetColumns(
+  actionRenderer: (member: MemberType) => JSX.Element,
+): ColumnDef<MemberType>[] {
   return [
     {
       id: "select",
       header: ({ table }) => (
         <Checkbox
-          id="select"
           checked={
             table.getIsAllPageRowsSelected() ||
             (table.getIsSomePageRowsSelected() && "indeterminate")
@@ -42,9 +30,7 @@ export function GetColumns(schoolId: string): ColumnDef<MemberType>[] {
       cell: ({ row }) => (
         <Checkbox
           checked={row.getIsSelected()}
-          onCheckedChange={(value) => {
-            row.toggleSelected(!!value);
-          }}
+          onCheckedChange={(value) => row.toggleSelected(!!value)}
           aria-label="Select row"
         />
       ),
@@ -77,14 +63,7 @@ export function GetColumns(schoolId: string): ColumnDef<MemberType>[] {
     },
     {
       accessorKey: "email",
-      header: ({ column }) => (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          Email <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
-      ),
+      header: "Email",
     },
     {
       accessorKey: "groups",
@@ -101,11 +80,8 @@ export function GetColumns(schoolId: string): ColumnDef<MemberType>[] {
           ))}
         </div>
       ),
-      filterFn: (row, _columnId, filterValue) => {
-        return row.original.groups.some((group) =>
-          filterValue.includes(group.id),
-        );
-      },
+      filterFn: (row, _columnId, filterValue) =>
+        row.original.groups.some((group) => filterValue.includes(group.id)),
     },
     {
       accessorKey: "role",
@@ -128,52 +104,7 @@ export function GetColumns(schoolId: string): ColumnDef<MemberType>[] {
     },
     {
       id: "actions",
-      cell: ({ row }) => {
-        const email = row.original.email;
-        const memberId = parseInt(row.original.id);
-        return (
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="ghost" className="h-8 w-8 p-0">
-                <span className="sr-only">Open menu</span>
-                <MoreHorizontal className="h-4 w-4" />
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
-              <DropdownMenuLabel>Actions</DropdownMenuLabel>
-              <div className="flex w-full flex-col">
-                <AssignGroup
-                  schoolId={schoolId}
-                  selectedMemberIds={[memberId]}
-                  assignGroupMode="multiple"
-                  className="bg-card hover:bg-secondary justify-start"
-                />
-                <UnAssignGroup
-                  schoolId={schoolId}
-                  selectedMemberIds={[memberId]}
-                  className="bg-card hover:bg-secondary"
-                  unassignGroupMode="multiple"
-                />
-              </div>
-              <DropdownMenuSeparator />
-
-              <DropdownMenuItem
-                onClick={() => navigator.clipboard.writeText(email)}
-              >
-                Copy member email
-              </DropdownMenuItem>
-              <DropdownMenuSeparator />
-              <RemoveMember
-                schoolId={schoolId}
-                selectedMemberIds={[memberId]}
-                className="bg-card hover:bg-secondary text-destructive w-full"
-                btnText="Remove member"
-                resetSelectionRef={resetSelectionRef}
-              />
-            </DropdownMenuContent>
-          </DropdownMenu>
-        );
-      },
+      cell: ({ row }) => actionRenderer(row.original),
     },
   ];
 }

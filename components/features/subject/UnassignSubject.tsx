@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-
+import clsx from "clsx";
 import axios from "@/lib/axiosInstance";
 import { getCookie } from "cookies-next";
 import { Button } from "@/components/ui/button";
@@ -17,6 +17,7 @@ type Props = {
   selectedMemberIds: number[];
   subject: SubjectDetailType;
   resetSelectionRef?: RefObject<ResetSelectionType | null>;
+  className?: string;
 };
 
 export default function UnassignSubject({
@@ -24,6 +25,7 @@ export default function UnassignSubject({
   schoolId,
   subject,
   resetSelectionRef,
+  className,
 }: Props) {
   const { toast } = useToast();
   const router = useRouter();
@@ -61,7 +63,10 @@ export default function UnassignSubject({
     <Button
       onClick={handleUnassign}
       size="sm"
-      className="text-destructive bg-destructive/10 hover:text-destructive hover:bg-destructive/15 border-none"
+      className={clsx(
+        "text-destructive bg-destructive/10 hover:text-destructive hover:bg-destructive/15 border-none",
+        className,
+      )}
     >
       <Trash2 size={6} />
       Unassign subject

@@ -41,7 +41,7 @@ const globalFilterFn: FilterFn<MemberType> = (
 ) => {
   const fullName = row.original.fullName.toLowerCase();
   const email = row.original.email.toLowerCase();
-  const id = parseInt(row.original.id);
+  const id = row.original.id;
   return (
     fullName.includes(filterValue.toLowerCase()) ||
     email.includes(filterValue.toLowerCase()) ||
