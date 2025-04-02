@@ -16,20 +16,23 @@ import {
 import { Button } from "@/components/ui/button";
 import { MoreHorizontal, Clipboard, Copy } from "lucide-react";
 import Link from "next/link";
+import { SchoolUserType } from "@/types/SchoolUser";
 
 type Props = {
   schoolId: string;
+  user: SchoolUserType;
   subject: SubjectDetailType;
   children: React.ReactNode;
 };
 
 export default function StudentsTabContent({
   schoolId,
+  user,
   subject,
   children,
 }: Props) {
   const resetSelectionRef = useRef<ResetSelectionType | null>(null);
-
+  console.log(user);
   const [selectedMemberIds, setSelectedMemberIds] = useState<number[]>([]);
   const columns = GetColumns((member) => (
     <DropdownMenu>

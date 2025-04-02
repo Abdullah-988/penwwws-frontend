@@ -7,6 +7,7 @@ import { AxiosError } from "axios";
 import { SubjectDetailType } from "@/types/Subject";
 import SubjectPageHeader from "@/components/features/subject/SubjectPageHeader";
 import { getSubjectTabs } from "@/constants/subjectTabs";
+import { getUser } from "@/fetches/schoolUser";
 
 async function getSubject(schoolId: string, subjectId: number) {
   try {
@@ -29,11 +30,11 @@ export default async function SubjectPage({
   const schoolId = (await params).id;
   const subjectId = (await params).subjectId;
   const subject: SubjectDetailType = await getSubject(schoolId, subjectId);
-  const SUBJECT_TABS = getSubjectTabs(schoolId, subject);
-
+  const user = await getUser(schoolId);
+  const SUBJECT_TABS = getSubjectTabs(schoolId, subject, user);
   return (
     <>
-      <Navbar schoolId={schoolId} />
+      <Navbar user={user} schoolId={schoolId} />
       <div className="mt-3 p-6 md:mt-6">
         <SubjectPageHeader subject={subject} schoolId={schoolId} />
         <Tabs defaultValue="documents" className="mt-12 w-full">

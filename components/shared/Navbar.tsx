@@ -13,8 +13,6 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Skeleton } from "@/components/ui/skeleton";
 import { getInitials, getRoleRedirectPath } from "@/lib/utils";
-import { getUser } from "@/fetches/user";
-import { UserType } from "@/types/User";
 import { LogOut, Settings } from "lucide-react";
 import { deleteCookie } from "cookies-next";
 import { useRouter } from "next/navigation";
@@ -23,6 +21,7 @@ import { getCookie } from "cookies-next";
 import axios from "@/lib/axiosInstance";
 import { AxiosError } from "axios";
 import { RoleType } from "@/types/Role";
+import { SchoolUserType } from "@/types/SchoolUser";
 
 export type SchoolType = {
   id: string;
@@ -49,23 +48,17 @@ export async function getSchool(schoolId: string) {
 
 type Props = {
   schoolId: string;
+  user: SchoolUserType;
 };
 
-export default function Navbar({ schoolId }: Props) {
+export default function Navbar({ schoolId, user }: Props) {
   const router = useRouter();
-
-  const { data: user, isLoading: isUserLoading } = useQuery<UserType>({
-    queryKey: ["user"],
-    queryFn: getUser,
-  });
 
   const { data: school, isLoading: isSchoolLoading } = useQuery<SchoolType>({
     queryKey: ["school", schoolId],
     queryFn: () => getSchool(schoolId),
   });
 
-  //TODO: Fix the return
-  if (!user) return null;
   return (
     <nav className="flex items-center justify-between border-b p-6">
       <Link
@@ -88,7 +81,7 @@ export default function Navbar({ schoolId }: Props) {
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <div className="cursor-pointer">
-            {isUserLoading ? (
+            {!user ? (
               <Skeleton className="size-12 rounded-full" />
             ) : (
               <Avatar className="size-12 rounded-full">
@@ -103,7 +96,7 @@ export default function Navbar({ schoolId }: Props) {
         <DropdownMenuContent>
           <DropdownMenuLabel className="p-0 font-normal">
             <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
-              {isUserLoading ? (
+              {!user ? (
                 <Skeleton className="size-8 rounded-lg" />
               ) : (
                 <Avatar className="size-8 rounded-lg">
@@ -114,7 +107,7 @@ export default function Navbar({ schoolId }: Props) {
                 </Avatar>
               )}
               <div className="grid flex-1 text-left text-sm leading-tight">
-                {isUserLoading ? (
+                {!user ? (
                   <>
                     <Skeleton className="h-4 w-24" />
                     <Skeleton className="mt-1 h-3 w-32" />

@@ -1,9 +1,15 @@
 import AddSubjectMembersModal from "@/components/features/subject/AddSubjectMembersModal";
 import DocumentsTab from "@/components/features/subject/Documents";
 import StudentsTabContent from "@/components/features/subject/StudentsTabContent";
+import { SchoolUserType } from "@/types/SchoolUser";
 import { SubjectDetailType } from "@/types/Subject";
 
-export function getSubjectTabs(schoolId: string, subject: SubjectDetailType) {
+export function getSubjectTabs(
+  schoolId: string,
+  subject: SubjectDetailType,
+  user: SchoolUserType,
+) {
+  console.log("hello", user.role !== "STUDENT");
   const SUBJECT_TABS = [
     {
       value: "documents",
@@ -16,8 +22,10 @@ export function getSubjectTabs(schoolId: string, subject: SubjectDetailType) {
       value: "students",
       label: "Students",
       content: (
-        <StudentsTabContent schoolId={schoolId} subject={subject}>
-          <AddSubjectMembersModal schoolId={schoolId} subject={subject} />
+        <StudentsTabContent user={user} schoolId={schoolId} subject={subject}>
+          {user.role !== "STUDENT" && (
+            <AddSubjectMembersModal schoolId={schoolId} subject={subject} />
+          )}
         </StudentsTabContent>
       ),
     },
