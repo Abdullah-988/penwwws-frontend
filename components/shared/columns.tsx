@@ -4,7 +4,7 @@ import { ColumnDef } from "@tanstack/react-table";
 import { Button } from "@/components//ui/button";
 import { ArrowUpDown, MoreHorizontal } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { getInitials } from "@/lib/utils";
+import { capitalizeFirstLetter, getInitials } from "@/lib/utils";
 import { Checkbox } from "@/components/ui/checkbox";
 import {
   DropdownMenu,
@@ -112,10 +112,6 @@ export function GetColumns(schoolId: string): ColumnDef<MemberType>[] {
       header: "Role",
       cell: ({ row }) => {
         const role = row.original.role;
-        const formattedRole = role
-          .toLowerCase()
-          .replace(/_/g, " ")
-          .replace(/\b\w/g, (char) => char.toUpperCase());
         const badgeColor = {
           SUPER_ADMIN: "bg-red-800/10 text-red-800",
           ADMIN: "bg-purple-800/10 text-purple-800",
@@ -125,7 +121,7 @@ export function GetColumns(schoolId: string): ColumnDef<MemberType>[] {
 
         return (
           <Badge className={clsx("rounded-full", badgeColor[role])}>
-            {formattedRole}
+            {capitalizeFirstLetter(role)}
           </Badge>
         );
       },

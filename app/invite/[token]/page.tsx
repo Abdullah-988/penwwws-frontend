@@ -10,19 +10,17 @@ export default async function InviteTokenPage({
   params: Promise<{ token: string }>;
 }) {
   const inviteToken = (await params).token;
-  let schoolId = "";
   const token = await getCookie("token", { cookies });
   let errorMessage = "";
 
   try {
-    const res = await axios.post(
+    await axios.post(
       `/invite/${inviteToken}`,
       {},
       {
         headers: { Authorization: token },
       },
     );
-    schoolId = res.data.schoolId;
   } catch (err) {
     const error = err as AxiosError;
     errorMessage =
@@ -30,7 +28,7 @@ export default async function InviteTokenPage({
     console.error(errorMessage);
   }
   if (!errorMessage) {
-    redirect(`/school/${schoolId}/home`);
+    redirect("/console");
   }
   return (
     <div className="flex h-screen w-full items-center justify-center text-3xl">
