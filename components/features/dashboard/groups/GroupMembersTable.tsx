@@ -2,7 +2,7 @@
 
 import { DataTable } from "@/components/shared/DataTable";
 import { useState } from "react";
-import { getColumns } from "@/components/shared/columns";
+import { GetColumns } from "@/components/shared/columns";
 import { MemberType } from "@/types/member";
 import { useToast } from "@/hooks/use-toast";
 import { getCookie } from "cookies-next";
@@ -55,7 +55,7 @@ export default function GroupMembersTable({ group, schoolId, data }: Props) {
   return (
     <DataTable
       setSelectedMemberIds={setSelectedMemberIds}
-      columns={getColumns(schoolId)}
+      columns={GetColumns(schoolId)}
       data={data}
       defaultFilteredGroupIds={[group.id]}
       schoolId={schoolId}

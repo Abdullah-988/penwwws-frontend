@@ -20,8 +20,11 @@ import UnAssignGroup from "@/components/shared/UnassignGroup";
 import { Badge } from "@/components/ui/badge";
 import clsx from "clsx";
 import RemoveMember from "@/components/shared/RemoveMember";
+import { useRef } from "react";
+import { ResetSelectionType } from "./DataTable";
 
-export function getColumns(schoolId: string): ColumnDef<MemberType>[] {
+export function GetColumns(schoolId: string): ColumnDef<MemberType>[] {
+  const resetSelectionRef = useRef<ResetSelectionType | null>(null);
   return [
     {
       id: "select",
@@ -169,6 +172,7 @@ export function getColumns(schoolId: string): ColumnDef<MemberType>[] {
                 selectedMemberIds={[memberId]}
                 className="bg-card hover:bg-secondary text-destructive w-full"
                 btnText="Remove member"
+                resetSelectionRef={resetSelectionRef}
               />
             </DropdownMenuContent>
           </DropdownMenu>

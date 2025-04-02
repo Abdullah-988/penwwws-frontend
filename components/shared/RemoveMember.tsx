@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { RefObject, useState } from "react";
 import axios from "@/lib/axiosInstance";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
@@ -16,12 +16,14 @@ import { useMutation } from "@tanstack/react-query";
 import { getCookie } from "cookies-next";
 import { LoaderCircle } from "lucide-react";
 import { AxiosError } from "axios";
+import { ResetSelectionType } from "./DataTable";
 
 type Props = {
   schoolId: string;
   selectedMemberIds: number[];
   className?: string;
   btnText?: string;
+  resetSelectionRef: RefObject<ResetSelectionType | null>;
 };
 
 export default function RemoveMember({
@@ -29,6 +31,7 @@ export default function RemoveMember({
   selectedMemberIds,
   className,
   btnText = "Remove Member(s)",
+  resetSelectionRef,
 }: Props) {
   const router = useRouter();
   const { toast } = useToast();
@@ -48,6 +51,7 @@ export default function RemoveMember({
         title: "Member(s) removed successfully",
         description: `${selectedMemberIds.length} member(s) remove from you school`,
       });
+      resetSelectionRef.current?.resetSelection();
       setIsModalOpen(false);
       router.refresh();
     },
