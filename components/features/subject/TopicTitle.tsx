@@ -12,7 +12,7 @@ import { useToast } from "@/hooks/use-toast";
 import axios from "@/lib/axiosInstance";
 import { AxiosError } from "axios";
 import { Input } from "@/components/ui/input";
-import { TopicType } from "@/types/TopicType";
+import { TopicType } from "@/types/Topic";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { AccordionTrigger } from "@radix-ui/react-accordion";
 import { Pencil } from "lucide-react";

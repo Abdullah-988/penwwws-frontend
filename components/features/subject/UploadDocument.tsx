@@ -1,6 +1,6 @@
 "use client";
 
-import { TopicType } from "@/types/TopicType";
+import { TopicType } from "@/types/Topic";
 import { useState, useEffect } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { Button } from "@/components/ui/button";
@@ -107,9 +107,11 @@ export default function UploadDocument({ schoolId, subjectId, topic }: Props) {
   return (
     <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
       <DialogTrigger asChild>
-        <Button size="sm">
+        <Button
+          size="sm"
+          className="bg-primary/10 hover:bg-primary/15 text-primary"
+        >
           <Upload />
-          Upload
         </Button>
       </DialogTrigger>
       <DialogContent>

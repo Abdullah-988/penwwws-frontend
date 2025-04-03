@@ -11,12 +11,3 @@ export type DocumentType = {
   updatedAt: string;
   createdAt: string;
 };
-
-export type TopicType = {
-  id: number;
-  subjectId: number;
-  name: string;
-  createdAt: string;
-  updatedAt: string;
-  documents: DocumentType[];
-};

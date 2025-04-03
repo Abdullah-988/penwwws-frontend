@@ -9,9 +9,10 @@ import {
 import { SchoolUserType } from "@/types/SchoolUser";
 import { FileText } from "lucide-react";
 import Link from "next/link";
-import { TopicType } from "@/types/TopicType";
+import { TopicType } from "@/types/Topic";
 import TopicTitle from "./TopicTitle";
 import { useState } from "react";
+import DeleteDocument from "./DeleteDocument";
 
 type Props = {
   topics: TopicType[];
@@ -22,11 +23,10 @@ type Props = {
 
 export default function TopicsList({ schoolId, subject, user, topics }: Props) {
   const [editingTopicId, setEditingTopicId] = useState<number | null>(null);
-  console.log(topics[0].documents[0]);
 
   return (
     <div>
-      <Accordion type="single" collapsible className="mt-4 w-full">
+      <Accordion type="multiple" className="mt-4 w-full">
         {topics.map((topic) => (
           <AccordionItem key={topic.id} value={topic.name}>
             <TopicTitle
@@ -54,7 +54,14 @@ export default function TopicsList({ schoolId, subject, user, topics }: Props) {
                   </div>
                 </Link>
                 {user.role !== "STUDENT" && (
-                  <div className="flex items-center gap-2 opacity-0 group-hover:opacity-100"></div>
+                  <div className="flex items-center gap-2 opacity-0 group-hover:opacity-100">
+                    <DeleteDocument
+                      schoolId={schoolId}
+                      subjectId={subject.id}
+                      topicId={topic.id}
+                      document={document}
+                    />
+                  </div>
                 )}
               </AccordionContent>
             ))}

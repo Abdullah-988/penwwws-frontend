@@ -13,46 +13,52 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { TopicType } from "@/types/Topic";
 import { Trash2, LoaderCircle } from "lucide-react";
 import { useMutation } from "@tanstack/react-query";
 import axios from "@/lib/axiosInstance";
 import { AxiosError } from "axios";
 import { getCookie } from "cookies-next";
+import { DocumentType } from "@/types/Document";
 
 type Props = {
   schoolId: string;
   subjectId: number;
-  topic: TopicType;
+  topicId: number;
+  document: DocumentType;
 };
 
-export default function DeleteTopic({ schoolId, subjectId, topic }: Props) {
+export default function DeleteDocument({
+  schoolId,
+  subjectId,
+  topicId,
+  document,
+}: Props) {
   const { toast } = useToast();
   const router = useRouter();
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const { mutate, isPending } = useMutation({
-    mutationKey: ["topic", topic.name],
+    mutationKey: ["document", topicId, document.id],
     mutationFn: async () => {
       const token = await getCookie("token");
       await axios.delete(
-        `/school/${schoolId}/subject/${subjectId}/topic/${topic.id}`,
+        `/school/${schoolId}/subject/${subjectId}/topic/${topicId}/document/${document.id}`,
         { headers: { Authorization: token } },
       );
     },
     onSuccess: () => {
       router.refresh();
       toast({
-        title: "Topic Deleted",
-        description: `The topic ${topic.name} has been successfully deleted.`,
+        title: "Document Deleted",
+        description: `The document ${document.name} has been successfully deleted.`,
       });
     },
     onError: (err: AxiosError) => {
       toast({
-        title: "Couldn't Delete Topic",
+        title: "Couldn't Delete Document",
         description:
           (err.response?.data as string) ||
-          `There was an error deleting the topic ${topic.name}. Please try again.`,
+          `There was an error deleting the document ${document.name}. Please try again.`,
         variant: "destructive",
       });
     },
@@ -73,9 +79,9 @@ export default function DeleteTopic({ schoolId, subjectId, topic }: Props) {
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Delete {topic.name} topic</DialogTitle>
+          <DialogTitle>Delete {document.name} Document</DialogTitle>
           <DialogDescription>
-            By clicking delete, the {topic.name} topic and all its documents
+            By clicking delete, the {document.name} topic and all its documents
             will be permanently deleted. This action cannot be undone.
           </DialogDescription>
         </DialogHeader>
