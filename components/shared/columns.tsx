@@ -21,6 +21,7 @@ export const badgeColor = {
 
 export function GetColumns(
   actionRenderer: (member: MemberType) => JSX.Element,
+  fullNameRenderer?: (member: MemberType) => JSX.Element,
 ): ColumnDef<MemberType>[] {
   return [
     {
@@ -57,17 +58,20 @@ export function GetColumns(
           Name <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       ),
-      cell: ({ row }) => (
-        <div className="flex items-center">
-          <Avatar className="size-7 rounded-full">
-            <AvatarFallback>
-              {getInitials(row.getValue("fullName"))}
-            </AvatarFallback>
-            <AvatarImage src={row.original.avatarUrl} />
-          </Avatar>
-          <span className="ml-2">{row.getValue("fullName")}</span>
-        </div>
-      ),
+      cell: ({ row }) =>
+        fullNameRenderer ? (
+          fullNameRenderer(row.original)
+        ) : (
+          <div className="flex items-center">
+            <Avatar className="size-7 rounded-full">
+              <AvatarFallback>
+                {getInitials(row.getValue("fullName"))}
+              </AvatarFallback>
+              <AvatarImage src={row.original.avatarUrl} />
+            </Avatar>
+            <span className="ml-2">{row.getValue("fullName")}</span>
+          </div>
+        ),
     },
     {
       accessorKey: "email",
