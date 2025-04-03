@@ -29,6 +29,7 @@ import {
 } from "@/components/ui/form";
 import { AxiosError } from "axios";
 import { SubjectDetailType } from "@/types/Subject";
+import { useRouter } from "next/navigation";
 
 const addTopicSchema = z.object({
   name: z
@@ -44,6 +45,7 @@ type Props = {
 };
 
 export default function AddTopic({ schoolId, subject }: Props) {
+  const router = useRouter();
   const { toast } = useToast();
   const form = useForm<FormData>({
     resolver: zodResolver(addTopicSchema),
@@ -58,12 +60,13 @@ export default function AddTopic({ schoolId, subject }: Props) {
     const token = await getCookie("token");
     try {
       await axios.post(
-        `/school/${schoolId}/subject/${subject.id}/document`,
+        `/school/${schoolId}/subject/${subject.id}/topic`,
         data,
         {
           headers: { Authorization: token },
         },
       );
+      router.refresh();
       setIsModalOpen(false);
     } catch (err) {
       const error = err as AxiosError;

@@ -21,6 +21,8 @@ import { z } from "zod";
 import { getCookie } from "cookies-next";
 import { useRouter } from "next/navigation";
 import { SchoolUserType } from "@/types/SchoolUser";
+import DeleteTopic from "./DeleteTopic";
+import { SubjectDetailType } from "@/types/Subject";
 
 const editTopicFormSchema = z.object({
   name: z
@@ -34,6 +36,7 @@ type Props = {
   schoolId: string;
   topic: TopicType;
   editingTopicId: number | null;
+  subject: SubjectDetailType;
   setEditingTopicId: Dispatch<SetStateAction<number | null>>;
   user: SchoolUserType;
 };
@@ -43,6 +46,7 @@ export default function TopicTitle({
   topic,
   editingTopicId,
   setEditingTopicId,
+  subject,
   user,
 }: Props) {
   const [isInputFocused, setIsInputFocused] = useState(false);
@@ -60,11 +64,14 @@ export default function TopicTitle({
 
     try {
       if (form.getFieldState("name").isDirty) {
-        await axios.put(`/school/${schoolId}/subject/${topic.id}`, data, {
-          headers: { Authorization: token },
-        });
+        await axios.put(
+          `/school/${schoolId}/subject/${subject.id}/topic/${topic.id}/`,
+          data,
+          {
+            headers: { Authorization: token },
+          },
+        );
 
-        console.log(form.getFieldState("name").isDirty);
         router.refresh();
         toast({
           title: "Topic Title Updated",
@@ -113,19 +120,28 @@ export default function TopicTitle({
           </Form>
         </div>
       ) : (
-        <AccordionTrigger className="hover:bg-primary/5 group z-0 w-full cursor-default rounded-md p-4 text-lg font-semibold">
-          <div className="flex w-fit items-center text-start">
-            {topic.name}
-            {user.role !== "STUDENT" && (
-              <Pencil
-                onClick={(e) => {
-                  e.preventDefault();
-                  setIsInputFocused(true);
-                  setEditingTopicId(topic.id);
-                }}
-                className="hover:text-primary z-50 ml-2 size-8 cursor-pointer p-2 opacity-0 group-hover:opacity-100"
+        <AccordionTrigger asChild>
+          <div className="text-md group ml-2 flex h-12 w-full cursor-default items-center justify-between rounded-md px-4 font-medium">
+            <div className="flex w-fit items-center text-start">
+              {form.getValues("name") || topic.name}
+              {user.role !== "STUDENT" && (
+                <Pencil
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setIsInputFocused(true);
+                    setEditingTopicId(topic.id);
+                  }}
+                  className="hover:text-primary z-50 ml-2 size-8 cursor-pointer p-2 opacity-0 group-hover:opacity-100"
+                />
+              )}
+            </div>
+            <div className="flex items-center gap-2 opacity-0 group-hover:opacity-100">
+              <DeleteTopic
+                schoolId={schoolId}
+                subjectId={subject.id}
+                topic={topic}
               />
-            )}
+            </div>
           </div>
         </AccordionTrigger>
       )}

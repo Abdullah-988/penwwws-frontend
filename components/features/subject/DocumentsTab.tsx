@@ -14,9 +14,12 @@ type Props = {
 };
 async function getTopics(schoolId: string, subjectId: number) {
   const token = await getCookie("token", { cookies });
-  const res = await axios.get("http://localhost:6000/topics", {
-    headers: { Authorization: token },
-  });
+  const res = await axios.get(
+    `/school/${schoolId}/subject/${subjectId}/topic`,
+    {
+      headers: { Authorization: token },
+    },
+  );
   return res.data;
 }
 

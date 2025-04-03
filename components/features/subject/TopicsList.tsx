@@ -22,6 +22,7 @@ type Props = {
 
 export default function TopicsList({ schoolId, subject, user, topics }: Props) {
   const [editingTopicId, setEditingTopicId] = useState<number | null>(null);
+  console.log(topics);
   return (
     <div>
       <Accordion type="single" collapsible className="mt-4 w-full">
@@ -30,14 +31,16 @@ export default function TopicsList({ schoolId, subject, user, topics }: Props) {
             <TopicTitle
               schoolId={schoolId}
               user={user}
+              subject={subject}
               topic={topic}
               editingTopicId={editingTopicId}
               setEditingTopicId={setEditingTopicId}
             />
+
             {topic.documents.map((document) => (
               <AccordionContent
                 key={document.id}
-                className="text-md ml-10 flex flex-col gap-2"
+                className="text-md group hover:bg-primary/5 ml-2 flex h-12 w-full cursor-default items-center justify-between rounded-md px-4 font-medium"
               >
                 <Link
                   href={document.url}
@@ -46,6 +49,9 @@ export default function TopicsList({ schoolId, subject, user, topics }: Props) {
                   <FileText size={16} />
                   {document.name}
                 </Link>
+                {user.role !== "STUDENT" && (
+                  <div className="flex items-center gap-2 opacity-0 group-hover:opacity-100"></div>
+                )}
               </AccordionContent>
             ))}
           </AccordionItem>
