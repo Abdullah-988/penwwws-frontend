@@ -1,5 +1,5 @@
-import { GroupType } from "./Group";
-import { RoleType } from "./Role";
+import { GroupType } from "@/types/Group";
+import { RoleType } from "@/types/Role";
 
 export type MemberType = {
   id: number;

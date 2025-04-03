@@ -9,7 +9,6 @@ export function getSubjectTabs(
   subject: SubjectDetailType,
   user: SchoolUserType,
 ) {
-  console.log("hello", user.role !== "STUDENT");
   const SUBJECT_TABS = [
     {
       value: "documents",
@@ -34,11 +33,15 @@ export function getSubjectTabs(
       label: "Assignments",
       content: <div>Assignments</div>,
     },
-    {
+  ];
+
+  if (user.role !== "STUDENT") {
+    SUBJECT_TABS.push({
       value: "marks",
       label: "Marks",
       content: <div>Marks</div>,
-    },
-  ] as const;
+    });
+  }
+
   return SUBJECT_TABS;
 }

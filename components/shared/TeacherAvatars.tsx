@@ -6,7 +6,7 @@ import { MemberType } from "@/types/member";
 import clsx from "clsx";
 
 type Props = {
-  teachers: MemberType[];
+  teachers: MemberType[] | Omit<MemberType, "groups">[];
   maxDisplayed?: number;
   className?: string;
 };

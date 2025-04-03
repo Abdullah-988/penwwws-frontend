@@ -22,6 +22,7 @@ async function getSubject(schoolId: string, subjectId: number) {
     console.error(error.response?.data || "Unexpected error occurred");
   }
 }
+
 export default async function SubjectPage({
   params,
 }: {
@@ -36,7 +37,7 @@ export default async function SubjectPage({
     <>
       <Navbar user={user} schoolId={schoolId} />
       <div className="mt-3 p-6 md:mt-6">
-        <SubjectPageHeader subject={subject} schoolId={schoolId} />
+        <SubjectPageHeader subject={subject} schoolId={schoolId} user={user} />
         <Tabs defaultValue="documents" className="mt-12 w-full">
           <TabsList className="bg-background flex h-10 w-full items-center justify-start gap-4 rounded-none border-b p-0">
             {SUBJECT_TABS.map((tab) => (

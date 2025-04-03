@@ -11,6 +11,14 @@ import { Badge } from "@/components/ui/badge";
 import clsx from "clsx";
 import { MemberType } from "@/types/member";
 import { JSX } from "react";
+
+export const badgeColor = {
+  SUPER_ADMIN: "bg-red-800/10 text-red-800",
+  ADMIN: "bg-purple-800/10 text-purple-800",
+  TEACHER: "bg-amber-800/10 text-amber-800",
+  STUDENT: "bg-blue-800/10 text-blue-800",
+};
+
 export function GetColumns(
   actionRenderer: (member: MemberType) => JSX.Element,
 ): ColumnDef<MemberType>[] {
@@ -88,13 +96,6 @@ export function GetColumns(
       header: "Role",
       cell: ({ row }) => {
         const role = row.original.role;
-        const badgeColor = {
-          SUPER_ADMIN: "bg-red-800/10 text-red-800",
-          ADMIN: "bg-purple-800/10 text-purple-800",
-          TEACHER: "bg-amber-800/10 text-amber-800",
-          STUDENT: "bg-blue-800/10 text-blue-800",
-        };
-
         return (
           <Badge className={clsx("rounded-full", badgeColor[role])}>
             {capitalizeFirstLetter(role)}

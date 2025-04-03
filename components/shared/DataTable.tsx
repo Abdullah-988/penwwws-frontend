@@ -52,6 +52,7 @@ const globalFilterFn: FilterFn<MemberType> = (
 export type ResetSelectionType = {
   resetSelection: () => void;
 };
+
 type DataTableProps = {
   columns: ColumnDef<MemberType>[];
   data: MemberType[];

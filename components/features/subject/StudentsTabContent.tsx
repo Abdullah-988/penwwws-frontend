@@ -17,6 +17,8 @@ import { Button } from "@/components/ui/button";
 import { MoreHorizontal, Clipboard, Copy } from "lucide-react";
 import Link from "next/link";
 import { SchoolUserType } from "@/types/SchoolUser";
+import ClassmatesTable from "./ClassmatesTable";
+import { MemberType } from "@/types/member";
 
 type Props = {
   schoolId: string;
@@ -32,8 +34,12 @@ export default function StudentsTabContent({
   children,
 }: Props) {
   const resetSelectionRef = useRef<ResetSelectionType | null>(null);
-  console.log(user);
+
   const [selectedMemberIds, setSelectedMemberIds] = useState<number[]>([]);
+
+  if (user.role === "STUDENT") {
+    return <ClassmatesTable members={subject.users} />;
+  }
   const columns = GetColumns((member) => (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -70,7 +76,7 @@ export default function StudentsTabContent({
   ));
   return (
     <DataTable
-      data={subject.users}
+      data={subject.users as MemberType[]}
       columns={columns}
       schoolId={schoolId}
       setSelectedMemberIds={setSelectedMemberIds}

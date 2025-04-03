@@ -11,5 +11,5 @@ export type SubjectType = {
 };
 
 export type SubjectDetailType = Omit<SubjectType, "teachers"> & {
-  users: MemberType[];
+  users: MemberType[] | Omit<MemberType, "groups">[];
 };
