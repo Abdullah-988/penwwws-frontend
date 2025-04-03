@@ -7,6 +7,7 @@ import {
   FormItem,
   FormMessage,
 } from "@/components/ui/form";
+import UploadDocument from "@/components/features/subject/UploadDocument";
 import { useToast } from "@/hooks/use-toast";
 import axios from "@/lib/axiosInstance";
 import { AxiosError } from "axios";
@@ -137,6 +138,11 @@ export default function TopicTitle({
             </div>
             <div className="flex items-center gap-2 opacity-0 group-hover:opacity-100">
               <DeleteTopic
+                schoolId={schoolId}
+                subjectId={subject.id}
+                topic={topic}
+              />
+              <UploadDocument
                 schoolId={schoolId}
                 subjectId={subject.id}
                 topic={topic}
