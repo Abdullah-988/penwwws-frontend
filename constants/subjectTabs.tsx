@@ -1,5 +1,5 @@
 import AddSubjectMembersModal from "@/components/features/subject/AddSubjectMembersModal";
-import DocumentsTab from "@/components/features/subject/Documents";
+import DocumentsTab from "@/components/features/subject/DocumentsTab";
 import StudentsTabContent from "@/components/features/subject/StudentsTabContent";
 import { SchoolUserType } from "@/types/SchoolUser";
 import { SubjectDetailType } from "@/types/Subject";
@@ -14,7 +14,7 @@ export function getSubjectTabs(
       value: "documents",
       label: "Documents",
       content: (
-        <DocumentsTab schoolId={schoolId} subjectId={subject.id}></DocumentsTab>
+        <DocumentsTab schoolId={schoolId} subject={subject} user={user} />
       ),
     },
     {

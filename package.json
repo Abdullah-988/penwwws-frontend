@@ -60,6 +60,7 @@
     "eslint-plugin-react": "^7.37.4",
     "eslint-plugin-unused-imports": "^4.1.4",
     "globals": "^15.14.0",
+    "json-server": "^1.0.0-beta.3",
     "postcss": "8.5.1",
     "prettier": "^3.4.2",
     "prettier-plugin-tailwindcss": "latest",

@@ -39,6 +39,7 @@ export default function SubjectPageHeader({ subject, schoolId, user }: Props) {
           height={250}
           alt={"Subject image"}
           className="size-40 rounded-md object-cover md:h-auto md:w-auto md:p-0"
+          priority
         />
       )}
     </section>
