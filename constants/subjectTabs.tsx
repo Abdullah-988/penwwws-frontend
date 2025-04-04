@@ -33,7 +33,11 @@ export function getSubjectTabs(
       value: "assignments",
       label: "Assignments",
       content: (
-        <AssignmentTabContent schoolId={schoolId} subjectId={subject.id} />
+        <AssignmentTabContent
+          schoolId={schoolId}
+          subjectId={subject.id}
+          user={user}
+        />
       ),
     },
     {
@@ -42,5 +46,6 @@ export function getSubjectTabs(
       content: <div>Marks</div>,
     },
   ];
+
   return SUBJECT_TABS;
 }

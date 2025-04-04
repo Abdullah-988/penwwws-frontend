@@ -180,7 +180,7 @@ export default function UploadDocument({ schoolId, subjectId, topic }: Props) {
                       onUpload={onUpload}
                       disabled={isUploading}
                       accept={{
-                        "document/*": [],
+                        "raw/*": [],
                       }}
                     />
                   </div>
