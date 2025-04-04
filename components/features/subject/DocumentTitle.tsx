@@ -7,47 +7,48 @@ import {
   FormItem,
   FormMessage,
 } from "@/components/ui/form";
-import UploadDocument from "@/components/features/subject/UploadDocument";
+import { DocumentType } from "@/types/Document";
 import { useToast } from "@/hooks/use-toast";
 import axios from "@/lib/axiosInstance";
 import { AxiosError } from "axios";
 import { Input } from "@/components/ui/input";
-import { TopicType } from "@/types/Topic";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { AccordionTrigger } from "@radix-ui/react-accordion";
-import { Pencil } from "lucide-react";
 import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { getCookie } from "cookies-next";
 import { useRouter } from "next/navigation";
 import { SchoolUserType } from "@/types/SchoolUser";
-import DeleteTopic from "./DeleteTopic";
-import { SubjectDetailType } from "@/types/Subject";
+import { AccordionContent } from "@/components/ui/accordion";
+import { FileText, Pencil } from "lucide-react";
+import Link from "next/link";
+import DeleteDocument from "./DeleteDocument";
 
-const editTopicFormSchema = z.object({
+const editDocumentFormSchema = z.object({
   name: z
     .string()
     .min(2, "Topic title should be at least 2 characters")
     .nonempty(),
 });
-type FormDataType = z.infer<typeof editTopicFormSchema>;
+type FormDataType = z.infer<typeof editDocumentFormSchema>;
 
 type Props = {
   schoolId: string;
-  topic: TopicType;
-  editingTopicId: number | null;
-  subject: SubjectDetailType;
-  setEditingTopicId: Dispatch<SetStateAction<number | null>>;
+  document: DocumentType;
+  editingDocumentId: number | null;
+  setEditingDocumentId: Dispatch<SetStateAction<number | null>>;
+  topicId: number;
+  subjectId: number;
   user: SchoolUserType;
 };
 
-export default function TopicTitle({
+export default function DocumentTitle({
   schoolId,
-  topic,
-  editingTopicId,
-  setEditingTopicId,
-  subject,
+  document,
+  editingDocumentId,
+  setEditingDocumentId,
+  topicId,
+  subjectId,
   user,
 }: Props) {
   const [isInputFocused, setIsInputFocused] = useState(false);
@@ -56,8 +57,8 @@ export default function TopicTitle({
 
   const form = useForm<FormDataType>({
     mode: "onBlur",
-    defaultValues: { name: topic.name },
-    resolver: zodResolver(editTopicFormSchema),
+    defaultValues: { name: document.name },
+    resolver: zodResolver(editDocumentFormSchema),
   });
 
   async function onSubmit(data: FormDataType) {
@@ -66,7 +67,7 @@ export default function TopicTitle({
     try {
       if (form.getFieldState("name").isDirty) {
         await axios.put(
-          `/school/${schoolId}/subject/${subject.id}/topic/${topic.id}/`,
+          `/school/${schoolId}/subject/${subjectId}/topic/${topicId}/document/${document.id}`,
           data,
           {
             headers: { Authorization: token },
@@ -76,12 +77,12 @@ export default function TopicTitle({
         router.refresh();
         toast({
           title: "Topic Title Updated",
-          description: `The topic title has been updated to "${data.name}" successfully.`,
+          description: `The document name has been updated to "${data.name}" successfully.`,
         });
       }
     } catch (err) {
       const error = err as AxiosError;
-      console.error("Error updating subject:", error.response?.data);
+      console.error("Error updating document:", error.response?.data);
       toast({
         title: "Update Failed",
         description:
@@ -94,12 +95,12 @@ export default function TopicTitle({
   }
 
   useEffect(() => {
-    form.reset({ name: topic.name });
-  }, [isInputFocused, form, topic.name]);
+    form.reset({ name: document.name });
+  }, [isInputFocused, form, document.name]);
 
   return (
     <>
-      {editingTopicId === topic.id && isInputFocused ? (
+      {editingDocumentId === document.id && isInputFocused ? (
         <div className="flex w-full items-center rounded-md px-4 py-[21px] text-lg font-semibold">
           <Form {...form}>
             <form className="w-full" onSubmit={form.handleSubmit(onSubmit)}>
@@ -112,7 +113,6 @@ export default function TopicTitle({
                     <FormControl>
                       <Input
                         {...field}
-                        onChange={(e) => field.onChange(e.target.value.trim())}
                         autoFocus
                         onFocus={() => setIsInputFocused(true)}
                         onBlur={form.handleSubmit(onSubmit)}
@@ -126,35 +126,43 @@ export default function TopicTitle({
           </Form>
         </div>
       ) : (
-        <AccordionTrigger asChild>
-          <div className="text-md group ml-2 flex h-12 w-full cursor-default items-center justify-between rounded-md px-4 font-medium">
-            <div className="flex w-fit items-center text-start">
-              {form.getValues("name") || topic.name}
-              {user.role !== "STUDENT" && (
-                <Pencil
-                  onClick={(e) => {
-                    e.preventDefault();
-                    setIsInputFocused(true);
-                    setEditingTopicId(topic.id);
-                  }}
-                  className="hover:text-primary z-50 ml-2 size-8 cursor-pointer p-2 opacity-0 group-hover:opacity-100"
-                />
-              )}
-            </div>
-            <div className="flex items-center gap-2 opacity-0 group-hover:opacity-100">
-              <DeleteTopic
-                schoolId={schoolId}
-                subjectId={subject.id}
-                topic={topic}
+        <AccordionContent
+          key={document.id}
+          className="text-md group hover:bg-primary/5 relative z-0 ml-2 flex h-12 w-full cursor-default items-center justify-between rounded-md px-4 font-medium"
+        >
+          <div className="relative z-0 flex items-center gap-1">
+            <Link
+              href={document.url}
+              className="flex cursor-pointer items-center gap-2 py-2 text-lg hover:underline"
+            >
+              <FileText className="text-muted-foreground" size={16} />
+              <div>
+                {document.name}.
+                <small className="p-0 font-normal">{document.format}</small>
+              </div>
+            </Link>
+
+            {user.role !== "STUDENT" && (
+              <Pencil
+                onClick={() => {
+                  setIsInputFocused(true);
+                  setEditingDocumentId(document.id);
+                }}
+                className="hover:text-primary relative z-50"
               />
-              <UploadDocument
-                schoolId={schoolId}
-                subjectId={subject.id}
-                topic={topic}
-              />
-            </div>
+            )}
           </div>
-        </AccordionTrigger>
+          {user.role !== "STUDENT" && (
+            <div className="flex items-center gap-2 opacity-0 group-hover:opacity-100">
+              <DeleteDocument
+                schoolId={schoolId}
+                subjectId={subjectId}
+                topicId={topicId}
+                document={document}
+              />
+            </div>
+          )}
+        </AccordionContent>
       )}
     </>
   );

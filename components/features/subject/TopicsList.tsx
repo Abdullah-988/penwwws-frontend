@@ -1,18 +1,12 @@
 "use client";
 
 import { SubjectDetailType } from "@/types/Subject";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-} from "@/components/ui/accordion";
+import { Accordion, AccordionItem } from "@/components/ui/accordion";
 import { SchoolUserType } from "@/types/SchoolUser";
-import { FileText } from "lucide-react";
-import Link from "next/link";
 import { TopicType } from "@/types/Topic";
 import TopicTitle from "./TopicTitle";
 import { useState } from "react";
-import DeleteDocument from "./DeleteDocument";
+import DocumentTitle from "@/components/features/subject/DocumentTitle";
 
 type Props = {
   topics: TopicType[];
@@ -23,6 +17,9 @@ type Props = {
 
 export default function TopicsList({ schoolId, subject, user, topics }: Props) {
   const [editingTopicId, setEditingTopicId] = useState<number | null>(null);
+  const [editingDocumentId, setEditingDocumentId] = useState<number | null>(
+    null,
+  );
 
   return (
     <div>
@@ -39,31 +36,16 @@ export default function TopicsList({ schoolId, subject, user, topics }: Props) {
             />
 
             {topic.documents.map((document) => (
-              <AccordionContent
+              <DocumentTitle
                 key={document.id}
-                className="text-md group hover:bg-primary/5 ml-2 flex h-12 w-full cursor-default items-center justify-between rounded-md px-4 font-medium"
-              >
-                <Link
-                  href={document.url}
-                  className="flex cursor-pointer items-center gap-2 py-2 text-lg hover:underline"
-                >
-                  <FileText className="text-muted-foreground" size={16} />
-                  <div>
-                    {document.name}.
-                    <small className="p-0 font-normal">{document.format}</small>
-                  </div>
-                </Link>
-                {user.role !== "STUDENT" && (
-                  <div className="flex items-center gap-2 opacity-0 group-hover:opacity-100">
-                    <DeleteDocument
-                      schoolId={schoolId}
-                      subjectId={subject.id}
-                      topicId={topic.id}
-                      document={document}
-                    />
-                  </div>
-                )}
-              </AccordionContent>
+                schoolId={schoolId}
+                subjectId={subject.id}
+                document={document}
+                topicId={topic.id}
+                editingDocumentId={editingDocumentId}
+                setEditingDocumentId={setEditingDocumentId}
+                user={user}
+              />
             ))}
           </AccordionItem>
         ))}

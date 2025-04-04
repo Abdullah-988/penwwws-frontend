@@ -87,14 +87,14 @@ export default function DeleteDocument({
         </DialogHeader>
         <DialogFooter>
           <Button variant="outline" onClick={() => setIsModalOpen(false)}>
+            Cancel
+          </Button>
+          <Button size="sm" onClick={() => mutate()} variant="destructive">
             {isPending ? (
               <LoaderCircle size={20} className="animate-spin" />
             ) : (
-              <span>Cancel</span>
+              <span>Delete</span>
             )}
-          </Button>
-          <Button size="sm" onClick={() => mutate()} variant="destructive">
-            Delete
           </Button>
         </DialogFooter>
       </DialogContent>
