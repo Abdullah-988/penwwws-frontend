@@ -19,15 +19,15 @@ import { z } from "zod";
 import { getCookie } from "cookies-next";
 import { useRouter } from "next/navigation";
 import { SchoolUserType } from "@/types/SchoolUser";
-import { AccordionContent } from "@/components/ui/accordion";
-import { FileText, Pencil } from "lucide-react";
+import { FileText, Pencil, SquareArrowOutUpRight } from "lucide-react";
 import Link from "next/link";
 import DeleteDocument from "./DeleteDocument";
+import { Badge } from "@/components/ui/badge";
 
 const editDocumentFormSchema = z.object({
   name: z
     .string()
-    .min(2, "Topic title should be at least 2 characters")
+    .min(2, "Document name must be at least 2 characters")
     .nonempty(),
 });
 type FormDataType = z.infer<typeof editDocumentFormSchema>;
@@ -61,6 +61,13 @@ export default function DocumentTitle({
     resolver: zodResolver(editDocumentFormSchema),
   });
 
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === "Escape") {
+      setIsInputFocused(false);
+      form.reset({ name: document.name });
+    }
+  };
+
   async function onSubmit(data: FormDataType) {
     const token = await getCookie("token");
 
@@ -69,28 +76,26 @@ export default function DocumentTitle({
         await axios.put(
           `/school/${schoolId}/subject/${subjectId}/topic/${topicId}/document/${document.id}`,
           data,
-          {
-            headers: { Authorization: token },
-          },
+          { headers: { Authorization: token } },
         );
 
         router.refresh();
         toast({
-          title: "Topic Title Updated",
-          description: `The document name has been updated to "${data.name}" successfully.`,
+          title: "Document Updated",
+          description: `Document name changed to "${data.name}"`,
         });
       }
     } catch (err) {
       const error = err as AxiosError;
-      console.error("Error updating document:", error.response?.data);
+      console.error("Update error:", error.response?.data);
       toast({
         title: "Update Failed",
-        description:
-          (error.response?.data as string) || "An unexpected error occurred.",
+        description: error.response?.data?.toString() || "An error occurred",
         variant: "destructive",
       });
     } finally {
       setIsInputFocused(false);
+      setEditingDocumentId(null);
     }
   }
 
@@ -99,26 +104,28 @@ export default function DocumentTitle({
   }, [isInputFocused, form, document.name]);
 
   return (
-    <>
+    <div className="group relative flex items-center justify-between rounded-md px-4 py-2 hover:bg-slate-100 dark:hover:bg-slate-800">
       {editingDocumentId === document.id && isInputFocused ? (
-        <div className="flex w-full items-center rounded-md px-4 py-[21px] text-lg font-semibold">
+        <div className="flex w-full items-center gap-3">
+          <FileText className="text-muted-foreground size-4 shrink-0" />
           <Form {...form}>
             <form className="w-full" onSubmit={form.handleSubmit(onSubmit)}>
               <FormField
                 name="name"
                 control={form.control}
                 render={({ field }) => (
-                  <FormItem>
-                    <FormMessage />
+                  <FormItem className="space-y-0">
                     <FormControl>
                       <Input
                         {...field}
                         autoFocus
-                        onFocus={() => setIsInputFocused(true)}
+                        onKeyDown={handleKeyDown}
                         onBlur={form.handleSubmit(onSubmit)}
-                        className="h-full border-none p-0 text-start !text-lg font-semibold focus-visible:ring-0"
+                        className="h-8 w-full border-none bg-transparent p-2 text-base font-medium shadow-none focus-visible:ring-0 focus-visible:ring-offset-0"
+                        placeholder="Document name"
                       />
                     </FormControl>
+                    <FormMessage className="text-xs" />
                   </FormItem>
                 )}
               />
@@ -126,34 +133,38 @@ export default function DocumentTitle({
           </Form>
         </div>
       ) : (
-        <AccordionContent
-          key={document.id}
-          className="text-md group hover:bg-primary/5 relative z-0 ml-2 flex h-12 w-full cursor-default items-center justify-between rounded-md px-4 font-medium"
-        >
-          <div className="relative z-0 flex items-center gap-1">
+        <>
+          <div className="group ml-5 flex items-center gap-3">
+            <FileText className="text-muted-foreground size-4 shrink-0" />
             <Link
               href={document.url}
-              className="flex cursor-pointer items-center gap-2 py-2 text-lg hover:underline"
+              className="flex items-center gap-2 hover:underline"
             >
-              <FileText className="text-muted-foreground" size={16} />
-              <div>
-                {document.name}.
-                <small className="p-0 font-normal">{document.format}</small>
+              <div className="flex items-center gap-1">
+                <span className="text-base font-medium">{document.name}</span>
+                <SquareArrowOutUpRight className="text-primary size-3.5" />
               </div>
             </Link>
-
+            <Badge
+              variant="secondary"
+              className="rounded-full px-1 py-0 !text-[0.7rem]"
+            >
+              {document.format.toUpperCase()}
+            </Badge>
             {user.role !== "STUDENT" && (
               <Pencil
-                onClick={() => {
+                onClick={(e) => {
+                  e.preventDefault();
                   setIsInputFocused(true);
                   setEditingDocumentId(document.id);
                 }}
-                className="hover:text-primary relative z-50"
+                className="h-4 w-4 text-yellow-800 transition-colors hover:text-yellow-900 md:opacity-0 md:group-hover:opacity-100"
               />
             )}
           </div>
+
           {user.role !== "STUDENT" && (
-            <div className="flex items-center gap-2 opacity-0 group-hover:opacity-100">
+            <div className="flex items-center gap-2 opacity-0 transition-opacity group-hover:opacity-100">
               <DeleteDocument
                 schoolId={schoolId}
                 subjectId={subjectId}
@@ -162,8 +173,8 @@ export default function DocumentTitle({
               />
             </div>
           )}
-        </AccordionContent>
+        </>
       )}
-    </>
+    </div>
   );
 }

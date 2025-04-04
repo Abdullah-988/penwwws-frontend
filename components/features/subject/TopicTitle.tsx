@@ -1,5 +1,17 @@
 "use client";
 
+import { useToast } from "@/hooks/use-toast";
+import axios from "@/lib/axiosInstance";
+import { AxiosError } from "axios";
+import { TopicType } from "@/types/Topic";
+import { zodResolver } from "@hookform/resolvers/zod";
+import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { getCookie } from "cookies-next";
+import { useRouter } from "next/navigation";
+import { SchoolUserType } from "@/types/SchoolUser";
+import { SubjectDetailType } from "@/types/Subject";
 import {
   Form,
   FormControl,
@@ -7,23 +19,8 @@ import {
   FormItem,
   FormMessage,
 } from "@/components/ui/form";
-import UploadDocument from "@/components/features/subject/UploadDocument";
-import { useToast } from "@/hooks/use-toast";
-import axios from "@/lib/axiosInstance";
-import { AxiosError } from "axios";
 import { Input } from "@/components/ui/input";
-import { TopicType } from "@/types/Topic";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { AccordionTrigger } from "@radix-ui/react-accordion";
 import { Pencil } from "lucide-react";
-import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
-import { getCookie } from "cookies-next";
-import { useRouter } from "next/navigation";
-import { SchoolUserType } from "@/types/SchoolUser";
-import DeleteTopic from "./DeleteTopic";
-import { SubjectDetailType } from "@/types/Subject";
 
 const editTopicFormSchema = z.object({
   name: z
@@ -94,67 +91,58 @@ export default function TopicTitle({
   }
 
   useEffect(() => {
-    form.reset({ name: topic.name });
+    if (isInputFocused) {
+      form.reset({ name: topic.name });
+    }
   }, [isInputFocused, form, topic.name]);
 
   return (
     <>
       {editingTopicId === topic.id && isInputFocused ? (
-        <div className="flex w-full items-center rounded-md px-4 py-[21px] text-lg font-semibold">
-          <Form {...form}>
-            <form className="w-full" onSubmit={form.handleSubmit(onSubmit)}>
-              <FormField
-                name="name"
-                control={form.control}
-                render={({ field }) => (
-                  <FormItem>
-                    <FormMessage />
-                    <FormControl>
+        <Form {...form}>
+          <form className="w-full" onSubmit={form.handleSubmit(onSubmit)}>
+            <FormField
+              name="name"
+              control={form.control}
+              render={({ field }) => (
+                <FormItem className="w-full">
+                  <FormMessage className="mt-1" />
+
+                  <FormControl className="w-full">
+                    <div className="flex w-full items-center gap-4">
                       <Input
                         {...field}
-                        onChange={(e) => field.onChange(e.target.value.trim())}
                         autoFocus
-                        onFocus={() => setIsInputFocused(true)}
+                        onClick={(e) => {
+                          e.preventDefault();
+                          setIsInputFocused(true);
+                        }}
                         onBlur={form.handleSubmit(onSubmit)}
-                        className="h-full border-none p-0 text-start !text-lg font-semibold focus-visible:ring-0"
+                        className="shadow-0 h-8 w-full border-none p-2 text-start !text-xl font-semibold focus-visible:ring-0 focus-visible:ring-offset-0"
+                        placeholder="Topic title"
                       />
-                    </FormControl>
-                  </FormItem>
-                )}
-              />
-            </form>
-          </Form>
-        </div>
-      ) : (
-        <AccordionTrigger asChild>
-          <div className="text-md group ml-2 flex h-12 w-full cursor-default items-center justify-between rounded-md px-4 font-medium">
-            <div className="flex w-fit items-center text-start">
-              {form.getValues("name") || topic.name}
-              {user.role !== "STUDENT" && (
-                <Pencil
-                  onClick={(e) => {
-                    e.preventDefault();
-                    setIsInputFocused(true);
-                    setEditingTopicId(topic.id);
-                  }}
-                  className="hover:text-primary z-50 ml-2 size-8 cursor-pointer p-2 opacity-0 group-hover:opacity-100"
-                />
+                      <div className="flex items-center gap-2"></div>
+                    </div>
+                  </FormControl>
+                </FormItem>
               )}
-            </div>
-            <div className="flex items-center gap-2 opacity-0 group-hover:opacity-100">
-              <DeleteTopic
-                schoolId={schoolId}
-                subjectId={subject.id}
-                topic={topic}
-              />
-              <UploadDocument
-                schoolId={schoolId}
-                subjectId={subject.id}
-                topic={topic}
-              />
-            </div>
-          </div>
-        </AccordionTrigger>
+            />
+          </form>
+        </Form>
+      ) : (
+        <div className="group ml-2 flex h-full cursor-pointer items-center gap-2 font-semibold md:text-xl">
+          {form.getValues("name") || topic.name}
+          {user.role !== "STUDENT" && (
+            <Pencil
+              onClick={(e) => {
+                e.preventDefault();
+                setIsInputFocused(true);
+                setEditingTopicId(topic.id);
+              }}
+              className="h-6 w-6 rounded-md p-1 text-yellow-800 transition-colors hover:text-yellow-900 md:opacity-0 md:group-hover:opacity-100"
+            />
+          )}
+        </div>
       )}
     </>
   );
