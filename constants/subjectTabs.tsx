@@ -1,4 +1,5 @@
 import AddSubjectMembersModal from "@/components/features/subject/AddSubjectMembersModal";
+import AssignmentTabContent from "@/components/features/subject/AssignmentTabContent";
 import DocumentsTab from "@/components/features/subject/DocumentsTab";
 import StudentsTabContent from "@/components/features/subject/StudentsTabContent";
 import { SchoolUserType } from "@/types/SchoolUser";
@@ -31,17 +32,15 @@ export function getSubjectTabs(
     {
       value: "assignments",
       label: "Assignments",
-      content: <div>Assignments</div>,
+      content: (
+        <AssignmentTabContent schoolId={schoolId} subjectId={subject.id} />
+      ),
     },
-  ];
-
-  if (user.role !== "STUDENT") {
-    SUBJECT_TABS.push({
+    {
       value: "marks",
       label: "Marks",
       content: <div>Marks</div>,
-    });
-  }
-
+    },
+  ];
   return SUBJECT_TABS;
 }
