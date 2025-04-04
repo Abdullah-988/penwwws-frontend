@@ -77,6 +77,7 @@ export default function InvitationLinksList({ schoolId }: Props) {
                     schoolId={schoolId}
                     tokenId={invitation.id}
                   />
+
                   <TooltipProvider>
                     <Tooltip
                       open={copiedInvitationId === invitation.id}

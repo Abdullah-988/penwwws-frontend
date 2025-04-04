@@ -53,7 +53,7 @@ export function SchoolSwitcher({ activeSchoolId }: Props) {
     );
   }
 
-  if (!schools?.joined) return null;
+  if (schools?.joined.length === 0) return null;
 
   return (
     <SidebarMenu>
@@ -97,7 +97,8 @@ export function SchoolSwitcher({ activeSchoolId }: Props) {
             <DropdownMenuLabel className="text-muted-foreground text-xs">
               Schools
             </DropdownMenuLabel>
-            {schools.joined.map(({ school }, index) => (
+
+            {schools?.joined?.map(({ school }, index) => (
               <Link
                 key={school.id}
                 href={`/school/${school.id}/${getRoleRedirectPath(school.members[0].role)}`}
