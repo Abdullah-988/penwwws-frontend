@@ -1,10 +1,9 @@
 import { useState } from "react";
 
-export default function useSetDeadline() {
+export default function usePickDate() {
   const [date, setDate] = useState<Date>();
   const [isOpen, setIsOpen] = useState(false);
 
-  const hours = Array.from({ length: 24 }, (_, i) => i);
   const onDateSelect = (selectedDate: Date | undefined) => {
     if (selectedDate) {
       setDate(selectedDate);
@@ -24,5 +23,5 @@ export default function useSetDeadline() {
     }
   };
 
-  return { onDateSelect, onTimeChange, date, isOpen, setIsOpen, hours };
+  return { onDateSelect, onTimeChange, date, isOpen, setIsOpen };
 }

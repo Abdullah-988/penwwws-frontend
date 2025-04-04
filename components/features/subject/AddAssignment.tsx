@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useToast } from "@/hooks/use-toast";
-import { DateTimePicker24h } from "@/components/shared/DateTimePicker";
+import { DateTimePicker } from "@/components/shared/DateTimePicker";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -32,7 +32,7 @@ import { useUploadFile } from "@/hooks/use-upload-file";
 import { X } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import z from "zod";
-import useSetDeadline from "@/hooks/use-set-deadline";
+import usePickDate from "@/hooks/use-pick-date";
 
 type Props = {
   schoolId: string;
@@ -51,8 +51,7 @@ export default function AddAssignment({ schoolId, subjectId }: Props) {
   const router = useRouter();
 
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const { onDateSelect, onTimeChange, isOpen, setIsOpen, hours, date } =
-    useSetDeadline();
+  const { onDateSelect, onTimeChange, isOpen, setIsOpen, date } = usePickDate();
   const { onUpload, progresses, uploadedFiles, setUploadedFiles, isUploading } =
     useUploadFile({
       defaultUploadedFiles: [],
@@ -151,13 +150,12 @@ export default function AddAssignment({ schoolId, subjectId }: Props) {
                   <FormLabel>Deadline</FormLabel>
                   <FormMessage />
                   <FormControl>
-                    <DateTimePicker24h
+                    <DateTimePicker
                       onDateSelect={onDateSelect}
                       onTimeChange={onTimeChange}
                       date={date}
                       isOpen={isOpen}
                       setIsOpen={setIsOpen}
-                      hours={hours}
                     />
                   </FormControl>
                 </FormItem>

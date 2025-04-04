@@ -20,17 +20,17 @@ type Props = {
   date: Date | undefined;
   isOpen: boolean;
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  hours: number[];
 };
 
-export function DateTimePicker24h({
+export function DateTimePicker({
   onDateSelect,
   onTimeChange,
   date,
   isOpen,
   setIsOpen,
-  hours,
 }: Props) {
+  const hours = Array.from({ length: 24 }, (_, i) => i);
+
   return (
     <Popover open={isOpen} onOpenChange={setIsOpen}>
       <PopoverTrigger asChild>
