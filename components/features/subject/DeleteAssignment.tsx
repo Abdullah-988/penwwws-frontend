@@ -91,7 +91,7 @@ export default function DeleteAssignment({
             {isPending ? (
               <LoaderCircle size={20} className="animate-spin" />
             ) : (
-              <span>Delete Assignment</span>
+              <span>Delete</span>
             )}
           </Button>
         </DialogFooter>

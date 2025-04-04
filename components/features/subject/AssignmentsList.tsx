@@ -1,10 +1,11 @@
 import { AssignmentType } from "@/types/AssignmentType";
 import { SchoolUserType } from "@/types/SchoolUser";
 import { Button } from "@/components/ui/button";
-import { Pencil, Upload, FileText } from "lucide-react";
+import { Pencil, FileText } from "lucide-react";
 import Link from "next/link";
 import { format } from "date-fns";
-import DeleteAssignment from "./DeleteAssignment";
+import DeleteAssignment from "@/components/features/subject/DeleteAssignment";
+import UploadSubmission from "@/components/features/subject/UploadSubmission";
 
 type Props = {
   schoolId: string;
@@ -80,10 +81,11 @@ export default function AssignmentsList({
                   {format(new Date(assignment.createdAt), "MMM dd HH:mm")}
                 </div>
               ) : (
-                <Button variant="outline" className="w-full gap-2">
-                  <Upload className="h-4 w-4" />
-                  Submit Assignment
-                </Button>
+                <UploadSubmission
+                  schoolId={schoolId}
+                  subjectId={subjectId}
+                  assignmentId={assignment.id}
+                />
               )}
             </div>
           )}
