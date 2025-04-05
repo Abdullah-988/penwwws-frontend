@@ -30,7 +30,6 @@ export function SchoolSwitcher({ activeSchoolId }: Props) {
   const { data: schools, isLoading } = useQuery<SchoolsType>({
     queryKey: ["schools"],
     queryFn: getSchools,
-    refetchInterval: false,
   });
   const { isMobile } = useSidebar();
 
@@ -98,6 +97,7 @@ export function SchoolSwitcher({ activeSchoolId }: Props) {
             <DropdownMenuLabel className="text-muted-foreground text-xs">
               Schools
             </DropdownMenuLabel>
+
             {schools?.joined?.map(({ school }, index) => (
               <Link
                 key={school.id}

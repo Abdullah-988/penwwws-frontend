@@ -1,4 +1,5 @@
 "use client";
+
 import { Accordion } from "@/components/ui/accordion";
 import GroupItem from "@/components/features/dashboard/groups/GroupItem";
 import { GroupType } from "@/types/Group";
