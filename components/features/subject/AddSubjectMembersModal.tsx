@@ -5,10 +5,8 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { Plus, Users } from "lucide-react";
-import { Badge } from "@/components/ui/badge";
+import { Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { formatNumber } from "@/lib/utils";
 import { getMembers } from "@/fetches/member";
 import { SubjectDetailType } from "@/types/Subject";
 import AssignSubjectTable from "@/components/features/subject/AssignSubjectTable";
@@ -23,7 +21,9 @@ export default async function AddSubjectMembersModal({
   subject,
 }: Props) {
   const members = await getMembers(schoolId);
-  const memberCount = formatNumber(members.length);
+  const membersToAssign = members.filter((member) => {
+    return !subject.users.some((m) => m.id === member.id);
+  });
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -36,15 +36,11 @@ export default async function AddSubjectMembersModal({
         <DialogHeader>
           <DialogTitle className="flex items-center gap-4">
             {subject.name}{" "}
-            <Badge variant="outline" className="text-sm">
-              <Users className="text-primary" />
-              {memberCount} <span>member(s)</span>
-            </Badge>
           </DialogTitle>
         </DialogHeader>
         <AssignSubjectTable
           schoolId={schoolId}
-          members={members}
+          members={membersToAssign}
           subject={subject}
         />
       </DialogContent>

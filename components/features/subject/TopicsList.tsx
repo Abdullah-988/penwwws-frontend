@@ -11,9 +11,9 @@ import { SchoolUserType } from "@/types/SchoolUser";
 import { TopicType } from "@/types/Topic";
 import { useState } from "react";
 import TopicTitle from "./TopicTitle";
-import DeleteTopic from "./DeleteTopic";
-import UploadDocument from "./UploadDocument";
-import DocumentTitle from "./DocumentTitle";
+import DeleteTopic from "@/components/features/subject/DeleteTopic";
+import DocumentItem from "@/components/features/subject/DocumentItem";
+import UploadDocument from "@/components/features/subject/UploadDocument";
 
 type Props = {
   topics: TopicType[];
@@ -24,9 +24,6 @@ type Props = {
 
 export default function TopicsList({ schoolId, subject, user, topics }: Props) {
   const [editingTopicId, setEditingTopicId] = useState<number | null>(null);
-  const [editingDocumentId, setEditingDocumentId] = useState<number | null>(
-    null,
-  );
 
   return (
     <Accordion type="multiple" className="mt-6 w-full">
@@ -46,7 +43,7 @@ export default function TopicsList({ schoolId, subject, user, topics }: Props) {
               </div>
             </AccordionTrigger>
             {user.role !== "STUDENT" && (
-              <div className="flex items-center gap-2 md:opacity-0 md:group-hover:opacity-100">
+              <div className="flex items-center gap-2 lg:opacity-0 lg:group-hover:opacity-100">
                 <DeleteTopic
                   schoolId={schoolId}
                   subjectId={subject.id}
@@ -68,14 +65,12 @@ export default function TopicsList({ schoolId, subject, user, topics }: Props) {
               </div>
             ) : (
               topic.documents.map((document) => (
-                <DocumentTitle
+                <DocumentItem
                   key={document.id}
                   schoolId={schoolId}
                   subjectId={subject.id}
                   document={document}
-                  topicId={topic.id}
-                  editingDocumentId={editingDocumentId}
-                  setEditingDocumentId={setEditingDocumentId}
+                  topics={topics}
                   user={user}
                 />
               ))

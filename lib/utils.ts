@@ -8,7 +8,7 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 export function getInitials(name: string) {
-  if (!name.trim()) return "";
+  if (!name) return "";
 
   const words = name.trim().split(" ");
   const firstInitial = words[0][0]?.toUpperCase() || "";

@@ -32,7 +32,6 @@ import { useUploadFile } from "@/hooks/use-upload-file";
 import { X } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import z from "zod";
-import usePickDate from "@/hooks/use-pick-date";
 
 type Props = {
   schoolId: string;
@@ -49,9 +48,8 @@ type FormDataType = z.infer<typeof addAssignmentSchema>;
 export default function AddAssignment({ schoolId, subjectId }: Props) {
   const { toast } = useToast();
   const router = useRouter();
-
+  const [date, setDate] = useState<Date | undefined>(undefined);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const { onDateSelect, onTimeChange, isOpen, setIsOpen, date } = usePickDate();
   const { onUpload, progresses, uploadedFiles, setUploadedFiles, isUploading } =
     useUploadFile({
       defaultUploadedFiles: [],
@@ -111,6 +109,13 @@ export default function AddAssignment({ schoolId, subjectId }: Props) {
     }
   }
 
+  useEffect(() => {
+    if (isModalOpen) {
+      form.reset();
+      setDate(undefined);
+    }
+  }, [isModalOpen, form]);
+
   return (
     <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
       <DialogTrigger asChild>
@@ -146,17 +151,11 @@ export default function AddAssignment({ schoolId, subjectId }: Props) {
               name="deadline"
               control={form.control}
               render={() => (
-                <FormItem>
+                <FormItem className="flex w-full flex-col gap-1">
                   <FormLabel>Deadline</FormLabel>
                   <FormMessage />
                   <FormControl>
-                    <DateTimePicker
-                      onDateSelect={onDateSelect}
-                      onTimeChange={onTimeChange}
-                      date={date}
-                      isOpen={isOpen}
-                      setIsOpen={setIsOpen}
-                    />
+                    <DateTimePicker value={date} onChange={setDate} />
                   </FormControl>
                 </FormItem>
               )}

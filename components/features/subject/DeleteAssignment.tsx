@@ -48,7 +48,7 @@ export default function DeleteAssignment({
       router.refresh();
       toast({
         title: "Assignment Deleted",
-        description: `"${assignment.id}" has been successfully deleted.`,
+        description: `"${assignment.title}" has been successfully deleted.`,
       });
     },
     onError: (err: AxiosError) => {

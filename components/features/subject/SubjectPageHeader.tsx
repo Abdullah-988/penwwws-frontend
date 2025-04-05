@@ -17,7 +17,7 @@ export default function SubjectPageHeader({ subject, schoolId, user }: Props) {
   const teachers = subject.users.filter((user) => user.role === "TEACHER");
 
   return (
-    <section className="flex w-full justify-between gap-10 md:h-60">
+    <section className="flex w-full justify-between gap-10 md:h-36">
       <div className="flex flex-col justify-between">
         <div className="flex flex-col items-start gap-2 md:flex-row md:items-center">
           <h1 className="text-lg font-bold sm:text-2xl md:text-5xl">

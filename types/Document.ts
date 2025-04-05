@@ -6,7 +6,7 @@ export type DocumentType = {
   format: string;
   publicId: string;
   submissionId?: string;
-  topicId?: string;
+  topicId?: number;
   type: string;
   updatedAt: string;
   createdAt: string;

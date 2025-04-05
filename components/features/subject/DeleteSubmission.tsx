@@ -18,45 +18,46 @@ import { useMutation } from "@tanstack/react-query";
 import axios from "@/lib/axiosInstance";
 import { AxiosError } from "axios";
 import { getCookie } from "cookies-next";
-import { DocumentType } from "@/types/Document";
 
 type Props = {
   schoolId: string;
   subjectId: number;
-  document: DocumentType;
+  assignmentId: number;
+  submissionId: number;
 };
 
-export default function DeleteDocument({
+export default function DeleteSubmission({
   schoolId,
   subjectId,
-  document,
+  assignmentId,
+  submissionId,
 }: Props) {
   const { toast } = useToast();
   const router = useRouter();
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const { mutate, isPending } = useMutation({
-    mutationKey: ["document", document.topicId, document.id],
+    mutationKey: ["submission", submissionId],
     mutationFn: async () => {
       const token = await getCookie("token");
       await axios.delete(
-        `/school/${schoolId}/subject/${subjectId}/topic/${document.topicId}/document/${document.id}`,
+        `/school/${schoolId}/subject/${subjectId}/assignment/${assignmentId}/submission/${submissionId}`,
         { headers: { Authorization: token } },
       );
     },
     onSuccess: () => {
       router.refresh();
       toast({
-        title: "Document Deleted",
-        description: `The document ${document.name} has been successfully deleted.`,
+        title: "Submission Deleted",
+        description: "The submission has been permanently removed.",
       });
     },
     onError: (err: AxiosError) => {
       toast({
-        title: "Couldn't Delete Document",
+        title: "Deletion Failed",
         description:
           (err.response?.data as string) ||
-          `There was an error deleting the document ${document.name}. Please try again.`,
+          "Failed to delete submission. Please try again.",
         variant: "destructive",
       });
     },
@@ -77,10 +78,10 @@ export default function DeleteDocument({
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Delete {document.name} Document</DialogTitle>
+          <DialogTitle>Delete Submission</DialogTitle>
           <DialogDescription>
-            By clicking delete, the {document.name} topic and all its documents
-            will be permanently deleted. This action cannot be undone.
+            This will permanently delete this submission. This action cannot be
+            undone.
           </DialogDescription>
         </DialogHeader>
         <DialogFooter>

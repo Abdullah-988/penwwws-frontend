@@ -102,7 +102,7 @@ export default function SubmitSubmission({
   return (
     <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
       <DialogTrigger asChild>
-        <Button className="gap-2">
+        <Button className="w-full">
           <Upload size={16} />
           Submit Assignment
         </Button>

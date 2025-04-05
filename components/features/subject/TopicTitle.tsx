@@ -139,7 +139,7 @@ export default function TopicTitle({
                 setIsInputFocused(true);
                 setEditingTopicId(topic.id);
               }}
-              className="h-6 w-6 rounded-md p-1 text-yellow-800 transition-colors hover:text-yellow-900 md:opacity-0 md:group-hover:opacity-100"
+              className="h-6 w-6 rounded-md p-1 text-yellow-800 transition-colors hover:text-yellow-900 lg:opacity-0 lg:group-hover:opacity-100"
             />
           )}
         </div>
