@@ -3,6 +3,7 @@ import { toast } from "sonner";
 import axios from "axios";
 
 interface UploadedFile {
+  name: string;
   url: string;
   public_id: string;
 }
@@ -39,8 +40,16 @@ export function useUploadFile({
           process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET || "",
         );
 
+        let resource: string;
+        if (file.type.startsWith("image/")) {
+          resource = "image/upload";
+        } else if (file.type.startsWith("video/")) {
+          resource = "video/upload";
+        } else {
+          resource = "raw/upload"; //
+        }
         const res = await axios.post(
-          `https://api.cloudinary.com/v1_1/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/upload`,
+          `https://api.cloudinary.com/v1_1/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/${resource}`,
           formData,
           {
             onUploadProgress: (event) => {
@@ -54,6 +63,7 @@ export function useUploadFile({
         );
 
         uploaded.push({
+          name: file.name,
           url: res.data.secure_url,
           public_id: res.data.public_id,
         });
@@ -71,6 +81,7 @@ export function useUploadFile({
   return {
     onUpload,
     uploadedFiles,
+    setUploadedFiles,
     progresses,
     isUploading,
   };

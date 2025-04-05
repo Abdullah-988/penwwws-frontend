@@ -8,4 +8,5 @@ export type SchoolType = {
   createdAt: string;
   updatedAt: string;
   members: { role: RoleType }[];
+  _count: { subjects: number; students: number; teachers: number };
 };
