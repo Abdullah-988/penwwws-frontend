@@ -42,7 +42,7 @@ export default function CreateSchool({ setSchoolAction }: Props) {
       const token = await getCookie("token");
       const res = await axios.post(
         "/school",
-        { name: formData.schoolName },
+        { name: formData.schoolName.trim() },
         {
           headers: { Authorization: token },
         },

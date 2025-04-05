@@ -5,9 +5,14 @@ const nextConfig: NextConfig = {
     remotePatterns: [
       {
         protocol: "https",
-        hostname: "**",
+        hostname: "**", // Allow images from any HTTPS source
+      },
+      {
+        protocol: "http",
+        hostname: "**", // Allow images from any HTTP source (optional, less secure)
       },
     ],
+    unoptimized: true, // Allow locally uploaded images without optimization
   },
 };
 
