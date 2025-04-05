@@ -69,6 +69,7 @@ type Props = {
   schoolId: string;
   subjectId: number;
   assignmentId: number;
+  deadline: Date;
   submissionsCount: number;
 };
 
@@ -76,6 +77,7 @@ export default function ViewSubmissions({
   schoolId,
   subjectId,
   assignmentId,
+  deadline,
   submissionsCount,
 }: Props) {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -89,11 +91,11 @@ export default function ViewSubmissions({
     <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
       <DialogTrigger asChild>
         <Button variant="outline" className="gap-2">
-          <FileText className="h-4 w-4" />
+          <FileText className="size-4" />
           View Submissions ({submissionsCount})
         </Button>
       </DialogTrigger>
-      <DialogContent className="md:max-w-[50rem]">
+      <DialogContent className="mx-2 md:max-w-[50rem]">
         <DialogHeader>
           <DialogTitle>Assignment Submissions</DialogTitle>
           <DialogDescription>
@@ -103,15 +105,23 @@ export default function ViewSubmissions({
         {isLoading ? (
           <LoaderCircle className="text-primary mx-auto my-13 size-8 animate-spin" />
         ) : (
-          <div className="max-h-[70vh] space-y-4 overflow-y-auto p-1">
+          <div className="max-h-[70vh] space-y-4 overflow-y-auto">
             {submissions?.length ? (
               submissions.map((submission) => (
                 <div
                   key={submission.id}
-                  className="flex items-center justify-between rounded-lg border p-4"
+                  className="relative flex flex-col items-center justify-start gap-4 rounded-lg border p-2 md:flex-row md:justify-between md:p-6"
                 >
+                  {new Date(submission.createdAt) > deadline && (
+                    <Badge
+                      variant="destructive"
+                      className="absolute top-2 right-2"
+                    >
+                      Submitted after deadline
+                    </Badge>
+                  )}
                   <div className="flex items-center gap-4">
-                    <Avatar className="h-10 w-10">
+                    <Avatar className="size-10">
                       <AvatarImage
                         src={submission.student.avatarUrl ?? ""}
                         alt={submission.student.fullName}

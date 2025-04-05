@@ -67,6 +67,7 @@ export function TeacherAssignmentCard({
         schoolId={schoolId}
         subjectId={subjectId}
         assignmentId={assignment.id}
+        deadline={deadline}
         submissionsCount={assignment._count.submissions}
       />
     </div>

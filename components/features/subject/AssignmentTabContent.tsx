@@ -5,12 +5,10 @@ import axios from "@/lib/axiosInstance";
 import { SchoolUserType } from "@/types/SchoolUser";
 import AssignmentsList from "./AssignmentsList";
 import { AssignmentType } from "@/types/AssignmentType";
-import { MemberType } from "@/types/member";
 
 type Props = {
   schoolId: string;
   subjectId: number;
-  subjectMembers: MemberType[];
   user: SchoolUserType;
 };
 async function getAssignments(schoolId: string, subjectId: number) {
