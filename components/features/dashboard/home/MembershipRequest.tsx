@@ -18,6 +18,7 @@ import { UserType } from "@/types/User";
 import { Badge } from "@/components/ui/badge";
 import clsx from "clsx";
 import { useToast } from "@/hooks/use-toast";
+import { capitalizeFirstLetter } from "@/lib/utils";
 
 async function getMembershipRequests(schoolId: string) {
   const token = await getCookie("token");
@@ -168,7 +169,7 @@ export const MembershipRequest = ({ schoolId }: Props) => {
                       "opacity-50",
                   )}
                 >
-                  {request.status.toLowerCase()}
+                  {capitalizeFirstLetter(request.status)}
                 </Badge>
                 <div className="flex flex-col items-end gap-2">
                   {(request.status === "PENDING" ||

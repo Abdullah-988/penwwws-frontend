@@ -75,7 +75,14 @@ export function GetColumns(
     },
     {
       accessorKey: "email",
-      header: "Email",
+      header: ({ column }) => (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Email <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      ),
     },
     {
       accessorKey: "groups",

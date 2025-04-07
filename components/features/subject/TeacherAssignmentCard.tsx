@@ -43,12 +43,14 @@ export function TeacherAssignmentCard({
       </div>
 
       {assignment.document && (
-        <div className="rounded-md p-3 shadow">
+        <div className="rounded-md p-3 shadow-sm">
           <p className="text-primary text-sm font-medium">Attachments:</p>
           <div className="flex gap-2 space-y-1">
             <Link
               key={assignment.document.id}
               href={assignment.document.url}
+              target="_blank"
+              rel="noopener noreferrer"
               className="hover:text-primary flex items-center gap-2 text-sm hover:underline"
             >
               <FileText className="text-primary size-4" />

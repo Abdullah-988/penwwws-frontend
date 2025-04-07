@@ -1,6 +1,7 @@
 import AddSubjectMembersModal from "@/components/features/subject/AddSubjectMembersModal";
 import AssignmentTabContent from "@/components/features/subject/AssignmentTabContent";
 import DocumentsTab from "@/components/features/subject/DocumentsTab";
+import MarksTabContent from "@/components/features/subject/MarksTabContent";
 import StudentsTabContent from "@/components/features/subject/StudentsTabContent";
 import { SchoolUserType } from "@/types/SchoolUser";
 import { SubjectDetailType } from "@/types/Subject";
@@ -43,7 +44,13 @@ export function getSubjectTabs(
     {
       value: "marks",
       label: "Marks",
-      content: <div>Marks</div>,
+      content: (
+        <MarksTabContent
+          schoolId={schoolId}
+          subjectId={subject.id}
+          user={user}
+        />
+      ),
     },
   ];
 

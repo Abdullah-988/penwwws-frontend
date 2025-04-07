@@ -109,7 +109,7 @@ export default function UnassignGroup({
           size="sm"
           variant="outline"
           className={clsx(
-            "text-destructive bg-destructive/10 hover:text-destructive hover:bg-destructive/15 size-8 border-none",
+            "text-destructive bg-destructive/10 hover:text-destructive hover:bg-destructive/15 size-8 w-fit border-none",
             className,
           )}
         >
