@@ -10,8 +10,11 @@ import {
 } from "@/components/ui/table";
 import { SchoolUserType } from "@/types/SchoolUser";
 import clsx from "clsx";
+import DeleteRow from "./DeleteRow";
+import AddTableRow from "./AddTableRow";
+import EditRow from "./EditRow";
 
-type TableType = {
+export type TableRowType = {
   id: number;
   name: string;
   max: number;
@@ -19,14 +22,21 @@ type TableType = {
   subjectId: number;
   createdAt: string;
   updatedAt: string;
-}[];
+};
 
 type Props = {
-  table: TableType;
+  schoolId: string;
+  subjectId: number;
+  table: TableRowType[];
   user: SchoolUserType;
 };
 
-export default function MarksTable({ table, user }: Props) {
+export default function MarksTable({
+  table,
+  user,
+  schoolId,
+  subjectId,
+}: Props) {
   let total = 0;
 
   table.forEach((row) => {
@@ -56,20 +66,34 @@ export default function MarksTable({ table, user }: Props) {
 
         <TableBody className="[&_tr:last-child]:border-0">
           {table.map((row) => (
-            <TableRow key={row.id}>
+            <TableRow key={row.id} className="group">
               <TableCell
                 className={clsx("w-full px-6 py-4 font-medium", {
-                  "bg-primary/10 hover:bg-primary/10 border-primary border-l":
+                  "bg-primary/10 hover:bg-primary/10 border-primary relative border-l":
                     row.count,
                 })}
               >
-                <div className="flex items-center">
+                <div className="relative flex items-center">
                   <span
                     className={clsx("text-[15px]", {
                       "text-primary": row.count,
                     })}
                   >
                     {row.name}
+                    {user.role !== "STUDENT" && (
+                      <>
+                        <DeleteRow
+                          schoolId={schoolId}
+                          subjectId={subjectId}
+                          row={row}
+                        />
+                        <EditRow
+                          schoolId={schoolId}
+                          subjectId={subjectId}
+                          row={row}
+                        />
+                      </>
+                    )}
                   </span>
                 </div>
               </TableCell>
@@ -88,6 +112,12 @@ export default function MarksTable({ table, user }: Props) {
               </TableCell>
             </TableRow>
           ))}
+
+          <TableRow className="relative h-9">
+            <TableCell>
+              <AddTableRow schoolId={schoolId} subjectId={subjectId} />
+            </TableCell>
+          </TableRow>
         </TableBody>
 
         <TableFooter className="[&_tr]:shadow">

@@ -56,3 +56,11 @@ export const subjectSchema = z.object({
 });
 
 export type SubjectFormData = z.infer<typeof subjectSchema>;
+
+export const marksTableSchema = z.object({
+  name: z.string().min(2, { message: "Name must be at least 2 characters." }),
+  max: z.coerce.number().positive("Please Provide a positive number"),
+  count: z.boolean(),
+});
+
+export type MarksTableFormData = z.infer<typeof marksTableSchema>;

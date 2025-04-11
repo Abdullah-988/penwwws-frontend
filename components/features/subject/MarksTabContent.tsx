@@ -2,8 +2,9 @@ import { SchoolUserType } from "@/types/SchoolUser";
 import { getCookie } from "cookies-next";
 import { cookies } from "next/headers";
 import axios from "@/lib/axiosInstance";
-import MarksTable from "@/components/features/subject/MarksTable";
-import AddTableRow from "@/components/features/subject/AddTableRow";
+import MarksTable, {
+  TableRowType,
+} from "@/components/features/subject/MarksTable";
 
 type Props = {
   schoolId: string;
@@ -21,21 +22,25 @@ async function getTable(schoolId: string, subjectId: number) {
   );
   return res.data;
 }
+
 export default async function MarksTabContent({
   schoolId,
   subjectId,
   user,
 }: Props) {
-  const table = await getTable(schoolId, subjectId);
-  console.log(table);
-  console.log("hello dude");
+  const table: TableRowType[] = await getTable(schoolId, subjectId);
+
   return (
     <section className="my-5 flex w-full flex-col items-center justify-center">
       <div className="flex w-full items-center justify-between">
         <h1 className="text-3xl font-bold">Marks table design</h1>
-        <AddTableRow schoolId={schoolId} subjectId={subjectId} />
       </div>
-      <MarksTable table={table} user={user} />
+      <MarksTable
+        schoolId={schoolId}
+        subjectId={subjectId}
+        table={table}
+        user={user}
+      />
     </section>
   );
 }
