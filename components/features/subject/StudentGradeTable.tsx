@@ -1,7 +1,6 @@
 import {
   Table,
   TableBody,
-  TableCaption,
   TableCell,
   TableFooter,
   TableHead,
@@ -31,7 +30,7 @@ type Props = {
   user: SchoolUserType;
 };
 
-export default function MarksTable({
+export default function StudentGradeTable({
   table,
   user,
   schoolId,
@@ -48,11 +47,6 @@ export default function MarksTable({
   return (
     <div className="mt-10 w-full overflow-hidden rounded-md border shadow-sm md:w-[750px]">
       <Table className="border-separate border-spacing-0">
-        <TableCaption className="text-muted-foreground mt-2 mb-3 text-base">
-          <span className="text-foreground font-medium">{user.fullName}</span>'s
-          academic performance summary
-        </TableCaption>
-
         <TableHeader className="[&_tr]:shadow">
           <TableRow className="hover:bg-transparent">
             <TableHead className="bg-muted/40 w-[70%] border-b px-6 py-4 text-base font-semibold">
@@ -122,10 +116,10 @@ export default function MarksTable({
 
         <TableFooter className="[&_tr]:shadow">
           <TableRow>
-            <TableCell className="bg-muted/30 border-t px-6 py-4 text-base font-semibold">
+            <TableCell className="px-6 py-4 text-base font-semibold">
               Total Score
             </TableCell>
-            <TableCell className="bg-muted/30 border-t px-6 py-4 text-right text-base font-semibold">
+            <TableCell className="px-6 py-4 text-right text-base font-semibold">
               {total}
             </TableCell>
           </TableRow>

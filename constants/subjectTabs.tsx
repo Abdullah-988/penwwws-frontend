@@ -1,6 +1,7 @@
 import AddSubjectMembersModal from "@/components/features/subject/AddSubjectMembersModal";
 import AssignmentTabContent from "@/components/features/subject/AssignmentTabContent";
 import DocumentsTab from "@/components/features/subject/DocumentsTab";
+import GradesTabContent from "@/components/features/subject/GradesTabContent";
 import MarksTabContent from "@/components/features/subject/MarksTabContent";
 import StudentsTabContent from "@/components/features/subject/StudentsTabContent";
 import { SchoolUserType } from "@/types/SchoolUser";
@@ -41,18 +42,20 @@ export function getSubjectTabs(
         />
       ),
     },
-    {
-      value: "marks",
-      label: "Marks",
-      content: (
-        <MarksTabContent
-          schoolId={schoolId}
-          subjectId={subject.id}
-          user={user}
-        />
-      ),
-    },
   ];
 
+  if (user.role !== "STUDENT") {
+    SUBJECT_TABS.push({
+      value: "marks",
+      label: "Marks",
+      content: <MarksTabContent schoolId={schoolId} subjectId={subject.id} />,
+    });
+  } else {
+    SUBJECT_TABS.push({
+      value: "grades",
+      label: "Grades",
+      content: <GradesTabContent schoolId={schoolId} subjectId={subject.id} />,
+    });
+  }
   return SUBJECT_TABS;
 }

@@ -71,7 +71,10 @@ export default function AddTableRow({ schoolId, subjectId }: Props) {
   return (
     <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
       <DialogTrigger asChild>
-        <Button className="absolute top-0 left-0 flex w-full rounded-none border-0">
+        <Button
+          variant="outline"
+          className="absolute top-0 left-0 flex w-full rounded-none border-x-0"
+        >
           <Plus size={10} />
           New Row
         </Button>

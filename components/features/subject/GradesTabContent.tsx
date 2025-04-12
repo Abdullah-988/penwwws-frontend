@@ -12,11 +12,17 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import clsx from "clsx";
-import DeleteRow from "./DeleteRow";
 import AddTableRow from "./AddTableRow";
-import EditRow from "./EditRow";
-import { TableRowType } from "@/types/TableRow";
 
+export type TableRowType = {
+  id: number;
+  name: string;
+  max: number;
+  count: boolean;
+  subjectId: number;
+  createdAt: string;
+  updatedAt: string;
+};
 type Props = {
   schoolId: string;
   subjectId: number;
@@ -33,7 +39,7 @@ async function getTable(schoolId: string, subjectId: number) {
   return res.data;
 }
 
-export default async function MarksTabContent({ schoolId, subjectId }: Props) {
+export default async function GradesTabContent({ schoolId, subjectId }: Props) {
   const table: TableRowType[] = await getTable(schoolId, subjectId);
   let total = 0;
 
@@ -63,35 +69,13 @@ export default async function MarksTabContent({ schoolId, subjectId }: Props) {
 
           <TableBody className="[&_tr:last-child]:border-0">
             {table.map((row) => (
-              <TableRow key={row.id} className="group">
+              <TableRow key={row.id}>
                 <TableCell
                   className={clsx("w-full px-6 py-4 font-medium", {
                     "bg-primary/10 hover:bg-primary/10 border-primary relative border-l":
                       row.count,
                   })}
-                >
-                  <div className="relative flex items-center">
-                    <span
-                      className={clsx("text-[15px]", {
-                        "text-primary": row.count,
-                      })}
-                    >
-                      {row.name}
-                      <>
-                        <DeleteRow
-                          schoolId={schoolId}
-                          subjectId={subjectId}
-                          row={row}
-                        />
-                        <EditRow
-                          schoolId={schoolId}
-                          subjectId={subjectId}
-                          row={row}
-                        />
-                      </>
-                    </span>
-                  </div>
-                </TableCell>
+                ></TableCell>
                 <TableCell
                   className={clsx("w-full px-6 py-4 font-medium", {
                     "bg-primary/10 hover:bg-primary/10": row.count,

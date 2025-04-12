@@ -78,18 +78,27 @@ export default function StudentsTabContent({
       </DropdownMenu>
     ),
 
-    (member) => (
-      <Link
-        href={`/school/${schoolId}/subject/${subject.id}/members/${member.id}`}
-        className="flex items-center hover:underline"
-      >
-        <Avatar className="size-7 rounded-full">
-          <AvatarFallback>{getInitials(member.fullName)}</AvatarFallback>
-          <AvatarImage src={member.avatarUrl} />
-        </Avatar>
-        <span className="ml-2">{member.fullName}</span>
-      </Link>
-    ),
+    (member) =>
+      member.role !== "STUDENT" ? (
+        <div className="flex items-center">
+          <Avatar className="size-7 rounded-full">
+            <AvatarFallback>{getInitials(member.fullName)}</AvatarFallback>
+            <AvatarImage src={member.avatarUrl} />
+          </Avatar>
+          <span className="ml-2">{member.fullName}</span>
+        </div>
+      ) : (
+        <Link
+          href={`/school/${schoolId}/subjects/${subject.id}/students/${member.id}`}
+          className="flex items-center hover:underline"
+        >
+          <Avatar className="size-7 rounded-full">
+            <AvatarFallback>{getInitials(member.fullName)}</AvatarFallback>
+            <AvatarImage src={member.avatarUrl} />
+          </Avatar>
+          <span className="ml-2">{member.fullName}</span>
+        </Link>
+      ),
   );
   return (
     <DataTable
