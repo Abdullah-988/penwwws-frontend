@@ -92,6 +92,7 @@ jobs:
             --env JWT_SECRET="${{ env.JWT_SECRET }}" \
             --env NODEMAILER_SERVICE=${{ secrets.NODEMAILER_SERVICE }} \
             --env NODEMAILER_EMAIL=${{ secrets.NODEMAILER_EMAIL }} \
+            --env NODEMAILER_EMAIL_ALIAS=${{ secrets.NODEMAILER_EMAIL_ALIAS }} \
             --env NODEMAILER_PASSWORD="${{ secrets.NODEMAILER_PASSWORD }}" \
             --env CLOUDINARY_UPLOAD_PRESET="${{ secrets.CLOUDINARY_UPLOAD_PRESET }}" \
             --env CLOUDINARY_CLOUD_NAME=${{ secrets.CLOUDINARY_CLOUD_NAME }} \
