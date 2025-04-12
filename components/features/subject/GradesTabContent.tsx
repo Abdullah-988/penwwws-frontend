@@ -12,7 +12,6 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import clsx from "clsx";
-import AddTableRow from "./AddTableRow";
 
 export type TableRowType = {
   id: number;
@@ -28,10 +27,11 @@ type Props = {
   subjectId: number;
 };
 
+import { StudentMarksTableRowType } from "@/app/school/[id]/subjects/[subjectId]/students/[studentId]/page";
 async function getTable(schoolId: string, subjectId: number) {
   const token = await getCookie("token", { cookies });
   const res = await axios.get(
-    `/school/${schoolId}/subject/${subjectId}/table`,
+    `/school/${schoolId}/subject/${subjectId}/grade`,
     {
       headers: { Authorization: token },
     },
@@ -40,20 +40,19 @@ async function getTable(schoolId: string, subjectId: number) {
 }
 
 export default async function GradesTabContent({ schoolId, subjectId }: Props) {
-  const table: TableRowType[] = await getTable(schoolId, subjectId);
+  const table: StudentMarksTableRowType[] = await getTable(schoolId, subjectId);
   let total = 0;
+  let studentTotalMark = 0;
 
   table.forEach((row) => {
     if (row.count) {
       total += row.max;
+      if (row.marks.length) studentTotalMark += row.marks[0].value;
     }
   });
 
   return (
     <section className="my-5 flex w-full flex-col items-center justify-center">
-      <div className="flex w-full items-center justify-between">
-        <h1 className="text-3xl font-bold">Marks table design</h1>
-      </div>
       <div className="mt-10 w-full overflow-hidden rounded-md border shadow-sm md:w-[750px]">
         <Table className="border-separate border-spacing-0">
           <TableHeader className="[&_tr]:shadow">
@@ -75,7 +74,9 @@ export default async function GradesTabContent({ schoolId, subjectId }: Props) {
                     "bg-primary/10 hover:bg-primary/10 border-primary relative border-l":
                       row.count,
                   })}
-                ></TableCell>
+                >
+                  {row.name}
+                </TableCell>
                 <TableCell
                   className={clsx("w-full px-6 py-4 font-medium", {
                     "bg-primary/10 hover:bg-primary/10": row.count,
@@ -86,26 +87,20 @@ export default async function GradesTabContent({ schoolId, subjectId }: Props) {
                       "text-primary font-semibold": row.count,
                     })}
                   >
-                    {row.max}
+                    {row.marks.length ? row.marks[0].value : 0} / {row.max}
                   </span>
                 </TableCell>
               </TableRow>
             ))}
-
-            <TableRow className="relative h-9">
-              <TableCell>
-                <AddTableRow schoolId={schoolId} subjectId={subjectId} />
-              </TableCell>
-            </TableRow>
           </TableBody>
 
           <TableFooter className="[&_tr]:shadow">
             <TableRow>
               <TableCell className="px-6 py-4 text-base font-semibold">
-                Total Score
+                Total
               </TableCell>
               <TableCell className="px-6 py-4 text-right text-base font-semibold">
-                {total}
+                {studentTotalMark} / {total}
               </TableCell>
             </TableRow>
           </TableFooter>

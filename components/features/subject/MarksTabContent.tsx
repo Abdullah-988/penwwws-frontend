@@ -45,9 +45,6 @@ export default async function MarksTabContent({ schoolId, subjectId }: Props) {
 
   return (
     <section className="my-5 flex w-full flex-col items-center justify-center">
-      <div className="flex w-full items-center justify-between">
-        <h1 className="text-3xl font-bold">Marks table design</h1>
-      </div>
       <div className="mt-10 w-full overflow-hidden rounded-md border shadow-sm md:w-[750px]">
         <Table className="border-separate border-spacing-0">
           <TableHeader className="[&_tr]:shadow">
@@ -118,7 +115,7 @@ export default async function MarksTabContent({ schoolId, subjectId }: Props) {
           <TableFooter className="[&_tr]:shadow">
             <TableRow>
               <TableCell className="px-6 py-4 text-base font-semibold">
-                Total Score
+                Total
               </TableCell>
               <TableCell className="px-6 py-4 text-right text-base font-semibold">
                 {total}

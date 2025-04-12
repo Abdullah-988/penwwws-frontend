@@ -31,7 +31,7 @@ async function getTable(
   return res.data;
 }
 
-export type EnterMarksTableRowType = TableRowType & {
+export type StudentMarksTableRowType = TableRowType & {
   marks: {
     id: number;
     value: number;
@@ -51,7 +51,7 @@ export default async function StudentsMarkPage({
   const subjectId = (await params).subjectId;
   const studentId = (await params).studentId;
   const user = await getUser(schoolId);
-  const table: EnterMarksTableRowType[] = await getTable(
+  const table: StudentMarksTableRowType[] = await getTable(
     schoolId,
     subjectId,
     studentId,
@@ -119,7 +119,7 @@ export default async function StudentsMarkPage({
                         row={row}
                         studentId={studentId}
                       />
-                      /{row.max}
+                      / {row.max}
                     </span>
                   </TableCell>
                 </TableRow>
@@ -129,7 +129,7 @@ export default async function StudentsMarkPage({
             <TableFooter className="[&_tr]:shadow">
               <TableRow>
                 <TableCell className="px-6 py-4 text-base font-semibold">
-                  Total Score
+                  Total
                 </TableCell>
                 <TableCell className="px-6 py-4 text-right text-base font-semibold">
                   {totalStudentMark} /{total}

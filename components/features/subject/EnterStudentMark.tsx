@@ -17,12 +17,12 @@ import { getCookie } from "cookies-next";
 import { useRouter } from "next/navigation";
 import { useToast } from "@/hooks/use-toast";
 import { AxiosError } from "axios";
-import { EnterMarksTableRowType } from "@/app/school/[id]/subjects/[subjectId]/students/[studentId]/page";
+import { StudentMarksTableRowType } from "@/app/school/[id]/subjects/[subjectId]/students/[studentId]/page";
 
 type Props = {
   schoolId: string;
   subjectId: number;
-  row: EnterMarksTableRowType;
+  row: StudentMarksTableRowType;
   studentId: number;
 };
 
@@ -30,6 +30,7 @@ const getEnterStudentMarkSchema = (max: number) =>
   z.object({
     value: z.coerce.number().max(max, `Mark cannot exceed ${max}.`),
   });
+
 export default function EnterStudentMark({
   schoolId,
   subjectId,
