@@ -92,24 +92,32 @@ export default function EditRow({ schoolId, subjectId, row }: Props) {
         <Form {...form}>
           <form className="space-y-4" onSubmit={form.handleSubmit(onSubmit)}>
             <DialogHeader>
-              <DialogTitle>Edit Group</DialogTitle>
+              <DialogTitle>Edit Row</DialogTitle>
               <DialogDescription>
                 Edit row info including name, max value and count or not
               </DialogDescription>
             </DialogHeader>
             <TableRowFields form={form} />
-            <Button
-              disabled={form.formState.isSubmitting}
-              type="submit"
-              size="sm"
-              className="w-full rounded-full font-semibold"
-            >
-              {form.formState.isSubmitting ? (
-                <SpinnerIcon className="animate-spin" />
-              ) : (
-                "Edit Row"
-              )}
-            </Button>
+            <div className="flex items-center justify-end gap-2">
+              <Button
+                variant="outline"
+                type="button"
+                onClick={() => setIsModalOpen(false)}
+              >
+                Cancel
+              </Button>
+              <Button
+                disabled={form.formState.isSubmitting}
+                type="submit"
+                size="sm"
+              >
+                {form.formState.isSubmitting ? (
+                  <SpinnerIcon className="animate-spin" />
+                ) : (
+                  "Edit Row"
+                )}
+              </Button>
+            </div>
           </form>
         </Form>
       </DialogContent>

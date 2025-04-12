@@ -59,21 +59,25 @@ export default function StudentsTabContent({
             subject={subject}
             className="bg-card hover:bg-muted shadow-none"
           />
-          <DropdownMenuSeparator />
-          <DropdownMenuItem>
-            <Link
-              href={`/school/${schoolId}/subjects/${subject.id}/members/${member.id}`}
-              className="flex items-center space-x-2"
-            >
-              <Clipboard size={16} />
-              <span>View Marks</span>
-            </Link>
-          </DropdownMenuItem>
-          <DropdownMenuItem
-            onClick={() => navigator.clipboard.writeText(member.email)}
-          >
-            <Copy size={16} /> Copy email
-          </DropdownMenuItem>
+          {member.role === "STUDENT" && (
+            <>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem>
+                <Link
+                  href={`/school/${schoolId}/subjects/${subject.id}/members/${member.id}`}
+                  className="flex items-center space-x-2"
+                >
+                  <Clipboard size={16} />
+                  <span>View Marks</span>
+                </Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem
+                onClick={() => navigator.clipboard.writeText(member.email)}
+              >
+                <Copy size={16} /> Copy email
+              </DropdownMenuItem>
+            </>
+          )}
         </DropdownMenuContent>
       </DropdownMenu>
     ),
