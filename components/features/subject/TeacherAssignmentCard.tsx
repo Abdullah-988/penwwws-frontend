@@ -26,10 +26,14 @@ export function TeacherAssignmentCard({
     <div className="relative flex flex-col justify-between gap-6 rounded-md border p-4 shadow-sm">
       <div className="flex flex-col gap-2">
         <div className="flex items-start justify-between">
-          <div className="flex items-center gap-1">
-            <h3 className="text-lg font-semibold">{assignment.title}</h3>
-            {isPastDeadline && <Badge variant="destructive">Past Due</Badge>}
-          </div>
+          <h3 className="lex items-center gap-2 text-lg font-semibold">
+            {assignment.title}
+            {isPastDeadline && (
+              <Badge variant="destructive" className="mx-2">
+                Past Due
+              </Badge>
+            )}
+          </h3>
           <DeleteAssignment
             schoolId={schoolId}
             subjectId={subjectId}

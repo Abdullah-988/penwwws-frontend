@@ -16,9 +16,9 @@ import {
 } from "@/components/ui/table";
 import EnterStudentMark from "@/components/features/subject/EnterStudentMark";
 import clsx from "clsx";
-import Link from "next/link";
-import { Button } from "@/components/ui/button";
 import { ArrowLeft } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 async function getTable(
   schoolId: string,
@@ -74,11 +74,11 @@ export default async function StudentsMarkPage({
     <>
       <Navbar schoolId={schoolId} user={user} />
       <section className="my-6 flex w-full flex-col items-center justify-center">
-        <div className="">
-          <Button asChild variant="ghost" className="px-2">
+        <div>
+          <Button variant="ghost">
             <Link
-              href={`/school/${schoolId}/subjects/${subjectId}`}
-              className="flex items-center gap-2 text-sm"
+              className="flex items-center gap-1"
+              href={`/school/${schoolId}/subjects/${subjectId}?tab=students`}
             >
               <ArrowLeft className="h-4 w-4" />
               Back
