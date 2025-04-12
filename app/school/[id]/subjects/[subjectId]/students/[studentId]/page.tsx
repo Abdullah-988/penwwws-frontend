@@ -2,6 +2,9 @@ import Navbar from "@/components/shared/Navbar";
 import { getCookie } from "cookies-next";
 import { cookies } from "next/headers";
 import axios from "@/lib/axiosInstance";
+
+import { TableRowType } from "@/types/TableRow";
+import { getUser } from "@/fetches/schoolUser";
 import {
   Table,
   TableBody,
@@ -11,10 +14,11 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import clsx from "clsx";
 import EnterStudentMark from "@/components/features/subject/EnterStudentMark";
-import { TableRowType } from "@/types/TableRow";
-import { getUser } from "@/fetches/schoolUser";
+import clsx from "clsx";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import { ArrowLeft } from "lucide-react";
 
 async function getTable(
   schoolId: string,
@@ -69,74 +73,84 @@ export default async function StudentsMarkPage({
   return (
     <>
       <Navbar schoolId={schoolId} user={user} />
+      <section className="my-6 flex w-full flex-col items-center justify-center">
+        <div className="">
+          <Button asChild variant="ghost" className="px-2">
+            <Link
+              href={`/school/${schoolId}/subjects/${subjectId}`}
+              className="flex items-center gap-2 text-sm"
+            >
+              <ArrowLeft className="h-4 w-4" />
+              Back
+            </Link>
+          </Button>
+          <div className="mt-6 w-full overflow-hidden rounded-md border shadow-sm md:w-[750px]">
+            <Table className="border-separate border-spacing-0">
+              <TableHeader className="[&_tr]:shadow">
+                <TableRow className="hover:bg-transparent">
+                  <TableHead className="bg-muted/40 w-[70%] border-b px-6 py-4 text-base font-semibold">
+                    Activity
+                  </TableHead>
+                  <TableHead className="bg-muted/40 border-b px-6 py-4 text-right text-base font-semibold">
+                    Grade
+                  </TableHead>
+                </TableRow>
+              </TableHeader>
 
-      <section className="my-5 flex w-full flex-col items-center justify-center">
-        <div className="mt-10 w-full overflow-hidden rounded-md border shadow-sm md:w-[750px]">
-          <Table className="border-separate border-spacing-0">
-            <TableHeader className="[&_tr]:shadow">
-              <TableRow className="hover:bg-transparent">
-                <TableHead className="bg-muted/40 w-[70%] border-b px-6 py-4 text-base font-semibold">
-                  Activity
-                </TableHead>
-                <TableHead className="bg-muted/40 border-b px-6 py-4 text-right text-base font-semibold">
-                  Grade
-                </TableHead>
-              </TableRow>
-            </TableHeader>
-
-            <TableBody className="[&_tr:last-child]:border-0">
-              {table.map((row) => (
-                <TableRow key={row.id} className="group">
-                  <TableCell
-                    className={clsx("w-full px-6 py-4 font-medium", {
-                      "bg-primary/10 hover:bg-primary/10 border-primary relative border-l":
-                        row.count,
-                    })}
-                  >
-                    <div className="relative flex items-center">
-                      <span
-                        className={clsx("text-[15px]", {
-                          "text-primary": row.count,
-                        })}
-                      >
-                        {row.name}
-                      </span>
-                    </div>
-                  </TableCell>
-                  <TableCell
-                    className={clsx("w-full px-6 py-4 font-medium", {
-                      "bg-primary/10 hover:bg-primary/10": row.count,
-                    })}
-                  >
-                    <span
-                      className={clsx("flex items-center gap-2 text-[15px]", {
-                        "text-primary font-semibold": row.count,
+              <TableBody className="[&_tr:last-child]:border-0">
+                {table.map((row) => (
+                  <TableRow key={row.id} className="group">
+                    <TableCell
+                      className={clsx("w-full px-6 py-4 font-medium", {
+                        "bg-primary/10 hover:bg-primary/10 border-primary relative border-l":
+                          row.count,
                       })}
                     >
-                      <EnterStudentMark
-                        schoolId={schoolId}
-                        subjectId={subjectId}
-                        row={row}
-                        studentId={studentId}
-                      />
-                      / {row.max}
-                    </span>
+                      <div className="relative flex items-center">
+                        <span
+                          className={clsx("text-[15px]", {
+                            "text-primary": row.count,
+                          })}
+                        >
+                          {row.name}
+                        </span>
+                      </div>
+                    </TableCell>
+                    <TableCell
+                      className={clsx("w-full px-6 py-4 font-medium", {
+                        "bg-primary/10 hover:bg-primary/10": row.count,
+                      })}
+                    >
+                      <span
+                        className={clsx("flex items-center gap-2 text-[15px]", {
+                          "text-primary font-semibold": row.count,
+                        })}
+                      >
+                        <EnterStudentMark
+                          schoolId={schoolId}
+                          subjectId={subjectId}
+                          row={row}
+                          studentId={studentId}
+                        />
+                        / {row.max}
+                      </span>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+
+              <TableFooter className="[&_tr]:shadow">
+                <TableRow>
+                  <TableCell className="px-6 py-4 text-base font-semibold">
+                    Total
+                  </TableCell>
+                  <TableCell className="px-6 py-4 text-right text-base font-semibold">
+                    {totalStudentMark} /{total}
                   </TableCell>
                 </TableRow>
-              ))}
-            </TableBody>
-
-            <TableFooter className="[&_tr]:shadow">
-              <TableRow>
-                <TableCell className="px-6 py-4 text-base font-semibold">
-                  Total
-                </TableCell>
-                <TableCell className="px-6 py-4 text-right text-base font-semibold">
-                  {totalStudentMark} /{total}
-                </TableCell>
-              </TableRow>
-            </TableFooter>
-          </Table>
+              </TableFooter>
+            </Table>
+          </div>
         </div>
       </section>
     </>

@@ -19,7 +19,7 @@ import { getCookie } from "cookies-next";
 import { Form } from "@/components/ui/form";
 import { AxiosError } from "axios";
 import { useRouter } from "next/navigation";
-import { TableRowType } from "./MarksTable";
+import { TableRowType } from "@/types/TableRow";
 import TableRowFields from "@/components/shared/TableRowFields";
 import { MarksTableFormData, marksTableSchema } from "@/lib/validations";
 

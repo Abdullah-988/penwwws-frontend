@@ -18,7 +18,7 @@ import { useMutation } from "@tanstack/react-query";
 import axios from "@/lib/axiosInstance";
 import { AxiosError } from "axios";
 import { getCookie } from "cookies-next";
-import { TableRowType } from "./MarksTable";
+import { TableRowType } from "@/types/TableRow";
 
 type Props = {
   schoolId: string;
