@@ -32,7 +32,7 @@ export const TextGenerateEffect = ({
         },
       );
     }
-  }, [isInView]);
+  }, [isInView, animate, filter, duration]);
 
   const renderWords = () => {
     return (
