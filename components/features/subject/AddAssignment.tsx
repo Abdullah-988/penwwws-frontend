@@ -80,7 +80,6 @@ export default function AddAssignment({ schoolId, subjectId }: Props) {
 
   async function onSubmit(data: FormDataType) {
     const token = await getCookie("token");
-    console.log(form.getValues("deadline"));
 
     try {
       await axios.post(

@@ -109,8 +109,6 @@ export default function EditDocument({
     }
   }, [isModalOpen, document, form]);
 
-  console.log(form.getValues("topicId"));
-
   return (
     <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
       <DialogTrigger asChild>
