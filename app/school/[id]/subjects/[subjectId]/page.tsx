@@ -35,7 +35,7 @@ export default async function SubjectPage({
   const subjectId = (await params).subjectId;
   const subject: SubjectDetailType = await getSubject(schoolId, subjectId);
   const user = await getUser(schoolId);
-  const SUBJECT_TABS = getSubjectTabs(schoolId, subject, user);
+  const subjectTabs = getSubjectTabs(schoolId, subject, user);
   const activeTab = (await searchParams).tab || "documents";
 
   return (
@@ -45,7 +45,7 @@ export default async function SubjectPage({
         <SubjectPageHeader subject={subject} schoolId={schoolId} user={user} />
         <Tabs value={activeTab} className="mt-12 w-full">
           <TabsList className="bg-background flex h-10 w-full items-center justify-start gap-4 rounded-none border-b p-0">
-            {SUBJECT_TABS.map((tab) => (
+            {subjectTabs.map((tab) => (
               <TabsTrigger
                 className="data-[state=active]:border-b-foreground text-muted-foreground data-[state=active]:text-foreground w-20 flex-shrink-0 flex-grow-0 rounded-none border-b-2 border-transparent px-3 py-2 text-sm data-[state=active]:shadow-none"
                 key={tab.value}
@@ -60,7 +60,7 @@ export default async function SubjectPage({
           </TabsList>
 
           <div className="w-full">
-            {SUBJECT_TABS.map((tab) => (
+            {subjectTabs.map((tab) => (
               <TabsContent key={tab.value} value={tab.value}>
                 {tab.content}
               </TabsContent>
