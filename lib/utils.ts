@@ -8,11 +8,14 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 export function getInitials(name: string) {
-  return name
-    .split(" ")
-    .slice(0, 2)
-    .map((word) => word[0].toUpperCase())
-    .join("");
+  if (!name.trim()) return "";
+
+  const words = name.trim().toUpperCase().split(" ");
+  const firstInitial = words[0][0] || "";
+
+  const secondInitial = words.length > 1 ? words[1][0] || "" : "";
+
+  return firstInitial + secondInitial;
 }
 
 export function getRoleRedirectPath(role: RoleType): string {
@@ -51,6 +54,11 @@ export function formatGroups(groups: GroupType[]): GroupType[] {
   return rootGroups;
 }
 
+export function formatNumber(number: number) {
+  const formattedNumber = new Intl.NumberFormat().format(number);
+  return formattedNumber;
+}
+
 export function formatBytes(
   bytes: number,
   opts: {
@@ -76,7 +84,6 @@ export function absoluteUrl(path: string) {
 }
 
 /**
- * Stole this from the @radix-ui/primitive
  * @see https://github.com/radix-ui/primitives/blob/main/packages/core/primitive/src/primitive.tsx
  */
 export function composeEventHandlers<E>(
