@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { Button } from "@/components/ui/button";
+import { useRouter } from "next/navigation";
 import {
   Dialog,
   DialogContent,
@@ -28,15 +29,9 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { AxiosError } from "axios";
-import { useQueryClient } from "@tanstack/react-query";
 
 const addSubjectSchema = z.object({
-  name: z
-    .string()
-    .min(2, { message: "Name must be at least 2 characters." })
-    .regex(/^[A-Za-z0-9 ]+$/, {
-      message: "Only letters and numbers are allowed.",
-    }),
+  name: z.string().min(2, { message: "Name must be at least 2 characters." }),
 });
 
 type FormData = z.infer<typeof addSubjectSchema>;
@@ -46,8 +41,8 @@ type Props = {
 };
 
 export default function AddSubject({ schoolId }: Props) {
+  const router = useRouter();
   const { toast } = useToast();
-  const queryClient = useQueryClient();
   const form = useForm<FormData>({
     resolver: zodResolver(addSubjectSchema),
     defaultValues: {
@@ -60,16 +55,10 @@ export default function AddSubject({ schoolId }: Props) {
   async function onSubmit(data: FormData) {
     const token = await getCookie("token");
     try {
-      await axios.post(`/school/${schoolId}/subject`, data, {
+      const res = await axios.post(`/school/${schoolId}/subject`, data, {
         headers: { Authorization: token },
       });
-      queryClient.invalidateQueries({ queryKey: ["subjects"] });
-      setIsModalOpen(false);
-      form.reset();
-      toast({
-        title: "Subject Added",
-        description: `The subject ${data.name} has been added.`,
-      });
+      router.push(`/school/${schoolId}/subjects/${res.data.id}`);
     } catch (err) {
       const error = err as AxiosError;
       console.error("Error adding subject:", error.response?.data);

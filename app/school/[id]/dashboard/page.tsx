@@ -1,6 +1,6 @@
 import Stats from "@/components/features/dashboard/home/Stats";
 import InviteMember from "@/components/features/dashboard/home/InviteMember";
-import { MembersTable } from "@/components/features/dashboard/home/HomeMembersTable";
+import { HomeTable } from "@/components/features/dashboard/home/HomeTable";
 import { getMembers } from "@/fetches/member";
 import { MembershipRequest } from "@/components/features/dashboard/home/MembershipRequest";
 
@@ -22,7 +22,7 @@ export default async function Page({
           <InviteMember schoolId={schoolId} />
         </div>
       </div>
-      <MembersTable schoolId={schoolId} data={members} />
+      <HomeTable schoolId={schoolId} data={members} />
     </div>
   );
 }

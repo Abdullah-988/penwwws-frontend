@@ -10,7 +10,7 @@ import {
 import { AlignJustify, Users } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { GroupType } from "@/types/Group";
-import GroupMembersTable from "@/components/features/dashboard/groups/GroupMembersTable";
+import GroupTable from "@/components/features/dashboard/groups/GroupTable";
 import { MemberType } from "@/types/member";
 import { Button } from "@/components/ui/button";
 import { formatNumber } from "@/lib/utils";
@@ -45,7 +45,7 @@ export default function GroupDetails({ schoolId, group, data }: Props) {
           </DialogTitle>
         </DialogHeader>
         <div className="w-full overflow-scroll p-1">
-          <GroupMembersTable schoolId={schoolId} group={group} data={data} />
+          <GroupTable schoolId={schoolId} group={group} data={data} />
         </div>
       </DialogContent>
     </Dialog>

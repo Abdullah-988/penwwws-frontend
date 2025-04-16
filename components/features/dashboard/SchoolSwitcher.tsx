@@ -98,6 +98,7 @@ export function SchoolSwitcher({ activeSchoolId }: Props) {
             <DropdownMenuLabel className="text-muted-foreground text-xs">
               Schools
             </DropdownMenuLabel>
+
             {schools?.joined?.map(({ school }, index) => (
               <Link
                 key={school.id}
