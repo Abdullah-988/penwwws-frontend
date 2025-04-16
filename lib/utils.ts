@@ -8,13 +8,12 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 export function getInitials(name: string) {
-  if (!name) return "";
+  if (!name.trim()) return "";
 
-  const words = name.trim().split(" ");
-  const firstInitial = words[0][0]?.toUpperCase() || "";
+  const words = name.trim().toUpperCase().split(" ");
+  const firstInitial = words[0][0] || "";
 
-  const secondInitial =
-    words.length > 1 ? words[1][0]?.toUpperCase() || "" : "";
+  const secondInitial = words.length > 1 ? words[1][0] || "" : "";
 
   return firstInitial + secondInitial;
 }
@@ -85,10 +84,8 @@ export function absoluteUrl(path: string) {
 }
 
 /**
- * Stole this from the @radix-ui/primitive
  * @see https://github.com/radix-ui/primitives/blob/main/packages/core/primitive/src/primitive.tsx
  */
-
 export function composeEventHandlers<E>(
   originalEventHandler?: (event: E) => void,
   ourEventHandler?: (event: E) => void,

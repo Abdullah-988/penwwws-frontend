@@ -42,14 +42,14 @@ export function useUploadFile({
 
         let resource: string;
         if (file.type.startsWith("image/")) {
-          resource = "image/upload";
+          resource = "image";
         } else if (file.type.startsWith("video/")) {
-          resource = "video/upload";
+          resource = "video";
         } else {
-          resource = "raw/upload"; //
+          resource = "raw";
         }
         const res = await axios.post(
-          `https://api.cloudinary.com/v1_1/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/${resource}`,
+          `https://api.cloudinary.com/v1_1/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/${resource}/upload`,
           formData,
           {
             onUploadProgress: (event) => {

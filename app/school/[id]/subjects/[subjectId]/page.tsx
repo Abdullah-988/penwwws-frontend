@@ -1,4 +1,3 @@
-// app/school/[id]/subjects/[subjectId]/page.tsx
 import Navbar from "@/components/shared/Navbar";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { getCookie } from "cookies-next";

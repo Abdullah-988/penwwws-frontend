@@ -69,7 +69,7 @@ export default function StudentGradeTable({
               >
                 <div className="relative flex items-center">
                   <span
-                    className={clsx("text-[15px]", {
+                    className={clsx("text-base", {
                       "text-primary": row.count,
                     })}
                   >
@@ -97,7 +97,7 @@ export default function StudentGradeTable({
                 })}
               >
                 <span
-                  className={clsx("text-[15px]", {
+                  className={clsx("text-base", {
                     "text-primary font-semibold": row.count,
                   })}
                 >

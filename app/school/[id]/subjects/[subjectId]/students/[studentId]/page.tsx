@@ -108,7 +108,7 @@ export default async function StudentsMarkPage({
                     >
                       <div className="relative flex items-center">
                         <span
-                          className={clsx("text-[15px]", {
+                          className={clsx("text-base", {
                             "text-primary": row.count,
                           })}
                         >
@@ -122,7 +122,7 @@ export default async function StudentsMarkPage({
                       })}
                     >
                       <span
-                        className={clsx("flex items-center gap-2 text-[15px]", {
+                        className={clsx("flex items-center gap-2 text-base", {
                           "text-primary font-semibold": row.count,
                         })}
                       >
