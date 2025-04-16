@@ -66,7 +66,7 @@ export function SchoolSwitcher({ activeSchoolId }: Props) {
                 size="lg"
                 className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
               >
-                <Avatar className="size-8">
+                <Avatar>
                   <AvatarFallback>
                     {getInitials(activeSchool.school.name)}
                   </AvatarFallback>

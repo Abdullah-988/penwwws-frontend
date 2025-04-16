@@ -45,7 +45,6 @@ export default async function SettingsPage({
               width={50}
               height={50}
               alt="school-logo"
-              className="h-20 w-20"
             />
           ) : (
             <School className="text-primary size-10" />
