@@ -15,5 +15,9 @@ beforeEach(() => {
 test("Page", () => {
   render(<Page />);
 
-  expect(screen.getByText("Penwwws")).toBeDefined();
+  expect(
+    screen.getByText(
+      "An all-in-one platform to manage students, staff, classes, and school operations—built to make administration simple and efficient.",
+    ),
+  ).toBeDefined();
 });
