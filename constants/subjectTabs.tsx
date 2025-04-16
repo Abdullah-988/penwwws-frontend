@@ -1,4 +1,5 @@
 import AddSubjectMembersModal from "@/components/features/subject/AddSubjectMembersModal";
+import AttendanceTabContent from "@/components/features/subject/AttendanceTabContent";
 import AssignmentTabContent from "@/components/features/subject/AssignmentTabContent";
 import DocumentsTab from "@/components/features/subject/DocumentsTab";
 import GradesTabContent from "@/components/features/subject/GradesTabContent";
@@ -45,11 +46,20 @@ export function getSubjectTabs(
   ];
 
   if (user.role !== "STUDENT") {
-    SUBJECT_TABS.push({
-      value: "marks",
-      label: "Marks",
-      content: <MarksTabContent schoolId={schoolId} subjectId={subject.id} />,
-    });
+    SUBJECT_TABS.push(
+      {
+        value: "marks",
+        label: "Marks",
+        content: <MarksTabContent schoolId={schoolId} subjectId={subject.id} />,
+      },
+      {
+        value: "attendance",
+        label: "Attendance",
+        content: (
+          <AttendanceTabContent schoolId={schoolId} subjectId={subject.id} />
+        ),
+      },
+    );
   } else {
     SUBJECT_TABS.push({
       value: "grades",
