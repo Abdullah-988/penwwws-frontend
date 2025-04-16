@@ -36,6 +36,7 @@ export function SchoolSwitcher({ activeSchoolId }: Props) {
   const activeSchool = schools?.joined?.find(
     ({ school }) => school.id === activeSchoolId,
   );
+
   if (isLoading) {
     return (
       <SidebarMenu>
@@ -66,7 +67,7 @@ export function SchoolSwitcher({ activeSchoolId }: Props) {
                 className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
               >
                 <Avatar className="size-8">
-                  <AvatarFallback className="bg-primary">
+                  <AvatarFallback>
                     {getInitials(activeSchool.school.name)}
                   </AvatarFallback>
                   <AvatarImage

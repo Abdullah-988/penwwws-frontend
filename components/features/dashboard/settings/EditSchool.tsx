@@ -55,13 +55,15 @@ export default function EditSchool({ school }: Props) {
   async function onSubmit(data: FormData) {
     try {
       const token = await getCookie("token");
+
       await axios.put(`/school/${school.id}`, data, {
         headers: { Authorization: token },
       });
       await queryClient.invalidateQueries({
         queryKey: ["schools"],
+        type: "active",
       });
-
+      router.refresh();
       setUploadedFiles([]);
       toast({
         title: "School updated",
@@ -237,6 +239,7 @@ export default function EditSchool({ school }: Props) {
               className="rounded-full"
               disabled={
                 form.formState.isSubmitting ||
+                isUploading ||
                 (!form.formState.isDirty && uploadedFiles.length === 0)
               }
             >

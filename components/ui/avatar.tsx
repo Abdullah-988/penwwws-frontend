@@ -12,7 +12,7 @@ function Avatar({
   return (
     <AvatarPrimitive.Root
       className={cn(
-        "bg-primary text-accent relative flex size-10 shrink-0 overflow-hidden rounded-lg",
+        "text-accent relative flex size-10 shrink-0 overflow-hidden rounded-lg",
         className,
       )}
       {...props}
