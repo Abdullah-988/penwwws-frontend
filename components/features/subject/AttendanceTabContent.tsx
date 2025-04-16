@@ -9,6 +9,7 @@ type Props = {
   schoolId: string;
   subjectId: number;
 };
+
 async function getSessions(schoolId: string, subjectId: number) {
   const token = await getCookie("token", { cookies });
   const res = await axios.get(
@@ -27,7 +28,7 @@ export default async function AttendanceTabContent({
   return (
     <div>
       <div className="mt-5 flex w-full items-center justify-between">
-        <h1 className="text-3xl font-bold">Assignments</h1>
+        <h1 className="text-3xl font-bold">Sessions</h1>
         <AddSession schoolId={schoolId} subjectId={subjectId} />
       </div>
       <SessionsList
