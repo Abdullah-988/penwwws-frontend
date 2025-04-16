@@ -5,7 +5,7 @@ import clsx from "clsx";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
-export default function Navbar() {
+export default function LandingPageNavbar() {
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {

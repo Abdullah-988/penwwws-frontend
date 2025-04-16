@@ -2,7 +2,7 @@ import { FlipWords } from "@/components/ui/flip-words";
 import { TextGenerateEffect } from "@/components/ui/text-generate-effect";
 import Image from "next/image";
 import Link from "next/link";
-import Navbar from "@/components/shared/Navbar";
+import LandingPageNavbar from "@/components/shared/LandingPageNavbar";
 import { BentoCard, BentoGrid } from "@/components/magicui/bento-grid";
 import {
   CircuitBoard,
@@ -19,13 +19,13 @@ import { cn } from "@/lib/utils";
 import Iphone15Pro from "@/components/magicui/iphone-15-pro";
 import { AnimatedList } from "@/components/magicui/animated-list";
 
-interface Item {
+type Item = {
   name: string;
   description: string;
   icon: string | React.ReactNode;
   color: string;
   time: string;
-}
+};
 
 export default function Home() {
   const files = [
@@ -119,7 +119,7 @@ export default function Home() {
 
   return (
     <>
-      <Navbar />
+      <LandingPageNavbar />
       <section className="from-primary-950 via-primary-500 bg-gradient-to-b from-10% via-50% to-transparent to-80% px-8 pt-48 md:px-16 lg:px-32">
         <h1
           data-testid="hero"
