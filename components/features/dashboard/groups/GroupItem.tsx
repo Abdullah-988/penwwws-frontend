@@ -33,7 +33,7 @@ export default function GroupItem({ group, data, schoolId, groups }: Props) {
                 {group.name}
               </div>
             </AccordionTrigger>
-            <div className="ml-auto flex items-center gap-2 opacity-0 group-hover:opacity-100">
+            <div className="ml-auto flex items-center gap-2 lg:opacity-0 lg:group-hover:opacity-100">
               <>
                 {" "}
                 <DeleteGroup schoolId={schoolId} group={group} />
@@ -62,7 +62,7 @@ export default function GroupItem({ group, data, schoolId, groups }: Props) {
             <Users className="text-primary size-4" />
             {group.name}
           </div>
-          <div className="flex items-center gap-2 opacity-0 group-hover:opacity-100">
+          <div className="flex items-center gap-2 lg:opacity-0 lg:group-hover:opacity-100">
             <DeleteGroup schoolId={schoolId} group={group} />
             <EditGroup schoolId={schoolId} group={group} groups={groups} />
             <GroupDetails schoolId={schoolId} data={data} group={group} />

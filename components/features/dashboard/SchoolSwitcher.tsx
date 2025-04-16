@@ -30,13 +30,13 @@ export function SchoolSwitcher({ activeSchoolId }: Props) {
   const { data: schools, isLoading } = useQuery<SchoolsType>({
     queryKey: ["schools"],
     queryFn: getSchools,
-    refetchInterval: false,
   });
   const { isMobile } = useSidebar();
 
   const activeSchool = schools?.joined?.find(
     ({ school }) => school.id === activeSchoolId,
   );
+
   if (isLoading) {
     return (
       <SidebarMenu>
@@ -66,8 +66,8 @@ export function SchoolSwitcher({ activeSchoolId }: Props) {
                 size="lg"
                 className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
               >
-                <Avatar className="size-8">
-                  <AvatarFallback className="bg-primary">
+                <Avatar>
+                  <AvatarFallback>
                     {getInitials(activeSchool.school.name)}
                   </AvatarFallback>
                   <AvatarImage
@@ -98,6 +98,7 @@ export function SchoolSwitcher({ activeSchoolId }: Props) {
             <DropdownMenuLabel className="text-muted-foreground text-xs">
               Schools
             </DropdownMenuLabel>
+
             {schools?.joined?.map(({ school }, index) => (
               <Link
                 key={school.id}

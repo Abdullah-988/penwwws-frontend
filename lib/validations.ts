@@ -43,3 +43,24 @@ export const groupSchema = z.object({
 });
 
 export type GroupFormData = z.infer<typeof groupSchema>;
+
+export const editSchoolSchema = z.object({
+  name: z.string().nonempty("School name can not be empty"),
+  description: z.string().max(200, "Too long").optional(),
+  logoUrl: z.string().optional(),
+});
+
+export const subjectSchema = z.object({
+  name: z.string().nonempty("Subject name can not be empty"),
+  imageUrl: z.string().nullable().optional(),
+});
+
+export type SubjectFormData = z.infer<typeof subjectSchema>;
+
+export const marksTableSchema = z.object({
+  name: z.string().min(2, { message: "Name must be at least 2 characters." }),
+  max: z.coerce.number().positive("Please Provide a positive number"),
+  count: z.boolean(),
+});
+
+export type MarksTableFormData = z.infer<typeof marksTableSchema>;
