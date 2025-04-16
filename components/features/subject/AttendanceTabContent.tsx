@@ -1,7 +1,6 @@
 import { getCookie } from "cookies-next";
 import { cookies } from "next/headers";
 import axios from "@/lib/axiosInstance";
-import { SchoolUserType } from "@/types/SchoolUser";
 import AddSession from "@/components/features/subject/AddSession";
 import SessionsList from "@/components/features/subject/SessionsList";
 import { SessionType } from "@/types/session";
@@ -9,7 +8,6 @@ import { SessionType } from "@/types/session";
 type Props = {
   schoolId: string;
   subjectId: number;
-  user: SchoolUserType;
 };
 async function getSessions(schoolId: string, subjectId: number) {
   const token = await getCookie("token", { cookies });
