@@ -44,7 +44,7 @@ export default async function SettingsPage({
               src={school.logoUrl}
               width={50}
               height={50}
-              alt="school-logo"
+              alt={`${school.name} Logo`}
             />
           ) : (
             <School className="text-primary size-10" />
