@@ -1,6 +1,6 @@
 import AddSubjectMembersModal from "@/components/features/subject/AddSubjectMembersModal";
-import AttendanceTabContent from "@/components/features/subject/AttendanceTabContent";
 import AssignmentTabContent from "@/components/features/subject/AssignmentTabContent";
+import AttendanceTabContent from "@/components/features/subject/AttendanceTabContent";
 import DocumentsTab from "@/components/features/subject/DocumentsTab";
 import GradesTabContent from "@/components/features/subject/GradesTabContent";
 import MarksTabContent from "@/components/features/subject/MarksTabContent";
@@ -21,6 +21,7 @@ export function getSubjectTabs(
         <DocumentsTab schoolId={schoolId} subject={subject} user={user} />
       ),
     },
+
     {
       value: "students",
       label: "Students",
@@ -43,23 +44,25 @@ export function getSubjectTabs(
         />
       ),
     },
+    {
+      value: "attendance",
+      label: "Attendance",
+      content: (
+        <AttendanceTabContent
+          schoolId={schoolId}
+          subjectId={subject.id}
+          user={user}
+        />
+      ),
+    },
   ];
 
   if (user.role !== "STUDENT") {
-    SUBJECT_TABS.push(
-      {
-        value: "marks",
-        label: "Marks",
-        content: <MarksTabContent schoolId={schoolId} subjectId={subject.id} />,
-      },
-      {
-        value: "attendance",
-        label: "Attendance",
-        content: (
-          <AttendanceTabContent schoolId={schoolId} subjectId={subject.id} />
-        ),
-      },
-    );
+    SUBJECT_TABS.push({
+      value: "marks",
+      label: "Marks",
+      content: <MarksTabContent schoolId={schoolId} subjectId={subject.id} />,
+    });
   } else {
     SUBJECT_TABS.push({
       value: "grades",

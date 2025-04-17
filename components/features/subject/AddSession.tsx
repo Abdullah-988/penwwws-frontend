@@ -29,9 +29,11 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { AxiosError } from "axios";
+import { DateTimePicker } from "@/components/shared/DateTimePicker";
 
 const addSessionSchema = z.object({
   name: z.string().min(2, { message: "Name must be at least 2 characters." }),
+  expireDate: z.string().min(1, { message: "Expiration date is required" }),
 });
 
 type FormData = z.infer<typeof addSessionSchema>;
@@ -44,10 +46,13 @@ type Props = {
 export default function AddSession({ schoolId, subjectId }: Props) {
   const router = useRouter();
   const { toast } = useToast();
+
+  const [date, setDate] = useState<Date | undefined>(undefined);
   const form = useForm<FormData>({
     resolver: zodResolver(addSessionSchema),
     defaultValues: {
       name: "",
+      expireDate: undefined,
     },
   });
 
@@ -58,7 +63,7 @@ export default function AddSession({ schoolId, subjectId }: Props) {
     try {
       await axios.post(
         `/school/${schoolId}/subject/${subjectId}/session`,
-        data,
+        { ...data, expireDate: data.expireDate },
         {
           headers: { Authorization: token },
         },
@@ -103,9 +108,8 @@ export default function AddSession({ schoolId, subjectId }: Props) {
               control={form.control}
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="text-muted-foreground">
-                    Session Name
-                  </FormLabel>
+                  <FormLabel>Session Name</FormLabel>
+                  <FormMessage />
                   <FormControl>
                     <Input
                       type="text"
@@ -113,13 +117,29 @@ export default function AddSession({ schoolId, subjectId }: Props) {
                       {...field}
                     />
                   </FormControl>
+                </FormItem>
+              )}
+            />
+            <FormField
+              name="expireDate"
+              control={form.control}
+              render={() => (
+                <FormItem>
+                  <FormLabel>Expire date</FormLabel>
                   <FormMessage />
+                  <FormControl>
+                    <DateTimePicker value={date} onChange={setDate} />
+                  </FormControl>
                 </FormItem>
               )}
             />
 
             <DialogFooter>
-              <Button disabled={form.formState.isSubmitting} type="submit">
+              <Button
+                disabled={form.formState.isSubmitting}
+                type="submit"
+                size="sm"
+              >
                 {form.formState.isSubmitting ? (
                   <SpinnerIcon />
                 ) : (
