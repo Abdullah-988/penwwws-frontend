@@ -3,7 +3,7 @@
 import Link from "next/link";
 import clsx from "clsx";
 import { usePathname } from "next/navigation";
-import { Home, Settings, LibraryBig, Users } from "lucide-react";
+import { Home, Settings, LibraryBig, Users, ClipboardList } from "lucide-react";
 
 import { SchoolSwitcher } from "@/components/features/dashboard/SchoolSwitcher";
 import { NavUser } from "@/components/features/dashboard/NavUser";
@@ -29,6 +29,7 @@ const tabs = [
   },
   { title: "Subjects", url: "dashboard/subjects", icon: LibraryBig },
   { title: "Groups", url: "dashboard/groups", icon: Users },
+  { title: "Attendance", url: "dashboard/attendance", icon: ClipboardList },
   { title: "Settings", url: "dashboard/settings", icon: Settings },
 ];
 

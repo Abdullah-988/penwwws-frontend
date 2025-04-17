@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
@@ -29,24 +29,30 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { AxiosError } from "axios";
+import { DateTimePicker } from "@/components/shared/DateTimePicker";
 
-const addSubjectSchema = z.object({
+const addSessionSchema = z.object({
   name: z.string().min(2, { message: "Name must be at least 2 characters." }),
+  expireDate: z.string(),
 });
 
-type FormData = z.infer<typeof addSubjectSchema>;
+type FormData = z.infer<typeof addSessionSchema>;
 
 type Props = {
   schoolId: string;
+  subjectId: number;
 };
 
-export default function AddSubject({ schoolId }: Props) {
+export default function AddSession({ schoolId, subjectId }: Props) {
   const router = useRouter();
   const { toast } = useToast();
+
+  const [date, setDate] = useState<Date | undefined>(undefined);
   const form = useForm<FormData>({
-    resolver: zodResolver(addSubjectSchema),
+    resolver: zodResolver(addSessionSchema),
     defaultValues: {
       name: "",
+      expireDate: undefined,
     },
   });
 
@@ -55,15 +61,20 @@ export default function AddSubject({ schoolId }: Props) {
   async function onSubmit(data: FormData) {
     const token = await getCookie("token");
     try {
-      const res = await axios.post(`/school/${schoolId}/subject`, data, {
-        headers: { Authorization: token },
-      });
-      router.push(`/school/${schoolId}/subjects/${res.data.id}`);
+      await axios.post(
+        `/school/${schoolId}/subject/${subjectId}/session`,
+        { ...data, expireDate: data.expireDate },
+        {
+          headers: { Authorization: token },
+        },
+      );
+      setIsModalOpen(false);
+      router.refresh();
     } catch (err) {
       const error = err as AxiosError;
-      console.error("Error adding subject:", error.response?.data);
+      console.error("Error adding session:", error.response?.data);
       toast({
-        title: "Subject Add Failed",
+        title: "Session Creation Failed",
         description:
           (error.response?.data as string) || "An unexpected error occurred.",
         variant: "destructive",
@@ -71,19 +82,25 @@ export default function AddSubject({ schoolId }: Props) {
     }
   }
 
+  useEffect(() => {
+    if (isModalOpen) {
+      form.reset();
+    }
+  }, [isModalOpen, form]);
+
   return (
     <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
       <DialogTrigger asChild>
-        <Button size="sm" className="px-4 text-sm">
+        <Button size="sm">
           <Plus size={10} />
-          New Subject
+          New Session
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <Form {...form}>
           <form className="space-y-4" onSubmit={form.handleSubmit(onSubmit)}>
             <DialogHeader>
-              <DialogTitle>Add subject</DialogTitle>
+              <DialogTitle>Create Session</DialogTitle>
             </DialogHeader>
 
             <FormField
@@ -91,24 +108,52 @@ export default function AddSubject({ schoolId }: Props) {
               control={form.control}
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="text-muted-foreground">
-                    Subject Name
-                  </FormLabel>
+                  <FormLabel>Session Name</FormLabel>
+                  <FormMessage />
                   <FormControl>
                     <Input
                       type="text"
-                      placeholder="e.g., Mathematics, Science, History"
+                      placeholder="e.g.,Lecture 1, Lab Session, Workshop"
                       {...field}
                     />
                   </FormControl>
+                </FormItem>
+              )}
+            />
+            <FormField
+              name="expireDate"
+              control={form.control}
+              render={() => (
+                <FormItem>
+                  <FormLabel>Expire date</FormLabel>
                   <FormMessage />
+                  <FormControl>
+                    <DateTimePicker
+                      value={date}
+                      onChange={(newDate) => {
+                        setDate(newDate);
+                        form.setValue(
+                          "expireDate",
+                          newDate?.toISOString() || "",
+                        );
+                      }}
+                    />
+                  </FormControl>
                 </FormItem>
               )}
             />
 
             <DialogFooter>
-              <Button disabled={form.formState.isSubmitting} type="submit">
-                {form.formState.isSubmitting ? <SpinnerIcon /> : "Add Subject"}
+              <Button
+                disabled={form.formState.isSubmitting}
+                type="submit"
+                size="sm"
+              >
+                {form.formState.isSubmitting ? (
+                  <SpinnerIcon />
+                ) : (
+                  "Create Session"
+                )}
               </Button>
             </DialogFooter>
           </form>

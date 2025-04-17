@@ -229,14 +229,12 @@ export default function EditSchool({ school }: Props) {
                 form.reset();
                 router.refresh();
               }}
-              className="rounded-full"
             >
               Cancel
             </Button>
 
             <Button
               size="sm"
-              className="rounded-full"
               disabled={
                 form.formState.isSubmitting ||
                 isUploading ||

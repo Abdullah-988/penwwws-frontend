@@ -99,7 +99,7 @@ export default function CreateSchool({ setSchoolAction }: Props) {
 
           <Button
             disabled={form.formState.isSubmitting}
-            className="w-full rounded-full font-bold disabled:cursor-not-allowed"
+            className="w-full disabled:cursor-not-allowed"
           >
             {form.formState.isSubmitting && (
               <SpinnerIcon className="animate-spin" size={25} />
@@ -113,7 +113,7 @@ export default function CreateSchool({ setSchoolAction }: Props) {
         onClick={() => setSchoolAction("select")}
         className="text-primary flex w-fit items-center gap-2"
       >
-        <ArrowLeft className="bg-secondary h-8 w-14 rounded-xl p-2" size={20} />
+        <ArrowLeft className="bg-secondary h-8 w-14 rounded-md p-2" size={20} />
         View your Schools
       </button>
     </section>

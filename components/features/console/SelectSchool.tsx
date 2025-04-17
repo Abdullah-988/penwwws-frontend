@@ -102,7 +102,7 @@ export default function SelectSchool({ setSchoolAction }: Props) {
 
             <Link
               href={`/school/${school.id}/${getRoleRedirectPath(school.members[0].role)}`}
-              className="bg-primary text-accent rounded-full px-4 py-1 text-sm font-semibold"
+              className="bg-primary text-accent rounded-md px-4 py-1 text-sm font-semibold"
             >
               Select
             </Link>
@@ -110,7 +110,7 @@ export default function SelectSchool({ setSchoolAction }: Props) {
         ))}
       </div>
 
-      <div className="max-h-[50vh] gap-8 overflow-scroll rounded-xl bg-amber-800/5 px-6">
+      <div className="max-h-[50vh] gap-8 overflow-scroll rounded-md bg-amber-800/5 px-6">
         {schools.pending.map(({ school }) => (
           <div
             key={school.id}
@@ -144,7 +144,7 @@ export default function SelectSchool({ setSchoolAction }: Props) {
         onClick={() => setSchoolAction("create")}
         className="text-primary flex w-fit items-center gap-2"
       >
-        <Plus className="bg-secondary h-8 w-14 rounded-xl p-2" size={20} />
+        <Plus className="bg-secondary h-8 w-14 rounded-md p-2" size={20} />
         Create new school
       </button>
 
