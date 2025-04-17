@@ -23,7 +23,7 @@ export function getRoleRedirectPath(role: RoleType): string {
     SUPER_ADMIN: "dashboard",
     ADMIN: "dashboard",
     STUDENT: "home",
-    TEACHER: "teacher/dashboard",
+    TEACHER: "home",
   };
   return roleRedirectMap[role];
 }
