@@ -5,8 +5,8 @@ import { FileText } from "lucide-react";
 import Link from "next/link";
 import { format } from "date-fns";
 import { Badge } from "@/components/ui/badge";
-import SubmitSubmission from "./SubmitSubmission";
-import DeleteSubmission from "./DeleteSubmission";
+import SubmitSubmission from "@/components/features/subject/SubmitSubmission";
+import DeleteSubmission from "@/components/features/subject/DeleteSubmission";
 import clsx from "clsx";
 
 type Props = {
