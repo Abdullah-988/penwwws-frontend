@@ -74,7 +74,7 @@ export default function AddSubject({ schoolId }: Props) {
   return (
     <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
       <DialogTrigger asChild>
-        <Button size="sm" className="rounded-full px-4 text-sm font-semibold">
+        <Button size="sm" className="px-4 text-sm">
           <Plus size={10} />
           New Subject
         </Button>
@@ -107,11 +107,7 @@ export default function AddSubject({ schoolId }: Props) {
             />
 
             <DialogFooter>
-              <Button
-                disabled={form.formState.isSubmitting}
-                type="submit"
-                className="rounded-full font-semibold"
-              >
+              <Button disabled={form.formState.isSubmitting} type="submit">
                 {form.formState.isSubmitting ? <SpinnerIcon /> : "Add Subject"}
               </Button>
             </DialogFooter>

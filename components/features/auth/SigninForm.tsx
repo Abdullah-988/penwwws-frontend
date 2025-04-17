@@ -117,7 +117,7 @@ export default function SigninForm() {
             !!form.formState.errors.email ||
             !!form.formState.errors.password
           }
-          className="mt-5 w-full rounded-full disabled:cursor-not-allowed"
+          className="mt-5 w-full disabled:cursor-not-allowed"
         >
           {form.formState.isSubmitting && (
             <SpinnerIcon className="animate-spin" size={25} />

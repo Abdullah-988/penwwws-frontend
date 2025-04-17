@@ -114,7 +114,7 @@ export function ResetPassword() {
               <Button
                 type="submit"
                 onClick={form.handleSubmit(handleSendResetLinkRequest)}
-                className="w-full rounded-full"
+                className="w-full"
               >
                 {form.formState.isSubmitting ? (
                   <SpinnerIcon size={25} className="animate-spin" />
