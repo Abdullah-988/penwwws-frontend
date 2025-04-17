@@ -13,8 +13,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
-import { LoaderCircle as SpinnerIcon } from "lucide-react";
-import { Plus } from "lucide-react";
+import { LoaderCircle as SpinnerIcon, Pencil } from "lucide-react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -30,39 +29,54 @@ import {
 } from "@/components/ui/form";
 import { AxiosError } from "axios";
 import { DateTimePicker } from "@/components/shared/DateTimePicker";
+import { SessionType } from "@/types/session";
 
-const addSessionSchema = z.object({
+const editSessionSchema = z.object({
   name: z.string().min(2, { message: "Name must be at least 2 characters." }),
-  expireDate: z.string(),
+  expireDate: z.string().min(1, { message: "Expiration date is required" }),
 });
 
-type FormData = z.infer<typeof addSessionSchema>;
+type FormData = z.infer<typeof editSessionSchema>;
 
 type Props = {
   schoolId: string;
   subjectId: number;
+  session: SessionType;
 };
 
-export default function AddSession({ schoolId, subjectId }: Props) {
+export default function EditSession({ schoolId, subjectId, session }: Props) {
   const router = useRouter();
   const { toast } = useToast();
+  const [date, setDate] = useState<Date | undefined>(
+    session.expirationDate ? new Date(session.expirationDate) : undefined,
+  );
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const [date, setDate] = useState<Date | undefined>(undefined);
   const form = useForm<FormData>({
-    resolver: zodResolver(addSessionSchema),
+    resolver: zodResolver(editSessionSchema),
     defaultValues: {
-      name: "",
-      expireDate: undefined,
+      name: session.name,
+      expireDate: session.expirationDate,
     },
   });
 
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  useEffect(() => {
+    if (isModalOpen) {
+      form.reset({
+        name: session.name,
+        expireDate: session.expirationDate,
+      });
+      setDate(
+        session.expirationDate ? new Date(session.expirationDate) : undefined,
+      );
+    }
+  }, [isModalOpen, form, session]);
 
   async function onSubmit(data: FormData) {
     const token = await getCookie("token");
     try {
-      await axios.post(
-        `/school/${schoolId}/subject/${subjectId}/session`,
+      await axios.put(
+        `/school/${schoolId}/subject/${subjectId}/session/${session.id}`,
         { ...data, expireDate: data.expireDate },
         {
           headers: { Authorization: token },
@@ -70,11 +84,15 @@ export default function AddSession({ schoolId, subjectId }: Props) {
       );
       setIsModalOpen(false);
       router.refresh();
+      toast({
+        title: "Success",
+        description: "Session updated successfully",
+      });
     } catch (err) {
       const error = err as AxiosError;
-      console.error("Error adding session:", error.response?.data);
+      console.error("Error updating session:", error.response?.data);
       toast({
-        title: "Session Creation Failed",
+        title: "Update Failed",
         description:
           (error.response?.data as string) || "An unexpected error occurred.",
         variant: "destructive",
@@ -82,25 +100,18 @@ export default function AddSession({ schoolId, subjectId }: Props) {
     }
   }
 
-  useEffect(() => {
-    if (isModalOpen) {
-      form.reset();
-    }
-  }, [isModalOpen, form]);
-
   return (
     <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
       <DialogTrigger asChild>
-        <Button size="sm">
-          <Plus size={10} />
-          New Session
+        <Button variant="ghost" size="sm">
+          <Pencil className="h-4 w-4" />
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <Form {...form}>
           <form className="space-y-4" onSubmit={form.handleSubmit(onSubmit)}>
             <DialogHeader>
-              <DialogTitle>Create Session</DialogTitle>
+              <DialogTitle>Edit Session</DialogTitle>
             </DialogHeader>
 
             <FormField
@@ -111,24 +122,22 @@ export default function AddSession({ schoolId, subjectId }: Props) {
                   <FormLabel>Session Name</FormLabel>
                   <FormMessage />
                   <FormControl>
-                    <Input
-                      type="text"
-                      placeholder="e.g.,Lecture 1, Lab Session, Workshop"
-                      {...field}
-                    />
+                    <Input type="text" placeholder="Session name" {...field} />
                   </FormControl>
                 </FormItem>
               )}
             />
+
             <FormField
               name="expireDate"
               control={form.control}
-              render={() => (
+              render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Expire date</FormLabel>
+                  <FormLabel>Expiration Date</FormLabel>
                   <FormMessage />
                   <FormControl>
                     <DateTimePicker
+                      {...field}
                       value={date}
                       onChange={(newDate) => {
                         setDate(newDate);
@@ -150,9 +159,9 @@ export default function AddSession({ schoolId, subjectId }: Props) {
                 size="sm"
               >
                 {form.formState.isSubmitting ? (
-                  <SpinnerIcon />
+                  <SpinnerIcon className="animate-spin" />
                 ) : (
-                  "Create Session"
+                  "Update Session"
                 )}
               </Button>
             </DialogFooter>

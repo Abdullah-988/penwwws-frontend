@@ -3,6 +3,8 @@ import DeleteSession from "@/components/features/subject/DeleteSession";
 import AttendanceDetail from "@/components/features/subject/AttendanceDetail";
 import { SchoolUserType } from "@/types/SchoolUser";
 import { Badge } from "@/components/ui/badge";
+import EditSession from "./EditSession";
+import { format } from "date-fns";
 
 type Props = {
   schoolId: string;
@@ -24,7 +26,13 @@ export default function SessionsList({
           key={session.id}
           className="relative flex flex-col justify-start gap-8 rounded-md border p-4"
         >
-          <h1 className="text-md font-bold">{session.name}</h1>
+          <div className="space-y-2">
+            <h1 className="text-md font-bold">{session.name}</h1>
+            <span className="text-muted-foreground text-sm">
+              Expire date:{" "}
+              {format(new Date(session.expirationDate), "MMM dd, yyyy HH:mm")}
+            </span>
+          </div>
           {user.role === "STUDENT" ? (
             session.attended ? (
               <Badge className="absolute top-4 right-4">Attended</Badge>
@@ -35,11 +43,19 @@ export default function SessionsList({
             )
           ) : (
             <>
-              <DeleteSession
-                schoolId={schoolId}
-                subjectId={subjectId}
-                session={session}
-              />
+              <div className="absolute top-4 right-4 flex items-center gap-2">
+                <EditSession
+                  schoolId={schoolId}
+                  subjectId={subjectId}
+                  session={session}
+                />
+                <DeleteSession
+                  schoolId={schoolId}
+                  subjectId={subjectId}
+                  session={session}
+                />
+              </div>
+
               <AttendanceDetail
                 schoolId={schoolId}
                 subjectId={subjectId}

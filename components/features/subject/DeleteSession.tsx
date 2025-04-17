@@ -66,7 +66,7 @@ export default function DeleteSession({ schoolId, subjectId, session }: Props) {
       <DialogTrigger asChild>
         <Button
           size="sm"
-          className="bg-destructive/10 text-destructive hover:bg-destructive/15 absolute top-4 right-4"
+          className="bg-destructive/10 text-destructive hover:bg-destructive/15"
         >
           <Trash2 size={20} />
         </Button>

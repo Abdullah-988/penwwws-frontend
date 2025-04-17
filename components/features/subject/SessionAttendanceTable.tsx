@@ -195,7 +195,7 @@ export default function SessionAttendersTable({
   }, [table]);
 
   return (
-    <div className="w-full overflow-auto">
+    <div className="w-full overflow-auto p-1">
       <div className="flex items-center gap-4 py-4">
         <TableSearch
           globalFilter={globalFilter}
