@@ -91,7 +91,7 @@ export default function AddGroup({ schoolId, groups }: Props) {
   return (
     <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
       <DialogTrigger asChild>
-        <Button size="sm" className="rounded-full px-4 text-sm font-semibold">
+        <Button size="sm" className="px-4 text-sm">
           <Plus size={10} />
           New Group
         </Button>
@@ -128,7 +128,7 @@ export default function AddGroup({ schoolId, groups }: Props) {
               disabled={form.formState.isSubmitting}
               type="submit"
               size="sm"
-              className="w-full rounded-full font-semibold"
+              className="w-full"
             >
               {form.formState.isSubmitting ? (
                 <SpinnerIcon className="animate-spin" />

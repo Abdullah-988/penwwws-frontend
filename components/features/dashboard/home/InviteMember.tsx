@@ -77,7 +77,7 @@ export default function GenerateInvitationLink({ schoolId }: Props) {
   return (
     <Dialog onOpenChange={() => form.reset()}>
       <DialogTrigger asChild>
-        <Button size="sm" className="rounded-full px-4 text-sm font-semibold">
+        <Button size="sm" className="px-4 text-sm">
           <Plus size={10} />
           Invite Member
         </Button>
