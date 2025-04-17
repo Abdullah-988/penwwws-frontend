@@ -34,12 +34,9 @@ export default function DeleteCredential({ schoolId, credential }: Props) {
     mutationKey: ["credential", credential.id],
     mutationFn: async () => {
       const token = await getCookie("token");
-      await axios.delete(
-        `/school/${schoolId}/device/${credential.id}`,
-        {
-          headers: { Authorization: token },
-        },
-      );
+      await axios.delete(`/school/${schoolId}/device/${credential.id}`, {
+        headers: { Authorization: token },
+      });
     },
     onSuccess: () => {
       router.refresh();
