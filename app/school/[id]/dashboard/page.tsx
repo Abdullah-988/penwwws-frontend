@@ -13,11 +13,11 @@ export default async function Page({
   const members = await getMembers(schoolId);
 
   return (
-    <div className="w-screen px-6 sm:w-auto">
+    <div className="w-screen px-6 pb-20 sm:w-auto">
       <Stats schoolId={schoolId} />
-      <div className="flex w-full items-center justify-between pt-6">
+      <div className="flex w-full flex-col justify-between pt-6 sm:flex-row sm:items-center">
         <h1 className="text-primary text-xl font-bold">Members</h1>
-        <div className="flex items-center gap-3">
+        <div className="flex flex-row items-center gap-3">
           <MembershipRequest schoolId={schoolId} />
           <InviteMember schoolId={schoolId} />
         </div>

@@ -58,7 +58,7 @@ export default function Footer() {
         </div>
       </div>
       <div className="mt-16 border-t border-white/20 py-4 text-white/80">
-        <p>@ 2025 Penwwws. All rights reserved.</p>
+        <p>&copy; 2025 Penwwws. All rights reserved.</p>
       </div>
     </footer>
   );

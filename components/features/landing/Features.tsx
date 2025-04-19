@@ -198,7 +198,7 @@ export default function Features() {
               <>
                 <AnimatedList
                   delay={1500}
-                  className="absolute right-2 h-[300px] w-full scale-75 border-none transition-all duration-300 ease-out [mask-image:linear-gradient(to_top,transparent_10%,#000_100%)] group-hover:scale-90"
+                  className="absolute right-2 h-[300px] w-full scale-75 border-none transition-all duration-300 ease-out [mask-image:linear-gradient(to_top,transparent_40%,#000_100%)] group-hover:scale-90"
                 >
                   {notifications.map((item, idx) => (
                     <Notification {...item} key={idx} />
@@ -213,8 +213,8 @@ export default function Features() {
             name="Assignment Management"
             description="Create and manage assignments with ease."
             background={
-              <div className="absolute h-full w-full duration-200 [mask-image:linear-gradient(to_top,transparent_0%,#000_100%)] hover:scale-110">
-                <div className="absolute -bottom-10 w-full">
+              <div className="absolute h-full w-full duration-200 [mask-image:linear-gradient(to_top,transparent_15%,#000_100%)] hover:scale-110">
+                <div className="absolute -bottom-14 w-full">
                   <AnimatedBeamMultipleOutputDemo />
                 </div>
               </div>

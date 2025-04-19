@@ -137,6 +137,9 @@ export default function AssignGroup({
               }
             />
           ))}
+        {groups?.length === 0 && (
+          <span className="text-muted-foreground px-2 text-sm">No groups</span>
+        )}
       </DropdownMenuContent>
     </DropdownMenu>
   );

@@ -36,6 +36,7 @@ export function AnimatedBeamMultipleOutputDemo({
   const studentTwoRef = useRef<HTMLDivElement>(null);
   const studentThreeRef = useRef<HTMLDivElement>(null);
   const studentFourRef = useRef<HTMLDivElement>(null);
+  const studentFiveRef = useRef<HTMLDivElement>(null);
   const [isReversed, setIsReversed] = useState(false);
 
   useEffect(() => {
@@ -69,6 +70,7 @@ export function AnimatedBeamMultipleOutputDemo({
           <Circle ref={studentTwoRef}>👩‍🦱</Circle>
           <Circle ref={studentThreeRef}>👨</Circle>
           <Circle ref={studentFourRef}>🧑‍🦱</Circle>
+          <Circle ref={studentFiveRef}>🧓</Circle>
         </div>
       </div>
 
@@ -79,17 +81,21 @@ export function AnimatedBeamMultipleOutputDemo({
         reverse={isReversed}
       />
 
-      {[studentOneRef, studentTwoRef, studentThreeRef, studentFourRef].map(
-        (studentRef, index) => (
-          <AnimatedBeam
-            key={index}
-            containerRef={sceneContainerRef}
-            fromRef={fileRef}
-            toRef={studentRef}
-            reverse={isReversed}
-          />
-        ),
-      )}
+      {[
+        studentOneRef,
+        studentTwoRef,
+        studentThreeRef,
+        studentFourRef,
+        studentFiveRef,
+      ].map((studentRef, index) => (
+        <AnimatedBeam
+          key={index}
+          containerRef={sceneContainerRef}
+          fromRef={fileRef}
+          toRef={studentRef}
+          reverse={isReversed}
+        />
+      ))}
     </div>
   );
 }

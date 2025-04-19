@@ -80,7 +80,7 @@ export default function RemoveMember({
             recovered.
           </DialogDescription>
         </DialogHeader>
-        <DialogFooter>
+        <DialogFooter className="gap-2">
           <Button
             variant="secondary"
             size="sm"
