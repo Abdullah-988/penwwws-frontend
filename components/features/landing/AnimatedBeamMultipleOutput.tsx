@@ -1,3 +1,5 @@
+"use client";
+
 import React, { forwardRef, useRef, useState, useEffect } from "react";
 import { cn } from "@/lib/utils";
 import { AnimatedBeam } from "@/components/magicui/animated-beam";
