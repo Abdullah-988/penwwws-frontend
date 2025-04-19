@@ -60,7 +60,7 @@ export default function DeleteSubject({ schoolId, subject }: Props) {
       <DialogTrigger asChild>
         <Button
           size="sm"
-          className="bg-destructive/10 text-destructive hover:bg-destructive/15"
+          className="bg-destructive text-white"
           variant="destructive"
         >
           <Trash2 size={14} />

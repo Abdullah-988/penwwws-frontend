@@ -19,12 +19,12 @@ export default function SubjectPageHeader({ subject, schoolId, user }: Props) {
   return (
     <section className="flex w-full justify-between gap-10 md:h-36">
       <div className="flex flex-col justify-between">
-        <div className="flex flex-col items-start gap-2 md:flex-row md:items-center">
+        <div className="flex flex-row items-start gap-2 md:items-center">
           <h1 className="text-lg font-bold sm:text-2xl md:text-5xl">
             {subject.name}{" "}
           </h1>
           {user.role !== "STUDENT" && (
-            <div className="flex items-center gap-2">
+            <div className="flex h-10 items-end gap-2">
               <EditSubject subject={subject} schoolId={schoolId} />
               <DeleteSubject subject={subject} schoolId={schoolId} />
             </div>

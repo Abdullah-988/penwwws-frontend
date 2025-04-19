@@ -86,7 +86,7 @@ export default function CreateAttendanceCredential({ schoolId }: Props) {
     <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
       <DialogTrigger asChild>
         <Button size="sm">
-          <KeyRound className="mr-2 h-4 w-4" />
+          <KeyRound className="mr-1 h-4 w-4" />
           Create Credential
         </Button>
       </DialogTrigger>
@@ -106,7 +106,7 @@ export default function CreateAttendanceCredential({ schoolId }: Props) {
                   <FormControl>
                     <Input
                       type="password"
-                      placeholder="Enter a strong password"
+                      placeholder="Enter a password"
                       {...field}
                     />
                   </FormControl>

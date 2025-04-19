@@ -5,10 +5,16 @@ import PenwwwsIcon from "@/components/icons/Penwwws";
 import clsx from "clsx";
 import Link from "next/link";
 
-export default function LandingPageNavbar() {
-  const [scrolled, setScrolled] = useState(false);
+export default function LandingPageNavbar({
+  autoScrolled = false,
+}: {
+  autoScrolled?: boolean;
+}) {
+  const [scrolled, setScrolled] = useState(autoScrolled);
 
   useEffect(() => {
+    if (autoScrolled) return;
+
     const handleScroll = () => {
       setScrolled(window.scrollY > 10);
     };
