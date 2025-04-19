@@ -30,7 +30,6 @@ export function NavUser() {
     queryKey: ["user"],
     queryFn: getUser,
   });
-  console.log(user);
   const router = useRouter();
   const { isMobile } = useSidebar();
 
