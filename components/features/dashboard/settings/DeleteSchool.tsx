@@ -88,7 +88,7 @@ export default function DeleteSchool({ school }: Props) {
         </p>
         <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
           <DialogTrigger asChild>
-            <Button variant="destructive" className="rounded-full" size="sm">
+            <Button variant="destructive" size="sm">
               Delete school
             </Button>
           </DialogTrigger>
@@ -141,7 +141,7 @@ export default function DeleteSchool({ school }: Props) {
                   variant="destructive"
                   disabled={isLoading}
                   type="submit"
-                  className="w-full gap-2 rounded-full"
+                  className="w-full gap-2"
                 >
                   {isLoading && (
                     <LoaderCircle className="h-4 w-4 animate-spin" />

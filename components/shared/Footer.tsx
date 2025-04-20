@@ -10,7 +10,7 @@ export default function Footer() {
             <PenwwwsIcon className="h-8 w-8" />
             <h2 className="text-3xl font-bold">Penwwws</h2>
           </div>
-          <p className="text-white/70 md:w-1/2">
+          <p className="text-white/80 md:w-1/2">
             An all-in-one platform to manage students, staff, classes, and
             school operations—built to make administration simple and efficient.
           </p>
@@ -22,7 +22,7 @@ export default function Footer() {
               <li>
                 <Link
                   href="https://github.com/abdullah-988/penwwws-frontend"
-                  className="text-white/70 hover:text-white"
+                  className="text-white/80 hover:text-white"
                 >
                   Github - Frontend
                 </Link>
@@ -30,7 +30,7 @@ export default function Footer() {
               <li>
                 <Link
                   href="https://github.com/abdullah-988/penwwws-backend"
-                  className="text-white/70 hover:text-white"
+                  className="text-white/80 hover:text-white"
                 >
                   Github - Backend
                 </Link>
@@ -43,13 +43,13 @@ export default function Footer() {
               <li>
                 <Link
                   href="#features"
-                  className="text-white/70 hover:text-white"
+                  className="text-white/80 hover:text-white"
                 >
                   Features
                 </Link>
               </li>
               <li>
-                <Link href="#faq" className="text-white/70 hover:text-white">
+                <Link href="#faq" className="text-white/80 hover:text-white">
                   Q&A
                 </Link>
               </li>
@@ -57,8 +57,8 @@ export default function Footer() {
           </div>
         </div>
       </div>
-      <div className="mt-16 border-t border-white/20 py-4 text-white/70">
-        <p>@ 2025 Penwwws. All rights reserved.</p>
+      <div className="mt-16 border-t border-white/20 py-4 text-white/80">
+        <p>&copy; 2025 Penwwws. All rights reserved.</p>
       </div>
     </footer>
   );

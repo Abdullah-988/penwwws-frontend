@@ -45,8 +45,8 @@ export default function EditSchool({ school }: Props) {
   const lastUploadedFileIndex = uploadedFiles.length - 1;
   const form = useForm<FormData>({
     defaultValues: {
-      name: school.name,
-      description: school.description,
+      name: school.name || "",
+      description: school.description || "",
       logoUrl: school.logoUrl || "",
     },
     resolver: zodResolver(editSchoolSchema),

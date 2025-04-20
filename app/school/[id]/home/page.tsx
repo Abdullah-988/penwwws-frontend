@@ -20,13 +20,13 @@ export default async function Home({
       <Navbar schoolId={schoolId} user={user} />
       <div className="p-8">
         <header className="mt-16 mb-4">
-          <h1 className="text-3xl font-medium">Hello, {user.fullName} 👋</h1>
-          <h2 className="text-muted-foreground mt-1 text-lg font-medium">
+          <h1 className="text-3xl font-semibold">Hello, {user.fullName} 👋</h1>
+          <h2 className="mt-1 text-lg font-medium text-neutral-400">
             Today, {currentDate}
           </h2>
         </header>
         <h2 className="text-xl font-medium">Your Subjects</h2>
-        <div className="grid w-full grid-cols-1 items-start gap-2 md:grid-cols-3 lg:grid-cols-4">
+        <div className="mt-4 grid w-full grid-cols-1 items-start gap-2 md:grid-cols-3 lg:grid-cols-4">
           {subjects.map((subject) => (
             <SubjectCard
               key={subject.id}

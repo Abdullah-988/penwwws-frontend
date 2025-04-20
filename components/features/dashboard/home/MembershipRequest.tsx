@@ -122,7 +122,7 @@ export const MembershipRequest = ({ schoolId }: Props) => {
         </DialogHeader>
         <div className="max-h-[80vh] space-y-4 overflow-y-scroll">
           {requests?.length === 0 ? (
-            <div className="text-muted-foreground text-center">
+            <div className="text-muted-foreground py-10 text-center">
               No membership requests
             </div>
           ) : (

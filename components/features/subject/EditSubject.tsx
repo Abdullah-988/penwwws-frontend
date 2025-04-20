@@ -100,10 +100,7 @@ export default function EditSubject({ schoolId, subject }: Props) {
   return (
     <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
       <DialogTrigger asChild>
-        <Button
-          size="sm"
-          className="bg-amber-800/10 text-amber-800 hover:bg-amber-800/15"
-        >
+        <Button size="sm" className="">
           <Pencil />
         </Button>
       </DialogTrigger>
