@@ -20,13 +20,18 @@ import {
 } from "@/components/ui/form";
 import { EyeOffIcon, EyeIcon, LoaderCircle as SpinnerIcon } from "lucide-react";
 import { Input } from "@/components/ui/input";
-import { ResetPassword } from "./ResetPassword";
+import { ResetPassword } from "@/components/features/auth/ResetPassword";
 
 type formDataType = z.infer<typeof signinFormSchema>;
 
-export default function SigninForm() {
+type Props = {
+  redirectUrl: string;
+};
+
+export default function SigninForm({ redirectUrl }: Props) {
   const router = useRouter();
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+
   const form = useForm<formDataType>({
     resolver: zodResolver(signinFormSchema),
     defaultValues: {
@@ -42,7 +47,7 @@ export default function SigninForm() {
         maxAge: 60 * 60 * 24 * 30,
         path: "/",
       });
-      router.push("/console");
+      router.push(redirectUrl);
     } catch (err) {
       const error = err as AxiosError;
       console.error("Could not sign in: ", error);

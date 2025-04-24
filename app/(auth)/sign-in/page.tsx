@@ -4,7 +4,13 @@ import SigninForm from "@/components/features/auth/SigninForm";
 import AuthPromoAside from "@/components/features/auth/AuthPromoAside";
 import PenwwwsIcon from "@/components/icons/Penwwws";
 
-export default function SigninPage() {
+export default async function SigninPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ invite_token: string }>;
+}) {
+  const inviteToken = (await searchParams).invite_token;
+
   return (
     <div className="flex">
       <aside className="flex min-h-screen w-full flex-col items-center justify-between p-4 md:h-screen md:w-2/3 lg:w-1/2">
@@ -18,7 +24,7 @@ export default function SigninPage() {
 
         <div className="flex h-full w-full flex-col items-start justify-center gap-6 md:w-[30rem]">
           <div className="flex flex-col gap-2">
-            <h1 className="text-4xl font-bold">Sign in</h1>
+            <h1 className="text-primary text-4xl font-bold">Sign in</h1>
             <span className="text-muted-foreground self-start">
               Don't have an account?
               <Link
@@ -29,7 +35,9 @@ export default function SigninPage() {
               </Link>
             </span>
           </div>
-          <SigninForm />
+          <SigninForm
+            redirectUrl={inviteToken ? `/invite/${inviteToken}` : "/console"}
+          />
 
           <div className="flex w-full items-center">
             <span className="bg-border h-0.5 flex-grow"></span>
@@ -39,7 +47,9 @@ export default function SigninPage() {
             <span className="bg-border h-0.5 flex-grow"></span>
           </div>
 
-          <GoogleOAuthBtn />
+          <GoogleOAuthBtn
+            redirectUrl={inviteToken ? `/invite/${inviteToken}` : ""}
+          />
         </div>
       </aside>
       <AuthPromoAside />

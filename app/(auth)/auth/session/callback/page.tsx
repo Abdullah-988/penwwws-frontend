@@ -20,13 +20,15 @@ const AuthCallback = () => {
         if (token) {
           axios
             .post("/oauth", { token, provider: "google" })
-            .then((res) => {
+            .then(async (res) => {
+              const redirectUrl = params.get("state") ?? "/console";
               setCookie("token", res.headers.authorization, {
                 maxAge: 60 * 60 * 24 * 30,
                 path: "/",
               });
-              router.push("/console");
+              router.push(redirectUrl);
             })
+
             .catch((err) => {
               console.error("Error during authentication:", err);
               setError(err.response.data);
