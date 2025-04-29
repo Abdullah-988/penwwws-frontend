@@ -7,7 +7,7 @@ import { getCookie } from "cookies-next";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
-import { Copy } from "lucide-react";
+import { Copy, LoaderCircle } from "lucide-react";
 import { capitalizeFirstLetter } from "@/lib/utils";
 import DeleteInvitationLink from "@/components/features/dashboard/home/DeleteInvitationLink";
 import { useState } from "react";
@@ -50,10 +50,15 @@ export default function InvitationLinksList({ schoolId }: Props) {
   const [copiedInvitationId, setCopiedInvitationId] = useState<number | null>(
     null,
   );
-  const { data: schoolInvitations } = useQuery<SchoolInvitationType[]>({
+  const { data: schoolInvitations, isLoading } = useQuery<
+    SchoolInvitationType[]
+  >({
     queryKey: ["schoolInvitations"],
     queryFn: async () => await getSchoolInvitations(schoolId),
   });
+
+  if (isLoading)
+    <LoaderCircle className="text-muted-foreground h-8 w-8 animate-spin" />;
 
   return (
     <section className="mt-3 flex max-h-80 w-full flex-col gap-3 overflow-y-scroll p-1">

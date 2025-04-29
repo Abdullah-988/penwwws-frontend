@@ -2,6 +2,7 @@
 
 import axios from "@/lib/axiosInstance";
 import { AxiosError } from "axios";
+
 import {
   Dialog,
   DialogContent,
@@ -19,6 +20,7 @@ import { Badge } from "@/components/ui/badge";
 import clsx from "clsx";
 import { useToast } from "@/hooks/use-toast";
 import { capitalizeFirstLetter } from "@/lib/utils";
+import { useRouter } from "next/navigation";
 
 async function getMembershipRequests(schoolId: string) {
   const token = await getCookie("token");
@@ -52,6 +54,7 @@ type Props = {
 };
 
 export const MembershipRequest = ({ schoolId }: Props) => {
+  const router = useRouter();
   const queryClient = useQueryClient();
   const { toast } = useToast();
   const [processingRequestId, setProcessingRequestId] = useState<number | null>(
@@ -85,6 +88,7 @@ export const MembershipRequest = ({ schoolId }: Props) => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["requests"] });
       setEditingRequestId(null);
+      router.refresh();
     },
     onError: (error: AxiosError) => {
       console.error(
