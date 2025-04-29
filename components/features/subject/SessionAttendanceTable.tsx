@@ -64,12 +64,14 @@ const globalFilterFn: FilterFn<SessionAttenderType> = (
 type Props = {
   session: SessionType;
   schoolId: string;
+  subjectId: number;
   data: SessionAttenderType[];
 };
 
 export default function SessionAttendersTable({
   session,
   schoolId,
+  subjectId,
   data,
 }: Props) {
   const [sorting, setSorting] = useState<SortingState>([]);
@@ -156,6 +158,7 @@ export default function SessionAttendersTable({
               {row.original.attended && (
                 <RemoveAttender
                   schoolId={schoolId}
+                  subjectId={subjectId}
                   session={session}
                   attendanceId={attendanceId}
                 />

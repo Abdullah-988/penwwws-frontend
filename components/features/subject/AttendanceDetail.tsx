@@ -61,6 +61,7 @@ export default async function AttendanceDetail({
 
         <SessionAttendersTable
           session={session}
+          subjectId={subjectId}
           schoolId={schoolId}
           data={members}
         />

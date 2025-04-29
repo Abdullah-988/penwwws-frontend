@@ -3,6 +3,7 @@ import AssignmentTabContent from "@/components/features/subject/AssignmentTabCon
 import AttendanceTabContent from "@/components/features/subject/AttendanceTabContent";
 import DocumentsTab from "@/components/features/subject/DocumentsTab";
 import GradesTabContent from "@/components/features/subject/GradesTabContent";
+import LogsTabContent from "@/components/features/subject/LogsTabContent";
 import MarksTabContent from "@/components/features/subject/MarksTabContent";
 import StudentsTabContent from "@/components/features/subject/StudentsTabContent";
 import { SchoolUserType } from "@/types/SchoolUser";
@@ -68,6 +69,13 @@ export function getSubjectTabs(
       value: "grades",
       label: "Grades",
       content: <GradesTabContent schoolId={schoolId} subjectId={subject.id} />,
+    });
+  }
+  if (user.role === "ADMIN" || user.role === "SUPER_ADMIN") {
+    SUBJECT_TABS.push({
+      value: "logs",
+      label: "Logs",
+      content: <LogsTabContent schoolId={schoolId} subjectId={subject.id} />,
     });
   }
   return SUBJECT_TABS;

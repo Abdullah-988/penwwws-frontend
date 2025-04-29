@@ -19,6 +19,7 @@ import clsx from "clsx";
 import { ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import { UserType } from "@/types/User";
 
 async function getTable(
   schoolId: string,
@@ -55,15 +56,12 @@ export default async function StudentsMarkPage({
   const subjectId = (await params).subjectId;
   const studentId = (await params).studentId;
   const user = await getUser(schoolId);
-  const table: StudentMarksTableRowType[] = await getTable(
-    schoolId,
-    subjectId,
-    studentId,
-  );
+  const table: { user: UserType; rows: StudentMarksTableRowType[] } =
+    await getTable(schoolId, subjectId, studentId);
   let total = 0;
   let totalStudentMark = 0;
 
-  table.forEach((row) => {
+  table.rows.forEach((row) => {
     if (row.count) {
       total += row.max;
       if (row.marks.length) totalStudentMark += row.marks[0].value;
@@ -74,6 +72,7 @@ export default async function StudentsMarkPage({
     <>
       <Navbar schoolId={schoolId} user={user} />
       <section className="my-6 flex w-full flex-col items-center justify-center">
+        <h1 className="text-3xl font-bold">{table.user.fullName}</h1>
         <div>
           <Button variant="ghost">
             <Link
@@ -98,7 +97,7 @@ export default async function StudentsMarkPage({
               </TableHeader>
 
               <TableBody className="[&_tr:last-child]:border-0">
-                {table.map((row) => (
+                {table.rows.map((row) => (
                   <TableRow key={row.id} className="group">
                     <TableCell
                       className={clsx("w-full px-6 py-4 font-medium", {

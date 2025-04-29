@@ -11,12 +11,14 @@ import { DropdownMenuItem } from "@/components/ui/dropdown-menu";
 type Props = {
   schoolId: string;
   attendanceId: number;
+  subjectId: number;
   session: SessionType;
 };
 
 export default function RemoveAttenders({
   schoolId,
   attendanceId,
+  subjectId,
   session,
 }: Props) {
   const { toast } = useToast();
@@ -27,7 +29,7 @@ export default function RemoveAttenders({
 
     await axios
       .delete(
-        `/school/${schoolId}/session/session/${session.id}/attenders/${attendanceId}`,
+        `/school/${schoolId}/subject/${subjectId}/session//${session.id}/attenders/${attendanceId}`,
         {
           headers: { Authorization: token },
         },
