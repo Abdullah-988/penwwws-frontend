@@ -29,7 +29,7 @@ export default function RemoveAttenders({
 
     await axios
       .delete(
-        `/school/${schoolId}/subject/${subjectId}/session//${session.id}/attenders/${attendanceId}`,
+        `/school/${schoolId}/subject/${subjectId}/session/${session.id}/attenders/${attendanceId}`,
         {
           headers: { Authorization: token },
         },
