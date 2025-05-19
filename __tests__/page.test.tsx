@@ -10,6 +10,7 @@ beforeEach(() => {
     disconnect: () => null,
   });
   window.IntersectionObserver = mockIntersectionObserver;
+  vitest.stubGlobal("ResizeObserver", mockIntersectionObserver);
 });
 
 test("Page", () => {
