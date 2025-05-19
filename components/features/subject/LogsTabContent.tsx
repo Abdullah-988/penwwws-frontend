@@ -153,10 +153,10 @@ export default async function LogsTabContent({ schoolId, subjectId }: Props) {
               </div>
               <p className="text-foreground text-sm">
                 {log.details}{" "}
-                {log.action === "MARK_CHANGE" ||
-                  (log.action == "ATTENDANCE_DELETE" && (
-                    <>for {log.user.fullName}</>
-                  ))}
+                {(log.action === "MARK_CHANGE" ||
+                  log.action == "ATTENDANCE_DELETE") && (
+                  <>for {log.user.fullName}</>
+                )}
               </p>{" "}
               <div className="text-muted-foreground flex items-center gap-1 text-sm">
                 <span>By:</span>

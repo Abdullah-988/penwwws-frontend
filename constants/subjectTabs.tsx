@@ -24,8 +24,8 @@ export function getSubjectTabs(
     },
 
     {
-      value: "students",
-      label: "Students",
+      value: "members",
+      label: "Members",
       content: (
         <StudentsTabContent user={user} schoolId={schoolId} subject={subject}>
           {user.role !== "STUDENT" && (

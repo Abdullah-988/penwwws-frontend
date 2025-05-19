@@ -64,7 +64,7 @@ export default function StudentsTabContent({
               <DropdownMenuSeparator />
               <DropdownMenuItem>
                 <Link
-                  href={`/school/${schoolId}/subjects/${subject.id}/members/${member.id}`}
+                  href={`/school/${schoolId}/subjects/${subject.id}/students/${member.id}`}
                   className="flex items-center space-x-2"
                 >
                   <Clipboard size={16} />
