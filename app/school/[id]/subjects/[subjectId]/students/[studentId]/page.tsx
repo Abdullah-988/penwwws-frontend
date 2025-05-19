@@ -77,7 +77,7 @@ export default async function StudentsMarkPage({
           <Button variant="ghost">
             <Link
               className="flex items-center gap-1"
-              href={`/school/${schoolId}/subjects/${subjectId}?tab=students`}
+              href={`/school/${schoolId}/subjects/${subjectId}?tab=members`}
             >
               <ArrowLeft className="h-4 w-4" />
               Back
