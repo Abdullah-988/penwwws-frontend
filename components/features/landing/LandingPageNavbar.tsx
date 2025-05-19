@@ -23,7 +23,7 @@ export default function LandingPageNavbar({
 
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  }, [autoScrolled]);
 
   return (
     <nav
