@@ -53,6 +53,7 @@ export default async function SubjectPage({
                   asChild
                 >
                   <Link href={`?tab=${tab.value}`} scroll={false}>
+                    <tab.icon />
                     {tab.label}
                   </Link>
                 </TabsTrigger>
@@ -60,6 +61,7 @@ export default async function SubjectPage({
             </TabsList>
             <div className="pointer-events-none absolute top-0 right-0 z-20 my-auto h-[90%] w-20 bg-gradient-to-l from-white to-transparent" />
           </div>
+
           <div className="w-full">
             {subjectTabs.map((tab) => (
               <TabsContent key={tab.value} value={tab.value}>
