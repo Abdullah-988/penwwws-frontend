@@ -23,7 +23,7 @@ export default function Home() {
             start managing with confidence.
           </p>
           <Link
-            href="/sign-in"
+            href="/sign-up"
             className="text-primary-900 rounded-md bg-white p-2 px-3 text-sm font-semibold duration-200 hover:opacity-90 md:p-3 md:px-5 md:text-base"
           >
             Get Started
