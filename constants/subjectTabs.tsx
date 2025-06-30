@@ -8,6 +8,14 @@ import MarksTabContent from "@/components/features/subject/MarksTabContent";
 import StudentsTabContent from "@/components/features/subject/StudentsTabContent";
 import { SchoolUserType } from "@/types/SchoolUser";
 import { SubjectDetailType } from "@/types/Subject";
+import {
+  FileText,
+  Logs,
+  NotebookPen,
+  NotebookText,
+  TableProperties,
+  Users,
+} from "lucide-react";
 
 export function getSubjectTabs(
   schoolId: string,
@@ -18,6 +26,7 @@ export function getSubjectTabs(
     {
       value: "documents",
       label: "Documents",
+      icon: FileText,
       content: (
         <DocumentsTab schoolId={schoolId} subject={subject} user={user} />
       ),
@@ -26,6 +35,7 @@ export function getSubjectTabs(
     {
       value: "members",
       label: "Members",
+      icon: Users,
       content: (
         <StudentsTabContent user={user} schoolId={schoolId} subject={subject}>
           {user.role !== "STUDENT" && (
@@ -37,6 +47,7 @@ export function getSubjectTabs(
     {
       value: "assignments",
       label: "Assignments",
+      icon: NotebookText,
       content: (
         <AssignmentTabContent
           schoolId={schoolId}
@@ -48,6 +59,7 @@ export function getSubjectTabs(
     {
       value: "attendance",
       label: "Attendance",
+      icon: NotebookPen,
       content: (
         <AttendanceTabContent
           schoolId={schoolId}
@@ -62,12 +74,14 @@ export function getSubjectTabs(
     SUBJECT_TABS.push({
       value: "marks",
       label: "Marks",
+      icon: TableProperties,
       content: <MarksTabContent schoolId={schoolId} subjectId={subject.id} />,
     });
   } else {
     SUBJECT_TABS.push({
       value: "grades",
       label: "Grades",
+      icon: TableProperties,
       content: <GradesTabContent schoolId={schoolId} subjectId={subject.id} />,
     });
   }
@@ -75,6 +89,7 @@ export function getSubjectTabs(
     SUBJECT_TABS.push({
       value: "logs",
       label: "Logs",
+      icon: Logs,
       content: <LogsTabContent schoolId={schoolId} subjectId={subject.id} />,
     });
   }

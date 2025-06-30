@@ -6,7 +6,7 @@ import AuthPromoAside from "@/components/features/auth/AuthPromoAside";
 
 export default function SignupPage() {
   return (
-    <div className="flex">
+    <div className="flex overflow-hidden">
       <aside className="flex min-h-screen w-full flex-col items-center justify-between p-4 md:h-screen md:w-2/3 lg:w-1/2">
         <Link
           href="/"

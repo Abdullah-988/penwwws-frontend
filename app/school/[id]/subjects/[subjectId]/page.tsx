@@ -43,20 +43,24 @@ export default async function SubjectPage({
       <div className="mt-3 p-6 md:mt-6">
         <SubjectPageHeader subject={subject} schoolId={schoolId} user={user} />
         <Tabs value={activeTab} className="mt-12 w-full">
-          <TabsList className="bg-background flex h-10 w-full items-center justify-start gap-4 rounded-none border-b p-0">
-            {subjectTabs.map((tab) => (
-              <TabsTrigger
-                className="data-[state=active]:border-b-foreground text-muted-foreground data-[state=active]:text-foreground w-20 flex-shrink-0 flex-grow-0 rounded-none border-b-2 border-transparent px-3 py-2 text-sm data-[state=active]:shadow-none"
-                key={tab.value}
-                value={tab.value}
-                asChild
-              >
-                <Link href={`?tab=${tab.value}`} scroll={false}>
-                  {tab.label}
-                </Link>
-              </TabsTrigger>
-            ))}
-          </TabsList>
+          <div className="relative w-full">
+            <TabsList className="scrollbar-hide bg-background z-10 flex h-10 w-full items-center justify-start overflow-x-auto rounded-none border-b p-0">
+              {subjectTabs.map((tab) => (
+                <TabsTrigger
+                  className="data-[state=active]:border-b-foreground text-muted-foreground data-[state=active]:text-foreground relative z-0 w-fit flex-shrink-0 flex-grow-0 rounded-none border-b-2 border-transparent px-3 py-2 text-sm last:z-50 data-[state=active]:shadow-none"
+                  key={tab.value}
+                  value={tab.value}
+                  asChild
+                >
+                  <Link href={`?tab=${tab.value}`} scroll={false}>
+                    <tab.icon />
+                    {tab.label}
+                  </Link>
+                </TabsTrigger>
+              ))}
+            </TabsList>
+            <div className="pointer-events-none absolute top-0 right-0 z-20 my-auto h-[90%] w-20 bg-gradient-to-l from-white to-transparent" />
+          </div>
 
           <div className="w-full">
             {subjectTabs.map((tab) => (
